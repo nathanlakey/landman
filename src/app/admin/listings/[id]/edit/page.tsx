@@ -10,16 +10,12 @@ async function getListing(id: string) {
   return data
 }
 
-async function getAgents(): Promise<Agent[]> {
-  const { data } = await supabaseAdmin.from('agents').select('id, name, title').order('name')
-  return data || []
-}
-
 export default async function EditListingPage({ params }: { params: { id: string } }) {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) redirect('/sign-in')
 
-  const [listing, agents] = await Promise.all([getListing(params.id), getAgents()])
+  const listing = await getListing(params.id)
+  const agents: Agent[] = []
   if (!listing) notFound()
 
   return (

@@ -4,7 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 
 // GET — check if a listing is favorited by current user
 export async function GET(req: NextRequest) {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) return NextResponse.json({ favorited: false })
 
   const listingId = req.nextUrl.searchParams.get('listing_id')
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
 
 // POST — add a favorite
 export async function POST(req: NextRequest) {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { listing_id } = await req.json()
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
 
 // DELETE — remove a favorite
 export async function DELETE(req: NextRequest) {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const { listing_id } = await req.json()

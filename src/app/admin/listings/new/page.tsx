@@ -1,20 +1,14 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import { supabaseAdmin } from '@/lib/supabase/server'
 import AdminLayout from '@/components/AdminLayout'
 import ListingForm from '../ListingForm'
 import type { Agent } from '@/types'
 
-async function getAgents(): Promise<Agent[]> {
-  const { data } = await supabaseAdmin.from('agents').select('id, name, title').order('name')
-  return data || []
-}
-
 export default async function NewListingPage() {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) redirect('/sign-in')
 
-  const agents = await getAgents()
+  const agents: Agent[] = []
 
   return (
     <AdminLayout>

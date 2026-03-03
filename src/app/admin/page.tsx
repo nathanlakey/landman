@@ -2,30 +2,24 @@ import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import AdminLayout from '@/components/AdminLayout'
-import { LayoutDashboard, ListTree, MessageSquare, Users } from 'lucide-react'
+import { MessageSquare, ListTree, TrendingUp } from 'lucide-react'
 
 async function getDashboardStats() {
   try {
-    const [listingsRes, inquiriesRes, agentsRes, favoritesRes] = await Promise.all([
-      supabaseAdmin.from('listings').select('id, status', { count: 'exact' }),
+    const [inquiriesRes, inquiriesThisMonth] = await Promise.all([
       supabaseAdmin.from('inquiries').select('id', { count: 'exact' }),
-      supabaseAdmin.from('agents').select('id', { count: 'exact' }),
-      supabaseAdmin.from('favorites').select('id', { count: 'exact' }),
+      supabaseAdmin
+        .from('inquiries')
+        .select('id', { count: 'exact' })
+        .gte('created_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
     ])
 
-    const activeCount = listingsRes.data?.filter((l) => l.status === 'active').length || 0
-    const soldCount = listingsRes.data?.filter((l) => l.status === 'sold').length || 0
-
     return {
-      totalListings: listingsRes.count || 0,
-      activeListings: activeCount,
-      soldListings: soldCount,
-      inquiries: inquiriesRes.count || 0,
-      agents: agentsRes.count || 0,
-      favorites: favoritesRes.count || 0,
+      totalInquiries: inquiriesRes.count || 0,
+      inquiriesThisMonth: inquiriesThisMonth.count || 0,
     }
   } catch {
-    return { totalListings: 0, activeListings: 0, soldListings: 0, inquiries: 0, agents: 0, favorites: 0 }
+    return { totalInquiries: 0, inquiriesThisMonth: 0 }
   }
 }
 
@@ -33,9 +27,9 @@ async function getRecentInquiries() {
   try {
     const { data } = await supabaseAdmin
       .from('inquiries')
-      .select('*, listing:listings(title)')
+      .select('id, name, email, phone, property_type, acreage, message, created_at')
       .order('created_at', { ascending: false })
-      .limit(5)
+      .limit(10)
     return data || []
   } catch {
     return []
@@ -43,64 +37,74 @@ async function getRecentInquiries() {
 }
 
 export default async function AdminDashboard() {
-  const { userId } = auth()
+  const { userId } = await auth()
   if (!userId) redirect('/sign-in')
 
   const [stats, recentInquiries] = await Promise.all([getDashboardStats(), getRecentInquiries()])
 
-  const statCards = [
-    { label: 'Total Listings', value: stats.totalListings, icon: ListTree, color: 'text-brand-tan' },
-    { label: 'Active Listings', value: stats.activeListings, icon: LayoutDashboard, color: 'text-brand-tan-light' },
-    { label: 'Total Inquiries', value: stats.inquiries, icon: MessageSquare, color: 'text-brand-off-white' },
-    { label: 'Total Agents', value: stats.agents, icon: Users, color: 'text-brand-tan/80' },
-  ]
-
   return (
     <AdminLayout>
       <div>
-        <h1 className="font-serif text-3xl text-brand-off-white mb-8">Dashboard</h1>
+        <div className="mb-8">
+          <h1 className="font-serif text-3xl text-offwhite">Dashboard</h1>
+          <p className="text-offwhite/40 text-sm mt-1">Craig Meier Land Auctions — Admin</p>
+        </div>
 
         {/* Stat cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
-          {statCards.map((card) => {
-            const Icon = card.icon
-            return (
-              <div key={card.label} className="p-5 bg-brand-brown border border-brand-tan/10">
-                <div className="flex items-start justify-between mb-3">
-                  <Icon className={`w-5 h-5 ${card.color}`} />
-                </div>
-                <p className={`font-serif text-3xl ${card.color} mb-1`}>{card.value}</p>
-                <p className="text-brand-off-white/50 text-xs uppercase tracking-wider">{card.label}</p>
-              </div>
-            )
-          })}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          {[
+            { label: 'Total Inquiries', value: stats.totalInquiries, icon: MessageSquare, accent: 'text-sunset' },
+            { label: 'This Month', value: stats.inquiriesThisMonth, icon: TrendingUp, accent: 'text-sage' },
+            { label: 'Listings (Phase 2)', value: '—', icon: ListTree, accent: 'text-sand' },
+          ].map(({ label, value, icon: Icon, accent }) => (
+            <div key={label} className="p-6 bg-shadow/60 border border-offwhite/10">
+              <Icon className={`w-5 h-5 ${accent} mb-3`} />
+              <p className={`font-serif text-3xl ${accent} mb-1`}>{value}</p>
+              <p className="text-offwhite/40 text-xs uppercase tracking-wider">{label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Phase 2 Notice */}
+        <div className="bg-sunset/10 border border-sunset/20 p-4 mb-8 text-sm text-offwhite/70">
+          <strong className="text-sunset">Listings (Phase 2)</strong> — The listings table is provisioned in Supabase
+          but not yet activated publicly. The /admin/listings page is available below for setup.
         </div>
 
         {/* Recent inquiries */}
         <div>
-          <h2 className="font-serif text-xl text-brand-off-white mb-4">Recent Inquiries</h2>
+          <h2 className="font-serif text-xl text-offwhite mb-4">Recent Consultation Requests</h2>
           {recentInquiries.length === 0 ? (
-            <p className="text-brand-off-white/40 text-sm">No inquiries yet.</p>
+            <p className="text-offwhite/40 text-sm">No inquiries yet.</p>
           ) : (
-            <div className="border border-brand-tan/10 overflow-hidden">
+            <div className="border border-offwhite/10 overflow-hidden overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b border-brand-tan/10 bg-brand-brown">
-                    <th className="text-left p-3 text-brand-off-white/50 font-medium text-xs uppercase tracking-wider">Name</th>
-                    <th className="text-left p-3 text-brand-off-white/50 font-medium text-xs uppercase tracking-wider hidden sm:table-cell">Email</th>
-                    <th className="text-left p-3 text-brand-off-white/50 font-medium text-xs uppercase tracking-wider hidden md:table-cell">Property</th>
-                    <th className="text-left p-3 text-brand-off-white/50 font-medium text-xs uppercase tracking-wider">Date</th>
+                  <tr className="border-b border-offwhite/10 bg-offwhite/5">
+                    <th className="text-left p-3 text-offwhite/40 font-medium text-xs uppercase tracking-wider">Name</th>
+                    <th className="text-left p-3 text-offwhite/40 font-medium text-xs uppercase tracking-wider hidden sm:table-cell">Email</th>
+                    <th className="text-left p-3 text-offwhite/40 font-medium text-xs uppercase tracking-wider hidden md:table-cell">Type</th>
+                    <th className="text-left p-3 text-offwhite/40 font-medium text-xs uppercase tracking-wider hidden md:table-cell">Acreage</th>
+                    <th className="text-left p-3 text-offwhite/40 font-medium text-xs uppercase tracking-wider">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {recentInquiries.map((inq: { id: string; name: string; email: string; listing?: { title: string }; created_at: string }) => (
-                    <tr key={inq.id} className="border-b border-brand-tan/5 hover:bg-brand-tan/5 transition-colors">
-                      <td className="p-3 text-brand-off-white/80">{inq.name}</td>
-                      <td className="p-3 text-brand-off-white/60 hidden sm:table-cell">{inq.email}</td>
-                      <td className="p-3 text-brand-off-white/60 hidden md:table-cell truncate max-w-xs">
-                        {inq.listing?.title || '—'}
+                  {recentInquiries.map((inq: {
+                    id: string; name: string; email: string; phone?: string;
+                    property_type?: string; acreage?: string; created_at: string
+                  }) => (
+                    <tr key={inq.id} className="border-b border-offwhite/5 hover:bg-offwhite/5 transition-colors">
+                      <td className="p-3 text-offwhite/80">{inq.name}</td>
+                      <td className="p-3 text-offwhite/60 hidden sm:table-cell">
+                        <a href={`mailto:${inq.email}`} className="hover:text-sunset transition-colors">{inq.email}</a>
                       </td>
-                      <td className="p-3 text-brand-off-white/40 text-xs">
+                      <td className="p-3 text-offwhite/50 hidden md:table-cell capitalize">
+                        {inq.property_type || '—'}
+                      </td>
+                      <td className="p-3 text-offwhite/50 hidden md:table-cell">
+                        {inq.acreage || '—'}
+                      </td>
+                      <td className="p-3 text-offwhite/35 text-xs">
                         {new Date(inq.created_at).toLocaleDateString()}
                       </td>
                     </tr>
@@ -114,3 +118,4 @@ export default async function AdminDashboard() {
     </AdminLayout>
   )
 }
+

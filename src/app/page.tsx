@@ -1,275 +1,346 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, ChevronDown } from 'lucide-react'
-import { supabase } from '@/lib/supabase/client'
-import PropertyCard from '@/components/PropertyCard'
-import type { Listing, Agent } from '@/types'
+import ConsultationCTA from '@/components/ConsultationCTA'
+import { ArrowRight, CheckCircle, TrendingUp, Users, Clock, Shield } from 'lucide-react'
 
-async function getFeaturedListings(): Promise<Listing[]> {
-  try {
-    const { data } = await supabase
-      .from('listings')
-      .select('*, agent:agents(id,name,title,email,phone,photo_url)')
-      .eq('status', 'active')
-      .order('created_at', { ascending: false })
-      .limit(6)
-    return data || []
-  } catch {
-    return []
-  }
-}
+// ─── Data ─────────────────────────────────────────────────────────────────────
 
-async function getFeaturedAgents(): Promise<Agent[]> {
-  try {
-    const { data } = await supabase
-      .from('agents')
-      .select('*')
-      .limit(3)
-    return data || []
-  } catch {
-    return []
-  }
-}
-
-const testimonials = [
+const auctionAdvantages = [
   {
-    quote:
-      '"Landman found us the perfect 2,400-acre Hill Country ranch. Their knowledge of Texas land is unmatched."',
-    author: 'Robert & Claire Whitfield',
-    context: 'Purchased Blanco County Ranch',
+    icon: TrendingUp,
+    title: 'Maximum Market Value',
+    body: 'Competitive bidding drives prices up, not down. Buyers compete openly, meaning you capture the true ceiling of your land\'s worth — not a broker\'s best guess.',
   },
   {
-    quote:
-      '"Professional, discreet, and deeply experienced. They sold our family ranch above asking in under 30 days."',
-    author: 'The Hargrove Family',
-    context: 'Sold 1,800-acre Frio County Property',
+    icon: Clock,
+    title: 'Certainty & Speed',
+    body: 'Set the date. Close the deal. Auctions eliminate months of showings, lowball offers, and renegotiations. You know exactly when you\'re done.',
   },
   {
-    quote:
-      '"From hunting leases to trophy properties, Landman is the only name in Texas land real estate."',
-    author: 'James Dunbar',
-    context: 'Investor, Multiple Texas Counties',
+    icon: Users,
+    title: 'Broader Buyer Pool',
+    body: 'Craig\'s bilingual reach and established network attracts qualified buyers from across Texas and beyond — buyers a local broker never reaches.',
+  },
+  {
+    icon: Shield,
+    title: 'Seller Controls the Terms',
+    body: 'You set the minimum. You choose the date. You control the conditions. This is your land — the auction process keeps it that way.',
   },
 ]
 
-const values = [
+const steps = [
   {
-    title: 'Legacy',
-    description:
-      'We understand that Texas land is more than real estate. It is heritage, passed from one generation to the next with pride.',
+    number: '01',
+    title: 'Consultation',
+    body: 'Craig meets with you to understand your land, your goals, and your timeline. No obligation, no pressure — just straight talk.',
   },
   {
-    title: 'Expertise',
-    description:
-      'Decades of combined experience navigating Texas ranch markets, water rights, mineral rights, and wildlife management.',
+    number: '02',
+    title: 'Strategy & Preparation',
+    body: 'We assess the property, establish pricing strategy, and build a targeted marketing campaign to reach the right buyers.',
   },
   {
-    title: 'Service',
-    description:
-      'From initial inquiry to closing day, our agents provide white-glove service at every step of the transaction.',
+    number: '03',
+    title: 'Auction Day',
+    body: 'Craig runs a professional auction event — live, online, or both — generating real-time competitive bidding on your terms.',
+  },
+  {
+    number: '04',
+    title: 'Closing',
+    body: 'Buyer is identified and under contract on auction day. We guide both parties to a clean, efficient close.',
   },
 ]
 
-export default async function HomePage() {
-  const [listings, agents] = await Promise.all([getFeaturedListings(), getFeaturedAgents()])
+const whoWeServe = [
+  { label: 'Farm & Crop Land Owners', desc: 'Multi-generational working farms ready for transition.' },
+  { label: 'Estate & Inherited Property', desc: 'Complex land estates requiring a decisive, fair process.' },
+  { label: 'Ranch & Pasture Owners', desc: 'Large acreage ranches needing maximum buyer exposure.' },
+  { label: 'Development Tract Owners', desc: 'Raw land positioned for residential or commercial growth.' },
+]
 
+const credentials = [
+  { value: '2007', label: 'World Champion Auctioneer' },
+  { value: '2003', label: 'Texas State Champion Auctioneer' },
+  { value: '25+', label: 'Years of Experience' },
+  { value: '450+', label: 'Auctions Conducted Annually' },
+]
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
+export default function HomePage() {
   return (
     <>
-      {/* ─── HERO ─── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1800&q=80"
-            alt="Texas ranch landscape"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-dark/70 via-brand-dark/50 to-brand-dark" />
-        </div>
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <p className="text-brand-tan text-xs tracking-[0.4em] uppercase mb-6">
-            Texas Ranch &amp; Land Brokerage
-          </p>
-          <h1 className="font-serif text-5xl sm:text-6xl lg:text-7xl text-brand-off-white leading-tight mb-6">
-            Find Texas Ranches<br />
-            <span className="text-brand-tan italic">For Sale</span>
-          </h1>
-          <p className="text-brand-off-white/70 text-lg sm:text-xl max-w-2xl mx-auto mb-10">
-            Rooted in Texas Land. From sweeping Hill Country ranches to expansive Panhandle
-            farms, we connect discerning buyers and sellers with exceptional rural properties.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/listings"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-brand-tan to-brand-tan-light text-brand-dark font-semibold text-sm tracking-wider uppercase px-8 py-4 hover:brightness-110 hover:shadow-[0_0_24px_rgba(200,146,42,0.4)] transition-all"
-            >
-              Search Properties
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 border border-brand-off-white/40 text-brand-off-white/80 text-sm tracking-wider uppercase px-8 py-4 hover:border-brand-tan hover:text-brand-tan transition-colors"
-            >
-              Speak with an Agent
-            </Link>
-          </div>
-        </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
-          <ChevronDown className="w-6 h-6 text-brand-tan/60" />
-        </div>
-      </section>
+      {/* ── HERO ────────────────────────────────────────────────────────── */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background image */}
+        <Image
+          src="https://placehold.co/1600x900/4B3A2A/F6F3EC?text=Texas+Land"
+          alt="Texas land at golden hour — wide open acreage with warm horizon light"
+          fill
+          className="object-cover object-center"
+          priority
+          unoptimized
+        />
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-shadow/65" />
 
-      {/* ─── FEATURED LISTINGS ─── */}
-      <section className="py-24 px-4 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
-          <div>
-            <p className="text-brand-tan text-xs tracking-[0.3em] uppercase mb-3">
-              Available Properties
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20">
+          <div className="max-w-3xl">
+            <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-6">
+              Texas Land Auction Specialist
             </p>
-            <h2 className="font-serif text-4xl text-brand-off-white">Featured Listings</h2>
-          </div>
-          <Link
-            href="/listings"
-            className="flex items-center gap-2 text-brand-tan text-sm tracking-wider uppercase hover:gap-3 transition-all"
-          >
-            View All Properties <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-        {listings.length === 0 ? (
-          <div className="text-center py-20 text-brand-off-white/40">
-            <p className="text-lg">No listings available at this time.</p>
-            <p className="text-sm mt-2">Check back soon or contact us for off-market properties.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {listings.map((listing) => (
-              <PropertyCard key={listing.id} listing={listing} />
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* ─── BRAND STORY ─── */}
-      <section className="py-24 bg-brand-brown border-y border-brand-tan/10">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <p className="text-brand-tan text-xs tracking-[0.3em] uppercase mb-4">Our Story</p>
-            <h2 className="font-serif text-4xl lg:text-5xl text-brand-off-white leading-tight mb-6">
-              Rooted in<br /><span className="text-brand-tan italic">Texas Land</span>
-            </h2>
-            <p className="text-brand-off-white/60 leading-relaxed mb-6">
-              Landman was founded by Texas ranchers and land professionals who believed the state
-              deserved a brokerage as serious about the land as the people who work it. For over
-              two decades, we have matched families, investors, and operators with the ranches and
-              farms that define the Texas spirit.
+            <h1 className="font-serif text-display-xl text-offwhite mb-7 leading-[1.05]">
+              Your Land Deserves More Than a Listing.
+            </h1>
+            <p className="text-sand text-lg leading-relaxed mb-10 max-w-xl">
+              Craig Meier is a World Champion Auctioneer with 25+ years of Texas land experience.
+              The auction process isn&apos;t just faster — it&apos;s strategically designed to
+              put more money in your pocket.
             </p>
-            <p className="text-brand-off-white/60 leading-relaxed mb-8">
-              Whether you are searching for a hunting retreat in the South Texas brush country, a
-              productive farm in the Panhandle, or a legacy Hill Country ranch to pass to the
-              next generation, Landman&apos;s agents bring unparalleled local knowledge and
-              unwavering commitment to every transaction.
-            </p>
-            <Link
-              href="/about"
-              className="inline-flex items-center gap-2 border border-brand-tan text-brand-tan text-sm tracking-wider uppercase px-6 py-3 hover:bg-brand-tan hover:text-brand-dark transition-colors"
-            >
-              Learn Our Story <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            {values.map((v) => (
-              <div key={v.title} className="p-6 border border-brand-tan/10 hover:border-brand-tan/30 transition-colors">
-                <h3 className="font-serif text-xl text-brand-tan mb-3">{v.title}</h3>
-                <p className="text-brand-off-white/60 text-sm leading-relaxed">{v.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── TESTIMONIALS ─── */}
-      <section className="py-24 px-4 max-w-7xl mx-auto">
-        <div className="text-center mb-14">
-          <p className="text-brand-tan text-xs tracking-[0.3em] uppercase mb-3">Client Voices</p>
-          <h2 className="font-serif text-4xl text-brand-off-white">What Our Clients Say</h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((t, i) => (
-            <div key={i} className="p-8 bg-brand-brown border border-brand-tan/10 flex flex-col justify-between">
-              <p className="font-serif text-brand-off-white/80 text-lg leading-relaxed italic mb-6">{t.quote}</p>
-              <div className="pt-6 border-t border-brand-tan/10">
-                <p className="text-brand-off-white font-medium text-sm">{t.author}</p>
-                <p className="text-brand-tan/70 text-xs mt-1 tracking-wide">{t.context}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ─── AGENT PREVIEW ─── */}
-      {agents.length > 0 && (
-        <section className="py-24 bg-brand-brown border-t border-brand-tan/10">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-12 gap-4">
-              <div>
-                <p className="text-brand-tan text-xs tracking-[0.3em] uppercase mb-3">Our People</p>
-                <h2 className="font-serif text-4xl text-brand-off-white">Meet Our Agents</h2>
-              </div>
-              <Link href="/team" className="flex items-center gap-2 text-brand-tan text-sm tracking-wider uppercase hover:gap-3 transition-all">
-                Full Team <ArrowRight className="w-4 h-4" />
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center gap-2 bg-sunset text-shadow font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-offwhite transition-colors duration-200"
+              >
+                Schedule a Consultation
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/why-auction"
+                className="inline-flex items-center justify-center gap-2 border border-offwhite/40 text-offwhite text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-offwhite/10 transition-colors duration-200"
+              >
+                Why Auction?
               </Link>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {agents.map((agent) => (
-                <div key={agent.id} className="text-center">
-                  <div className="relative w-32 h-32 mx-auto mb-5 overflow-hidden rounded-full">
-                    {agent.photo_url ? (
-                      <Image src={agent.photo_url} alt={agent.name} fill className="object-cover" sizes="128px" />
-                    ) : (
-                      <div className="w-full h-full bg-brand-dark flex items-center justify-center">
-                        <span className="text-brand-tan font-serif text-3xl">{agent.name.charAt(0)}</span>
-                      </div>
-                    )}
-                  </div>
-                  <h3 className="font-serif text-xl text-brand-off-white">{agent.name}</h3>
-                  {agent.title && <p className="text-brand-tan/70 text-xs tracking-widest uppercase mt-1">{agent.title}</p>}
-                  {agent.email && (
-                    <a href={`mailto:${agent.email}`} className="block text-brand-off-white/50 text-sm mt-3 hover:text-brand-tan transition-colors">{agent.email}</a>
-                  )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── THE PROBLEM ──────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-offwhite">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+                The Problem
+              </p>
+              <h2 className="font-serif text-display-lg text-shadow mb-6">
+                Traditional Land Sales Leave Money on the Table.
+              </h2>
+              <p className="text-shadow/70 text-base leading-relaxed mb-5">
+                When you list land with a broker, you wait. You wait for showings. You wait for
+                offers. You wait through negotiations, inspections, and renegotiations. And at
+                the end of that waiting, you may still end up settling for less than what your
+                land is worth.
+              </p>
+              <p className="text-shadow/70 text-base leading-relaxed mb-8">
+                The traditional listing process was built for houses in subdivisions — not for
+                the complex, unique, emotionally significant asset that is Texas land.
+                Your land deserves a process built specifically for it.
+              </p>
+              <Link
+                href="/why-auction"
+                className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors"
+              >
+                See why auction changes the equation
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="bg-earth/8 border border-sand/40 p-10">
+              <h3 className="font-serif text-xl text-shadow mb-6">
+                Typical broker experience vs. auction:
+              </h3>
+              <ul className="space-y-4">
+                {[
+                  'Months of uncertainty vs. a defined auction date',
+                  'Price driven down by negotiation vs. price driven up by competition',
+                  'Buyer contingencies & renegotiations vs. sold as-is on auction day',
+                  'Limited local exposure vs. Craig\'s statewide buyer network',
+                  'Passive waiting vs. active, marketed campaign',
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-3">
+                    <CheckCircle className="w-4 h-4 text-sage mt-0.5 flex-shrink-0" />
+                    <span className="text-shadow/75 text-sm leading-relaxed">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY AUCTION ──────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-shadow">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              Why Auction
+            </p>
+            <h2 className="font-serif text-display-lg text-offwhite">
+              The Strategic Advantage of Auction.
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {auctionAdvantages.map(({ icon: Icon, title, body }) => (
+              <div key={title} className="border border-offwhite/10 p-8 hover:border-sunset/30 transition-colors">
+                <Icon className="w-7 h-7 text-sunset mb-5" />
+                <h3 className="font-serif text-xl text-offwhite mb-3">{title}</h3>
+                <p className="text-offwhite/55 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/why-auction"
+              className="inline-flex items-center gap-2 text-sand text-sm tracking-wide hover:text-sunset transition-colors"
+            >
+              Deep dive into the auction advantage
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── OUR PROCESS ──────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-offwhite">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              Our Process
+            </p>
+            <h2 className="font-serif text-display-lg text-shadow">
+              Four Steps. Complete Clarity.
+            </h2>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {steps.map(({ number, title, body }) => (
+              <div key={number} className="relative">
+                <span className="font-serif text-[5rem] leading-none text-sand/40 block mb-2 select-none">
+                  {number}
+                </span>
+                <h3 className="font-serif text-xl text-shadow mb-3">{title}</h3>
+                <p className="text-shadow/65 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link
+              href="/our-process"
+              className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors"
+            >
+              See the full process breakdown
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHO WE SERVE ─────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-earth">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-sand text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+                Who We Serve
+              </p>
+              <h2 className="font-serif text-display-lg text-offwhite mb-6">
+                Built for Texas Landowners.
+              </h2>
+              <p className="text-offwhite/65 text-base leading-relaxed">
+                Craig specializes in large-acreage Texas land across every ownership situation —
+                from multi-generational farms to inherited estate parcels to investment tracts
+                ready for market.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-5">
+              {whoWeServe.map(({ label, desc }) => (
+                <div key={label} className="bg-offwhite/8 border border-offwhite/15 p-6">
+                  <h3 className="font-serif text-lg text-offwhite mb-2">{label}</h3>
+                  <p className="text-offwhite/55 text-sm leading-relaxed">{desc}</p>
                 </div>
               ))}
             </div>
           </div>
-        </section>
-      )}
-
-      {/* ─── CTA BANNER ─── */}
-      <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1800&q=80"
-            alt="Texas landscape"
-            fill
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-brand-dark/80" />
         </div>
-        <div className="relative z-10 text-center px-4">
-          <h2 className="font-serif text-4xl sm:text-5xl text-brand-off-white mb-4">Ready to Find Your Land?</h2>
-          <p className="text-brand-off-white/60 text-lg max-w-xl mx-auto mb-10">
-            Connect with a Landman agent today and begin your search for the perfect Texas ranch or farm property.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/listings" className="bg-gradient-to-r from-brand-tan to-brand-tan-light text-brand-dark font-semibold text-sm tracking-wider uppercase px-8 py-4 hover:brightness-110 hover:shadow-[0_0_24px_rgba(200,146,42,0.4)] transition-all">
-              Browse Properties
-            </Link>
-            <Link href="/contact" className="border border-brand-off-white/40 text-brand-off-white/80 text-sm tracking-wider uppercase px-8 py-4 hover:border-brand-tan hover:text-brand-tan transition-colors">
-              Contact Us
-            </Link>
+      </section>
+
+      {/* ── CREDIBILITY ──────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-offwhite">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              About Craig
+            </p>
+            <h2 className="font-serif text-display-lg text-shadow">
+              Championship-Proven. Texas-Rooted.
+            </h2>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-sand/30 mb-16">
+            {credentials.map(({ value, label }) => (
+              <div key={label} className="bg-offwhite px-8 py-10 text-center">
+                <p className="font-serif text-4xl text-earth mb-2">{value}</p>
+                <p className="text-shadow/60 text-xs tracking-[0.1em] uppercase">{label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Bio excerpt */}
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Photo placeholder */}
+            <div className="relative aspect-[4/5] overflow-hidden bg-sand/20">
+              <Image
+                src="https://placehold.co/800x1000/4B3A2A/F6F3EC?text=Craig+Meier"
+                alt="Craig Meier — World Champion Auctioneer"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+
+            <div>
+              <p className="font-serif text-2xl italic text-earth mb-6 leading-relaxed">
+                &ldquo;These aren&apos;t just trophies — they&apos;re a testament to the skill,
+                precision, and competitive drive Craig brings to every sale.&rdquo;
+              </p>
+              <p className="text-shadow/70 text-base leading-relaxed mb-5">
+                Craig Meier is one of Texas&apos;s most accomplished land and auction
+                professionals. A born and bred Texan from Ennis, Craig claimed the Texas State
+                Auctioneer Championship in 2003 — and in 2007, earned the title of World Champion
+                Auctioneer and World Champion Auction Team.
+              </p>
+              <p className="text-shadow/70 text-base leading-relaxed mb-8">
+                With over 450 auctions annually and bilingual fluency in English and Spanish,
+                Craig&apos;s reach extends far beyond what any traditional broker can offer.
+                As Co-Owner of America&apos;s Auction Academy, he doesn&apos;t just practice
+                excellence — he teaches it.
+              </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors"
+              >
+                Read Craig&apos;s full story
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* ── FINAL CTA ────────────────────────────────────────────────────── */}
+      <ConsultationCTA
+        headline="Ready to talk about your land?"
+        subtext="A conversation with Craig costs nothing. What it could earn you on auction day is a different story."
+      />
     </>
   )
 }
+

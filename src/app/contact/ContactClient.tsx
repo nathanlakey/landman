@@ -1,38 +1,33 @@
 'use client'
 
 import { useState } from 'react'
-import { MapPin, Phone, Mail, Clock, Send, CheckCircle } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, CheckCircle, Send } from 'lucide-react'
 
-const offices = [
-  {
-    city: 'Austin',
-    address: '4500 Ranch Road 1826\nAustin, TX 78739',
-    phone: '(512) 555-0100',
-    email: 'austin@landman.com',
-    hours: 'Mon – Fri: 8am – 6pm\nSat: 9am – 4pm',
-  },
-  {
-    city: 'San Antonio',
-    address: '1820 Babcock Road, Suite 200\nSan Antonio, TX 78229',
-    phone: '(210) 555-0200',
-    email: 'sanantonio@landman.com',
-    hours: 'Mon – Fri: 8am – 6pm\nSat: By Appointment',
-  },
-  {
-    city: 'Lubbock',
-    address: '3300 Slide Road, Suite 101\nLubbock, TX 79414',
-    phone: '(806) 555-0300',
-    email: 'lubbock@landman.com',
-    hours: 'Mon – Fri: 8am – 5pm',
-  },
+const propertyTypes = [
+  { value: '', label: 'Select property type…' },
+  { value: 'farm', label: 'Farm / Crop Land' },
+  { value: 'ranch', label: 'Ranch / Pasture' },
+  { value: 'estate', label: 'Estate / Inherited Property' },
+  { value: 'development', label: 'Development Tract' },
+  { value: 'recreational', label: 'Recreational / Hunting Land' },
+  { value: 'other', label: 'Other / Not Sure' },
 ]
 
 export default function ContactClient() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    propertyType: '',
+    acreage: '',
+    message: '',
+  })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
@@ -51,7 +46,7 @@ export default function ContactClient() {
         throw new Error(data.error || 'Something went wrong.')
       }
       setStatus('success')
-      setForm({ name: '', email: '', phone: '', subject: '', message: '' })
+      setForm({ name: '', email: '', phone: '', propertyType: '', acreage: '', message: '' })
     } catch (err: unknown) {
       setStatus('error')
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong.')
@@ -59,196 +54,217 @@ export default function ContactClient() {
   }
 
   const inputClass =
-    'w-full bg-brand-dark border border-brand-tan/20 text-brand-off-white placeholder-brand-off-white/30 px-4 py-3 text-sm focus:outline-none focus:border-brand-tan transition-colors'
+    'w-full bg-white border border-sand/60 text-shadow placeholder-shadow/35 px-4 py-3 text-sm focus:outline-none focus:border-earth focus:ring-1 focus:ring-earth/20 transition-colors'
+
+  const labelClass = 'block text-shadow/60 text-xs tracking-[0.12em] uppercase font-medium mb-2'
 
   return (
-    <div className="min-h-screen pt-24 pb-20">
-      {/* Header */}
-      <div className="bg-brand-brown border-b border-brand-tan/10 py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <p className="text-brand-tan text-xs tracking-[0.3em] uppercase mb-3">Get In Touch</p>
-          <h1 className="font-serif text-5xl text-brand-off-white">Contact Landman</h1>
-          <p className="text-brand-off-white/50 mt-4 max-w-xl">
-            Whether you are buying, selling, or simply exploring your options, our team is here to help.
-          </p>
-        </div>
-      </div>
+    <section className="py-24 px-6 bg-offwhite">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-16">
 
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Form */}
+          {/* ── Form ─────────────────────────────────────────────── */}
           <div>
-            <h2 className="font-serif text-3xl text-brand-off-white mb-8">Send Us a Message</h2>
+            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              Get in Touch
+            </p>
+            <h2 className="font-serif text-display-md text-shadow mb-3">
+              Let&apos;s Talk About Your Land.
+            </h2>
+            <p className="text-shadow/60 text-base leading-relaxed mb-10">
+              Fill out the form below and Craig will personally follow up —
+              usually within one business day.
+            </p>
 
             {status === 'success' ? (
-              <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
-                <CheckCircle className="w-14 h-14 text-brand-tan" />
-                <h3 className="font-serif text-2xl text-brand-off-white">Message Sent</h3>
-                <p className="text-brand-off-white/55 max-w-sm">
-                  Thank you for reaching out. A Landman agent will respond within one business day.
+              <div className="border border-sage/40 bg-sage/8 p-8 text-center">
+                <CheckCircle className="w-10 h-10 text-sage mx-auto mb-4" />
+                <h3 className="font-serif text-xl text-shadow mb-2">Message Received.</h3>
+                <p className="text-shadow/60 text-sm leading-relaxed">
+                  Craig will be in touch shortly. Thank you for reaching out.
                 </p>
-                <button
-                  onClick={() => setStatus('idle')}
-                  className="text-brand-tan text-sm underline hover:no-underline mt-2"
-                >
-                  Send another message
-                </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="grid sm:grid-cols-2 gap-5">
                   <div>
-                    <label className="block text-brand-off-white/60 text-xs tracking-wider uppercase mb-1.5">
-                      Full Name *
-                    </label>
+                    <label className={labelClass} htmlFor="name">Full Name *</label>
                     <input
-                      type="text"
+                      id="name"
                       name="name"
+                      type="text"
+                      required
                       value={form.name}
                       onChange={handleChange}
-                      placeholder="John Smith"
-                      required
+                      placeholder="Your full name"
                       className={inputClass}
                     />
                   </div>
                   <div>
-                    <label className="block text-brand-off-white/60 text-xs tracking-wider uppercase mb-1.5">
-                      Email *
-                    </label>
+                    <label className={labelClass} htmlFor="email">Email Address *</label>
                     <input
-                      type="email"
+                      id="email"
                       name="email"
+                      type="email"
+                      required
                       value={form.email}
                       onChange={handleChange}
-                      placeholder="john@example.com"
-                      required
+                      placeholder="you@example.com"
                       className={inputClass}
                     />
                   </div>
                 </div>
-                <div>
-                  <label className="block text-brand-off-white/60 text-xs tracking-wider uppercase mb-1.5">
-                    Phone
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    placeholder="(512) 555-0100"
-                    className={inputClass}
-                  />
+
+                <div className="grid sm:grid-cols-2 gap-5">
+                  <div>
+                    <label className={labelClass} htmlFor="phone">Phone Number</label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="(000) 000-0000"
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass} htmlFor="acreage">Approximate Acreage</label>
+                    <input
+                      id="acreage"
+                      name="acreage"
+                      type="text"
+                      value={form.acreage}
+                      onChange={handleChange}
+                      placeholder="e.g. 200 acres"
+                      className={inputClass}
+                    />
+                  </div>
                 </div>
+
                 <div>
-                  <label className="block text-brand-off-white/60 text-xs tracking-wider uppercase mb-1.5">
-                    Subject
-                  </label>
+                  <label className={labelClass} htmlFor="propertyType">Property Type</label>
                   <select
-                    name="subject"
-                    value={form.subject}
+                    id="propertyType"
+                    name="propertyType"
+                    value={form.propertyType}
                     onChange={handleChange}
                     className={inputClass}
                   >
-                    <option value="">Select a topic...</option>
-                    <option value="buying">I am looking to buy land</option>
-                    <option value="selling">I want to sell my property</option>
-                    <option value="valuation">Property valuation inquiry</option>
-                    <option value="leasing">Hunting lease inquiry</option>
-                    <option value="general">General question</option>
+                    {propertyTypes.map(({ value, label }) => (
+                      <option key={value} value={value}>{label}</option>
+                    ))}
                   </select>
                 </div>
+
                 <div>
-                  <label className="block text-brand-off-white/60 text-xs tracking-wider uppercase mb-1.5">
-                    Message *
-                  </label>
+                  <label className={labelClass} htmlFor="message">Tell Craig About Your Property *</label>
                   <textarea
+                    id="message"
                     name="message"
+                    required
+                    rows={5}
                     value={form.message}
                     onChange={handleChange}
-                    placeholder="Tell us about what you are looking for..."
-                    required
-                    rows={6}
+                    placeholder="Location, situation, timeline, any questions you have…"
                     className={`${inputClass} resize-none`}
                   />
                 </div>
 
-                {status === 'error' && <p className="text-red-400 text-sm">{errorMsg}</p>}
+                {status === 'error' && (
+                  <p className="text-clay text-sm">{errorMsg}</p>
+                )}
 
                 <button
                   type="submit"
                   disabled={status === 'loading'}
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-brand-tan to-brand-tan-light text-brand-dark font-semibold text-sm tracking-wider uppercase px-6 py-4 hover:brightness-110 hover:shadow-[0_0_20px_rgba(200,146,42,0.35)] transition-all disabled:opacity-60"
+                  className="w-full flex items-center justify-center gap-2 bg-earth text-offwhite font-semibold text-sm tracking-[0.08em] uppercase py-4 hover:bg-sunset hover:text-shadow disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-200"
                 >
                   {status === 'loading' ? (
-                    <>
-                      <span className="w-4 h-4 border-2 border-brand-dark/40 border-t-brand-dark rounded-full animate-spin" />
-                      Sending...
-                    </>
+                    'Sending…'
                   ) : (
                     <>
-                      <Send className="w-4 h-4" /> Send Message
+                      Send Message
+                      <Send className="w-4 h-4" />
                     </>
                   )}
                 </button>
+
+                <p className="text-shadow/35 text-xs text-center">
+                  Your information is never shared or sold.
+                </p>
               </form>
             )}
           </div>
 
-          {/* Offices */}
-          <div>
-            <h2 className="font-serif text-3xl text-brand-off-white mb-8">Our Offices</h2>
-            <div className="space-y-6">
-              {offices.map((office) => (
-                <div
-                  key={office.city}
-                  className="p-6 bg-brand-brown border border-brand-tan/10 hover:border-brand-tan/30 transition-colors"
-                >
-                  <h3 className="font-serif text-xl text-brand-tan mb-4">{office.city}</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-4 h-4 text-brand-tan/60 mt-0.5 flex-shrink-0" />
-                      <p className="text-brand-off-white/60 text-sm whitespace-pre-line">
-                        {office.address}
-                      </p>
+          {/* ── Contact Info ──────────────────────────────────── */}
+          <div className="lg:pt-20">
+            <div className="space-y-10">
+              <div>
+                <div className="w-8 h-px bg-sunset mb-6" />
+                <h3 className="font-serif text-xl text-shadow mb-4">
+                  Craig Meier Land Auctions
+                </h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <MapPin className="w-4 h-4 text-clay mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-shadow/80 text-sm font-medium">Location</p>
+                      <p className="text-shadow/55 text-sm">Ennis, TX — Ellis County</p>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Phone className="w-4 h-4 text-brand-tan/60 flex-shrink-0" />
-                      <a
-                        href={`tel:${office.phone}`}
-                        className="text-brand-off-white/60 text-sm hover:text-brand-tan transition-colors"
-                      >
-                        {office.phone}
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Phone className="w-4 h-4 text-clay mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-shadow/80 text-sm font-medium">Phone</p>
+                      <a href="tel:+19035550100" className="text-shadow/55 text-sm hover:text-earth transition-colors">
+                        (903) 555-0100
                       </a>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <Mail className="w-4 h-4 text-brand-tan/60 flex-shrink-0" />
-                      <a
-                        href={`mailto:${office.email}`}
-                        className="text-brand-off-white/60 text-sm hover:text-brand-tan transition-colors"
-                      >
-                        {office.email}
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Mail className="w-4 h-4 text-clay mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-shadow/80 text-sm font-medium">Email</p>
+                      <a href="mailto:craig@landman.com" className="text-shadow/55 text-sm hover:text-earth transition-colors">
+                        craig@landman.com
                       </a>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <Clock className="w-4 h-4 text-brand-tan/60 mt-0.5 flex-shrink-0" />
-                      <p className="text-brand-off-white/60 text-sm whitespace-pre-line">{office.hours}</p>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <Clock className="w-4 h-4 text-clay mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-shadow/80 text-sm font-medium">Availability</p>
+                      <p className="text-shadow/55 text-sm">Mon – Fri, 8am – 6pm CT</p>
+                      <p className="text-shadow/55 text-sm">Sat by appointment</p>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  </li>
+                </ul>
+              </div>
 
-            {/* Map placeholder */}
-            <div className="mt-6 aspect-[4/3] bg-brand-brown border border-brand-tan/10 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-10 h-10 text-brand-tan/30 mx-auto mb-3" />
-                <p className="text-brand-off-white/30 text-sm">Map coming soon</p>
-                <p className="text-brand-off-white/20 text-xs mt-1">Connect your Google Maps API key</p>
+              {/* Expectation-setting note */}
+              <div className="bg-earth/6 border border-sand/50 p-6">
+                <p className="font-serif text-lg text-shadow mb-2">
+                  What to expect after you submit:
+                </p>
+                <ul className="space-y-2">
+                  {[
+                    'Craig personally reviews every inquiry',
+                    'Response within 1 business day',
+                    'No obligation, no pressure',
+                    'Bilingual (English / Spanish) — habla español',
+                  ].map((item) => (
+                    <li key={item} className="flex items-center gap-2 text-shadow/65 text-sm">
+                      <span className="w-1 h-1 rounded-full bg-sunset flex-shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

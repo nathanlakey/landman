@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #2C1810;
-  --foreground: #E8D5B0;
+  --color-shadow: #201E3D;
+  --color-earth: #4B3A2A;
+  --color-sunset: #FF9500;
+  --color-sage: #6E7F63;
+  --color-clay: #A86A3D;
+  --color-sand: #CBBBA0;
+  --color-offwhite: #F6F3EC;
 }
 
 html {
@@ -12,31 +17,57 @@ html {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: var(--color-shadow);
+  background: var(--color-offwhite);
   font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-cormorant), Georgia, serif;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-
   .font-serif {
-    font-family: var(--font-playfair), Georgia, serif;
+    font-family: var(--font-cormorant), Georgia, serif;
+  }
+
+  /* Prose overrides for MDX blog content */
+  .prose-land h1,
+  .prose-land h2,
+  .prose-land h3 {
+    font-family: var(--font-cormorant), Georgia, serif;
+    color: var(--color-shadow);
+  }
+  .prose-land p {
+    color: #3a3553;
+    line-height: 1.8;
+  }
+  .prose-land a {
+    color: var(--color-clay);
+    text-decoration: underline;
+  }
+  .prose-land strong {
+    color: var(--color-earth);
   }
 }
 
-/* Scrollbar styling */
+/* Subtle scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #1A0F0A;
+  background: var(--color-offwhite);
 }
 ::-webkit-scrollbar-thumb {
-  background: #C8922A;
+  background: var(--color-sand);
   border-radius: 3px;
 }
-
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-clay);
+}

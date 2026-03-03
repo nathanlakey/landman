@@ -1,9 +1,72 @@
 -- =============================================
--- Landman Real Estate — Supabase Schema
+-- Landman — Craig Meier Land Auctions
+-- Supabase Schema (Phase 1 + Future Infra)
 -- =============================================
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- =============================================
+-- INQUIRIES (ACTIVE — Phase 1 core table)
+-- Consultation requests from the contact form
+-- =============================================
+CREATE TABLE IF NOT EXISTS inquiries (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name text NOT NULL,
+  email text NOT NULL,
+  phone text,
+  property_type text,             -- farm | ranch | estate | development | recreational | other
+  acreage text,                   -- rough estimate as free text
+  message text,
+  listing_id uuid,                -- nullable — reserved for future listing-linked inquiries
+  created_at timestamptz DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS inquiries_created_at_idx ON inquiries(created_at DESC);
+
+-- RLS: insert publicly, admin reads all via service role
+ALTER TABLE inquiries ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Anyone can insert inquiries" ON inquiries
+  FOR INSERT WITH CHECK (true);
+
+-- =============================================
+-- LISTINGS (FUTURE INFRASTRUCTURE — hidden)
+-- Not linked publicly in Phase 1. Activate in Phase 2.
+-- =============================================
+CREATE TABLE IF NOT EXISTS listings (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title text NOT NULL,
+  slug text UNIQUE NOT NULL,
+  location_city text,
+  location_county text,
+  state text DEFAULT 'TX',
+  acreage numeric,
+  price numeric,                  -- starting bid or reserve (auction context)
+  auction_date date,              -- scheduled auction date
+  property_type text CHECK (property_type IN ('ranch', 'farm', 'estate', 'development', 'recreational')),
+  description text,
+  features text[] DEFAULT '{}',
+  status text DEFAULT 'draft' CHECK (status IN ('draft', 'upcoming', 'active', 'sold', 'withdrawn')),
+  images text[] DEFAULT '{}',
+  published boolean DEFAULT false, -- must be true AND status='active' to show publicly
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS listings_slug_idx ON listings(slug);
+CREATE INDEX IF NOT EXISTS listings_status_idx ON listings(status);
+CREATE INDEX IF NOT EXISTS listings_published_idx ON listings(published);
+
+-- RLS: only published+active listings are public (not yet activated)
+ALTER TABLE listings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Published active listings are publicly readable" ON listings
+  FOR SELECT USING (published = true AND status = 'active');
+
+-- =============================================
+-- STORAGE BUCKET (run in Supabase Dashboard > Storage)
+-- =============================================
+-- Create a bucket named "listing-images" with public access for Phase 2
+
 
 -- =============================================
 -- AGENTS
