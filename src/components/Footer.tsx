@@ -22,17 +22,16 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="lg:col-span-2">
-            <div className="flex flex-col leading-none mb-5">
-              <span className="font-serif text-2xl font-semibold tracking-wide text-offwhite">
-                LANDMAN
-              </span>
-              <span className="text-[9px] tracking-[0.22em] uppercase text-sand mt-0.5">
-                Craig Meier Land Auctions
-              </span>
-            </div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/landman-logo-tall-light.svg"
+              alt="Landman Auctions"
+              style={{ height: '180px', width: 'auto' }}
+              className="mb-5"
+            />
             <p className="text-offwhite/60 text-sm leading-relaxed mb-6 max-w-xs">
-              World Champion Auctioneer. 25+ years in Texas land. When you&apos;re ready
-              to talk about your property, Craig is ready to listen.
+              World Champion Auctioneer. 25+ years of experience delivering maximum
+              value. When you&apos;re ready to talk, Craig is ready to listen.
             </p>
             <Link
               href="/contact"

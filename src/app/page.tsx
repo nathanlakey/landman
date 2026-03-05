@@ -71,32 +71,31 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative h-screen flex items-center overflow-hidden">
         {/* Background image */}
         <Image
-          src="https://placehold.co/1600x900/4B3A2A/F6F3EC?text=Texas+Land"
-          alt="Texas land at golden hour — wide open acreage with warm horizon light"
+          src="/images/ranchphoto.jpg"
+          alt="Texas ranch land — wide open acreage with warm horizon light"
           fill
           className="object-cover object-center"
           priority
-          unoptimized
         />
         {/* Overlay */}
-        <div className="absolute inset-0 bg-shadow/65" />
+        <div className="absolute inset-0 bg-[#201E3D]/65" />
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20">
           <div className="max-w-3xl">
             <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-6">
-              Texas Land Auction Specialist
+              Land Auction Specialist
             </p>
             <h1 className="font-serif text-display-xl text-offwhite mb-7 leading-[1.05]">
               Your Land Deserves More Than a Listing.
             </h1>
             <p className="text-sand text-lg leading-relaxed mb-10 max-w-xl">
-              Craig Meier is a World Champion Auctioneer with 25+ years of Texas land experience.
-              The auction process isn&apos;t just faster — it&apos;s strategically designed to
-              put more money in your pocket.
+              Craig Meier is a World Champion Auctioneer with 25+ years of experience
+              delivering maximum value for his clients. The auction process isn&apos;t just
+              faster — it&apos;s strategically designed to put more money in your pocket.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -250,10 +249,10 @@ export default function HomePage() {
                 Who We Serve
               </p>
               <h2 className="font-serif text-display-lg text-offwhite mb-6">
-                Built for Texas Landowners.
+                Built for Landowners Ready to Maximize Value.
               </h2>
               <p className="text-offwhite/65 text-base leading-relaxed">
-                Craig specializes in large-acreage Texas land across every ownership situation —
+                Craig specializes in large-acreage land across every ownership situation —
                 from multi-generational farms to inherited estate parcels to investment tracts
                 ready for market.
               </p>

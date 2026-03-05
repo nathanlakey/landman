@@ -20,11 +20,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Craig Meier Land Auctions | Texas Land Auction Specialist",
-    template: "%s | Craig Meier Land Auctions",
+    default: "Landman Auctions | Texas Land Auction Specialists",
+    template: "%s | Landman Auctions",
   },
   description:
-    "Craig Meier is a World Champion Auctioneer with 25+ years of Texas land auction experience. If you're considering selling your land, schedule a consultation today.",
+    "Craig Meier — World Champion Auctioneer. Specializing in Texas farm, ranch, and land auctions in North Texas and Ellis County.",
   keywords: [
     "Texas land auction",
     "land auctioneer Texas",
@@ -33,9 +33,28 @@ export const metadata: Metadata = {
     "ranch auction Texas",
     "farm land auction",
   ],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32" },
+    ],
+    apple: [
+      { url: "/icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
-    siteName: "Craig Meier Land Auctions",
+    title: "Landman Auctions | Texas Land Auction Specialists",
+    description:
+      "Craig Meier — World Champion Auctioneer. Specializing in Texas farm, ranch, and land auctions in North Texas and Ellis County.",
+    siteName: "Landman Auctions",
     type: "website",
+    images: [
+      {
+        url: "/images/landman-logo-wide.png",
+        width: 1200,
+        height: 630,
+        alt: "Landman Auctions",
+      },
+    ],
   },
 };
 
