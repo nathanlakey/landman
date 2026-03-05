@@ -278,7 +278,7 @@ export default function HomePage() {
               About Craig
             </p>
             <h2 className="font-serif text-display-lg text-shadow">
-              Championship-Proven. Texas-Rooted.
+              Championship-Proven. Results-Driven.
             </h2>
           </div>
 
