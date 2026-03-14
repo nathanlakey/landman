@@ -51,7 +51,7 @@ const PROPERTY_TYPES = [
 const STATUS_OPTIONS = [
   { value: '', label: 'All Status' },
   { value: 'active', label: 'Active' },
-  { value: 'upcoming', label: 'Upcoming' },
+  { value: 'reduced', label: 'Price Reduced' },
   { value: 'sold', label: 'Sold' },
 ]
 
@@ -64,17 +64,15 @@ const SORT_OPTIONS = [
 ]
 
 const statusBadge: Record<string, string> = {
-  active:   'bg-green-100 text-green-800 border border-green-200',
-  upcoming: 'bg-[#FF9500]/10 text-[#FF9500] border border-[#FF9500]/30',
-  sold:     'bg-[#201E3D]/10 text-[#201E3D]/60 border border-[#201E3D]/15',
-  draft:    'bg-gray-100 text-gray-500 border border-gray-200',
+  active:  'bg-green-100 text-green-800 border border-green-200',
+  reduced: 'bg-[#FF9500]/10 text-[#FF9500] border border-[#FF9500]/30',
+  sold:    'bg-[#201E3D]/10 text-[#201E3D]/60 border border-[#201E3D]/15',
 }
 
 const statusLabel: Record<string, string> = {
-  active:   'Active',
-  upcoming: 'Upcoming',
-  sold:     'Sold',
-  draft:    'Draft',
+  active:  'Active',
+  reduced: 'Price Reduced',
+  sold:    'Sold',
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -294,8 +292,6 @@ export default function FindPropertyClient({
       let query = supabase
         .from('listings')
         .select('*', { count: 'exact' })
-        .eq('published', true)
-        .not('status', 'in', '("draft","withdrawn")')
 
       if (f.priceMin) query = query.gte('price', Number(f.priceMin))
       if (f.priceMax) query = query.lte('price', Number(f.priceMax))
