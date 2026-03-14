@@ -118,7 +118,7 @@ export default function WhyAuctionPage() {
                 </tr>
               </thead>
               <tbody>
-                {comparisonRows.map(({ topic, broker, auction, auctionWins }, i) => (
+                {comparisonRows.map(({ topic, broker, auction, auctionWins: _auctionWins }, i) => (
                   <tr
                     key={topic}
                     className={i % 2 === 0 ? 'bg-offwhite' : 'bg-sand/15'}

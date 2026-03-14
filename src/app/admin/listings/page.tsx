@@ -47,7 +47,7 @@ export default async function AdminListingsPage() {
         <div className="bg-sunset/10 border border-sunset/20 p-3 mb-8 text-xs text-offwhite/60">
           Listings are stored in Supabase but are <strong className="text-sunset">not linked publicly</strong> until Phase 2 launch.
           The <code className="text-sand">published</code> flag must be <code className="text-sand">true</code> and
-          <code className="text-sand"> status = 'active'</code> before any listing appears publicly.
+          <code className="text-sand"> status = &apos;active&apos;</code> before any listing appears publicly.
         </div>
 
         {listings.length === 0 ? (
