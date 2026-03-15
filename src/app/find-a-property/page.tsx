@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import type { Listing } from '@/types'
 import FindPropertyClient from './FindPropertyClient'
+import AuctionAlertForm from '@/components/AuctionAlertForm'
 
 export const metadata: Metadata = {
   title: 'Find a Property',
@@ -68,6 +69,26 @@ export default async function FindAPropertyPage() {
 
       {/* ── Filters + Results (client) ── */}
       <FindPropertyClient initialListings={listings} initialCounties={counties} />
+
+      {/* ── Auction Alerts ── */}
+      <section className="py-16 px-6 bg-offwhite border-t border-sand/40">
+        <div className="max-w-lg mx-auto text-center">
+          <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-3">
+            Auction Alerts
+          </p>
+          <h2 className="font-serif text-2xl text-shadow mb-3">
+            Don&apos;t see the right property?
+          </h2>
+          <p className="text-shadow/60 text-sm leading-relaxed mb-8">
+            Get notified when new ranch, farm, and land auctions are announced
+            across North Texas.
+          </p>
+          <AuctionAlertForm />
+          <p className="text-shadow/35 text-xs mt-4 tracking-wide">
+            No spam. Only auction announcements.
+          </p>
+        </div>
+      </section>
     </>
   )
 }
