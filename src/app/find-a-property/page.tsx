@@ -83,7 +83,7 @@ export default async function FindAPropertyPage() {
             Get notified when new ranch, farm, and land auctions are announced
             across North Texas.
           </p>
-          <AuctionAlertForm />
+          <AuctionAlertForm variant="light" />
           <p className="text-shadow/35 text-xs mt-4 tracking-wide">
             No spam. Only auction announcements.
           </p>

@@ -3,10 +3,14 @@
 import { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
 
-export default function AuctionAlertForm() {
+export default function AuctionAlertForm({ variant = 'dark' }: { variant?: 'dark' | 'light' }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+
+  const inputClass = variant === 'light'
+    ? 'flex-1 border border-sand/60 bg-white text-shadow placeholder-shadow/40 px-4 py-3 text-sm focus:outline-none focus:border-sunset transition-colors'
+    : 'flex-1 border border-offwhite/20 bg-white/10 text-offwhite placeholder-offwhite/40 px-4 py-3 text-sm focus:outline-none focus:border-sunset transition-colors'
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -47,7 +51,7 @@ export default function AuctionAlertForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="flex-1 border border-offwhite/20 bg-white/10 text-offwhite placeholder-offwhite/40 px-4 py-3 text-sm focus:outline-none focus:border-sunset transition-colors"
+          className={inputClass}
           placeholder="your@email.com"
         />
         <button
