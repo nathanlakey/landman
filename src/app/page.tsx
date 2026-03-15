@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import ConsultationCTA from '@/components/ConsultationCTA'
-import { ArrowRight, CheckCircle, TrendingUp, Users, Clock, Shield } from 'lucide-react'
+import { ArrowRight, CheckCircle, TrendingUp, Users, Clock, Shield, MapPin, Building2, Home, Wrench, Briefcase, Package } from 'lucide-react'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -28,16 +27,16 @@ const auctionAdvantages = [
   },
 ]
 
-const steps = [
+const processSteps = [
   {
     number: '01',
-    title: 'Consultation',
-    body: 'Craig meets with you to understand your land, your goals, and your timeline. No obligation, no pressure — just straight talk.',
+    title: 'Property Evaluation',
+    body: 'Craig meets with you to assess your land, understand your goals, and establish the right strategy to maximize your sale.',
   },
   {
     number: '02',
-    title: 'Strategy & Preparation',
-    body: 'We assess the property, establish pricing strategy, and build a targeted marketing campaign to reach the right buyers.',
+    title: 'Marketing Campaign',
+    body: 'We build a targeted campaign — digital, print, and network — to put your property in front of qualified, motivated buyers.',
   },
   {
     number: '03',
@@ -65,14 +64,46 @@ const credentials = [
   { value: '450+', label: 'Auctions Conducted Annually' },
 ]
 
+const categories = [
+  {
+    icon: MapPin,
+    title: 'Ranches & Farmland',
+    desc: 'Working ranches, crop land, and pasture acreage across North Texas.',
+  },
+  {
+    icon: Building2,
+    title: 'Development Land',
+    desc: 'Raw tracts and entitled land primed for residential or commercial growth.',
+  },
+  {
+    icon: Home,
+    title: 'Residential Property',
+    desc: 'Single-family homes, rural homesteads, and hobby farms.',
+  },
+  {
+    icon: Wrench,
+    title: 'Farm Equipment & Machinery',
+    desc: 'Tractors, implements, irrigation systems, and operational assets.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Commercial Assets',
+    desc: 'Business liquidations, commercial real estate, and industrial properties.',
+  },
+  {
+    icon: Package,
+    title: 'Estate & Liquidation Auctions',
+    desc: 'Complete estate settlements handled with care, speed, and maximum return.',
+  },
+]
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
   return (
     <>
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
+      {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
       <section className="relative h-screen flex items-center overflow-hidden">
-        {/* Background image */}
         <Image
           src="/images/ranchphoto.jpg"
           alt="Texas ranch land — wide open acreage with warm horizon light"
@@ -80,10 +111,7 @@ export default function HomePage() {
           className="object-cover object-center"
           priority
         />
-        {/* Overlay */}
         <div className="absolute inset-0 bg-[#201E3D]/65" />
-
-        {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20">
           <div className="max-w-3xl">
             <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-6">
@@ -100,23 +128,121 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 bg-sunset text-shadow font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-offwhite transition-colors duration-200"
+                className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
               >
-                Schedule a Consultation
+                Sell Your Property
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
-                href="/why-auction"
+                href="/find-a-property"
                 className="inline-flex items-center justify-center gap-2 border border-offwhite/40 text-offwhite text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-offwhite/10 transition-colors duration-200"
               >
-                Why Auction?
+                Find Auctions
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── THE PROBLEM ──────────────────────────────────────────────────── */}
+      {/* ── 2. CREDIBILITY STRIP ─────────────────────────────────────────── */}
+      <section className="bg-[#201E3D] py-10 px-6">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-offwhite/75 text-sm tracking-wide mb-6">
+            Trusted by landowners, developers, and investors across North Texas
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-3">
+            {['Farm Auctions', 'Commercial Liquidations', 'Estate Auctions', 'Development Land'].map((item) => (
+              <span key={item} className="text-sunset text-[11px] tracking-[0.2em] uppercase font-semibold">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. MORE THAN LAND ────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-offwhite">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              What We Auction
+            </p>
+            <h2 className="font-serif text-display-lg text-shadow mb-4">
+              More Than Land.
+            </h2>
+            <p className="text-shadow/60 text-base max-w-xl mx-auto">
+              Specialists in Land Auctions and High-Value Assets
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categories.map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="bg-white border border-sand/40 p-8 hover:border-sunset/40 hover:shadow-sm transition-all duration-200">
+                <Icon className="w-6 h-6 text-sunset mb-4" />
+                <h3 className="font-serif text-lg text-shadow mb-2">{title}</h3>
+                <p className="text-shadow/60 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 4. HOW THE AUCTION PROCESS WORKS ────────────────────────────── */}
+      <section className="py-24 px-6 bg-offwhite border-t border-sand/30">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              Our Process
+            </p>
+            <h2 className="font-serif text-display-lg text-shadow">
+              How the Auction Process Works.
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {processSteps.map(({ number, title, body }) => (
+              <div key={number} className="relative">
+                <span className="font-serif text-[5rem] leading-none text-sand/40 block mb-2 select-none">
+                  {number}
+                </span>
+                <h3 className="font-serif text-xl text-shadow mb-3">{title}</h3>
+                <p className="text-shadow/65 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Link
+              href="/our-process"
+              className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors"
+            >
+              See the full process breakdown
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. ACTIVE AUCTIONS ───────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-shadow text-center">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+            Available Now
+          </p>
+          <h2 className="font-serif text-display-lg text-offwhite mb-6">
+            Active Auctions.
+          </h2>
+          <p className="text-offwhite/60 text-base leading-relaxed mb-10">
+            Browse current and upcoming land auctions across North Texas. New properties are added regularly.
+          </p>
+          <Link
+            href="/find-a-property"
+            className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
+          >
+            Browse All Listings
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* ── 6a. SELLER EDUCATION: THE PROBLEM ───────────────────────────── */}
       <section className="py-24 px-6 bg-offwhite">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -146,7 +272,6 @@ export default function HomePage() {
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-
             <div className="bg-earth/8 border border-sand/40 p-10">
               <h3 className="font-serif text-xl text-shadow mb-6">
                 Typical broker experience vs. auction:
@@ -170,7 +295,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── WHY AUCTION ──────────────────────────────────────────────────── */}
+      {/* ── 6b. SELLER EDUCATION: WHY AUCTION ───────────────────────────── */}
       <section className="py-24 px-6 bg-shadow">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -181,7 +306,6 @@ export default function HomePage() {
               The Strategic Advantage of Auction.
             </h2>
           </div>
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {auctionAdvantages.map(({ icon: Icon, title, body }) => (
               <div key={title} className="border border-offwhite/10 p-8 hover:border-sunset/30 transition-colors">
@@ -191,49 +315,12 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
           <div className="text-center mt-12">
             <Link
               href="/why-auction"
               className="inline-flex items-center gap-2 text-sand text-sm tracking-wide hover:text-sunset transition-colors"
             >
               Deep dive into the auction advantage
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── OUR PROCESS ──────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-offwhite">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
-              Our Process
-            </p>
-            <h2 className="font-serif text-display-lg text-shadow">
-              Four Steps. Complete Clarity.
-            </h2>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {steps.map(({ number, title, body }) => (
-              <div key={number} className="relative">
-                <span className="font-serif text-[5rem] leading-none text-sand/40 block mb-2 select-none">
-                  {number}
-                </span>
-                <h3 className="font-serif text-xl text-shadow mb-3">{title}</h3>
-                <p className="text-shadow/65 text-sm leading-relaxed">{body}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              href="/our-process"
-              className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors"
-            >
-              See the full process breakdown
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -257,7 +344,6 @@ export default function HomePage() {
                 ready for market.
               </p>
             </div>
-
             <div className="grid sm:grid-cols-2 gap-5">
               {whoWeServe.map(({ label, desc }) => (
                 <div key={label} className="bg-offwhite/8 border border-offwhite/15 p-6">
@@ -270,7 +356,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CREDIBILITY ──────────────────────────────────────────────────── */}
+      {/* ── ABOUT CRAIG ──────────────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-offwhite">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -281,8 +367,6 @@ export default function HomePage() {
               Championship-Proven. Results-Driven.
             </h2>
           </div>
-
-          {/* Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-sand/30 mb-16">
             {credentials.map(({ value, label }) => (
               <div key={label} className="bg-offwhite px-8 py-10 text-center">
@@ -291,10 +375,7 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-
-          {/* Bio excerpt */}
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Photo placeholder */}
             <div className="relative aspect-[4/5] overflow-hidden bg-sand/20">
               <Image
                 src="https://placehold.co/800x1000/4B3A2A/F6F3EC?text=Craig+Meier"
@@ -304,7 +385,6 @@ export default function HomePage() {
                 unoptimized
               />
             </div>
-
             <div>
               <p className="font-serif text-2xl italic text-earth mb-6 leading-relaxed">
                 &ldquo;These aren&apos;t just trophies — they&apos;re a testament to the skill,
@@ -334,11 +414,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FINAL CTA ────────────────────────────────────────────────────── */}
-      <ConsultationCTA
-        headline="Ready to talk about your land?"
-        subtext="A conversation with Craig costs nothing. What it could earn you on auction day is a different story."
-      />
+      {/* ── 7. FINAL CTA ─────────────────────────────────────────────────── */}
+      <section className="py-24 px-6 bg-[#201E3D] text-center">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+            Get Started
+          </p>
+          <h2 className="font-serif text-display-lg text-offwhite mb-6">
+            Ready to Sell?
+          </h2>
+          <p className="text-offwhite/60 text-base leading-relaxed mb-10">
+            A conversation with Craig costs nothing. What it could earn you on auction day is a different story.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
+          >
+            Schedule Consultation
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
     </>
   )
 }
