@@ -194,7 +194,38 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 4. FREE PROPERTY EVALUATION FORM ────────────────────────────── */}
+      {/* ── 4. FREE EVALUATION CTA BAND ──────────────────────────────────── */}
+      <section className="py-24 px-6 bg-shadow">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-semibold mb-5">
+            Free Evaluation
+          </p>
+          <h2 className="font-serif text-display-lg text-offwhite mb-5 leading-[1.1]">
+            What Could Your Property Bring at Auction?
+          </h2>
+          <p className="text-offwhite/65 text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+            Find out in minutes. No obligation, no pressure &mdash; just an honest evaluation
+            from Craig Meier, World Champion Auctioneer.
+          </p>
+          <Link
+            href="/sell#evaluation"
+            className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-10 py-5 hover:bg-[#e08600] transition-colors duration-200 mb-6"
+          >
+            See What Your Property Could Bring at Auction
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <div>
+            <Link
+              href="/quiz"
+              className="text-offwhite/50 text-sm hover:text-sunset transition-colors"
+            >
+              Not sure if auction is right for you? Take the 2-minute quiz &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. FREE PROPERTY EVALUATION FORM ────────────────────────────── */}
       <section id="evaluation" className="py-24 px-6 bg-sand/20 border-t border-sand/30">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-12">
@@ -483,10 +514,10 @@ export default function HomePage() {
           Ready to sell your land?
         </p>
         <Link
-          href="#evaluation"
+          href="/sell#evaluation"
           className="inline-flex items-center gap-1.5 bg-sunset text-white text-xs font-semibold tracking-[0.08em] uppercase px-4 py-2.5 hover:bg-[#e08600] transition-colors whitespace-nowrap"
         >
-          Get Free Evaluation
+          See What Your Property Could Bring
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>
