@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, RotateCcw, CheckCircle2 } from 'lucide-react'
+import { ArrowRight, RotateCcw, CheckCircle2, ChevronLeft } from 'lucide-react'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -207,6 +207,16 @@ export default function QuizPage() {
     setResult(null)
   }
 
+  function handleBack() {
+    if (currentQ === 0) return
+    const prevQ = currentQ - 1
+    const prevQId = questions[prevQ].id
+    // Restore the previously selected answer for that question
+    setSelected(answers[prevQId] ?? null)
+    setAdvancing(false)
+    setCurrentQ(prevQ)
+  }
+
   const tierColors: Record<1 | 2 | 3, string> = {
     1: 'text-sage',
     2: 'text-sunset',
@@ -290,6 +300,18 @@ export default function QuizPage() {
                   )
                 })}
               </div>
+
+              {/* Back button */}
+              {currentQ > 0 && (
+                <button
+                  onClick={handleBack}
+                  disabled={advancing}
+                  className="mt-8 inline-flex items-center gap-1.5 text-shadow/40 text-sm hover:text-shadow/70 transition-colors disabled:opacity-30"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  Back
+                </button>
+              )}
             </div>
           )}
 
