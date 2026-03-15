@@ -40,8 +40,8 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Desktop nav — lg and above only */}
-          <div className="hidden lg:flex items-center gap-5">
+          {/* Desktop nav — xl and above only */}
+          <div className="hidden xl:flex items-center gap-5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -65,7 +65,7 @@ export default function Navbar() {
 
           {/* Hamburger — visible on mobile and tablet */}
           <button
-            className="lg:hidden text-[#FF9500] transition-colors"
+            className="xl:hidden text-[#FF9500] transition-colors"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle menu"
           >
@@ -76,7 +76,7 @@ export default function Navbar() {
 
       {/* Mobile + tablet menu */}
       {isMobileOpen && (
-        <div className="lg:hidden bg-[#F6F3EC] border-t border-[#201E3D]/10">
+        <div className="xl:hidden bg-[#F6F3EC] border-t border-[#201E3D]/10">
           <div className="px-6 py-6 flex flex-col gap-5">
             {navLinks.map((link) => (
               <Link
