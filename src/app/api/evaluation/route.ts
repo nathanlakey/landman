@@ -4,7 +4,7 @@ import { resend } from '@/lib/resend'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { name, phone, propertyType, location, message } = body
+    const { name, phone, email, propertyType, location, acreage, message } = body
 
     if (!name || !phone || !location) {
       return NextResponse.json(
@@ -32,8 +32,10 @@ export async function POST(req: NextRequest) {
 
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Phone:</strong> <a href="tel:${phone}" style="color: #A86A3D;">${phone}</a></p>
+          ${email ? `<p><strong>Email:</strong> <a href="mailto:${email}" style="color: #A86A3D;">${email}</a></p>` : ''}
           ${propertyType ? `<p><strong>Property Type:</strong> ${propertyType}</p>` : ''}
           <p><strong>Property Location:</strong> ${location}</p>
+          ${acreage ? `<p><strong>Approximate Acreage:</strong> ${acreage}</p>` : ''}
 
           ${message ? `
           <hr style="border-color: #CBBBA0; margin: 16px 0;" />

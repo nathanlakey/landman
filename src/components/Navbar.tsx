@@ -10,6 +10,7 @@ const navLinks = [
   { href: '/quiz', label: 'Take the Quiz' },
   { href: '/our-process', label: 'Our Process' },
   { href: '/find-a-property', label: 'Find a Property' },
+  { href: '/sell', label: 'Sell Your Property' },
   { href: '/about', label: 'About' },
   { href: '/resources', label: 'Resources' },
   { href: '/contact', label: 'Contact' },
