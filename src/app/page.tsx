@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, CheckCircle, TrendingUp, Users, Clock, Shield, MapPin, Building2, Home, Wrench, Briefcase, Package } from 'lucide-react'
+import EvaluationForm from '@/components/EvaluationForm'
+import AuctionAlertForm from '@/components/AuctionAlertForm'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -101,7 +103,7 @@ const categories = [
 
 export default function HomePage() {
   return (
-    <>
+    <div className="pb-20 md:pb-0">
       {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
       <section className="relative h-screen flex items-center overflow-hidden">
         <Image
@@ -186,7 +188,25 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 4. HOW THE AUCTION PROCESS WORKS ────────────────────────────── */}
+      {/* ── 4. FREE PROPERTY EVALUATION FORM ────────────────────────────── */}
+      <section id="evaluation" className="py-24 px-6 bg-sand/20 border-t border-sand/30">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              Free Evaluation
+            </p>
+            <h2 className="font-serif text-display-lg text-shadow mb-4">
+              See What Your Property Could Bring at Auction.
+            </h2>
+            <p className="text-shadow/65 text-base">
+              Get a free, no-obligation auction evaluation from Craig Meier
+            </p>
+          </div>
+          <EvaluationForm />
+        </div>
+      </section>
+
+      {/* ── 5. HOW THE AUCTION PROCESS WORKS ─────────────────────────── */}
       <section className="py-24 px-6 bg-offwhite border-t border-sand/30">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -220,7 +240,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. ACTIVE AUCTIONS ───────────────────────────────────────────── */}
+      {/* ── 6. ACTIVE AUCTIONS ───────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-shadow text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
@@ -242,7 +262,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 6a. SELLER EDUCATION: THE PROBLEM ───────────────────────────── */}
+      {/* ── 7a. SELLER EDUCATION: THE PROBLEM ──────────────────────────── */}
       <section className="py-24 px-6 bg-offwhite">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -295,7 +315,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 6b. SELLER EDUCATION: WHY AUCTION ───────────────────────────── */}
+      {/* ── 7b. SELLER EDUCATION: WHY AUCTION ──────────────────────────── */}
       <section className="py-24 px-6 bg-shadow">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -414,7 +434,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. FINAL CTA ─────────────────────────────────────────────────── */}
+      {/* ── 9. AUCTION ALERT SIGNUP ──────────────────────────────────────── */}
+      <section className="py-20 px-6 bg-earth text-center">
+        <div className="max-w-2xl mx-auto">
+          <p className="text-sand text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+            Stay in the Loop
+          </p>
+          <h2 className="font-serif text-display-lg text-offwhite mb-4">
+            Never Miss an Auction.
+          </h2>
+          <p className="text-offwhite/60 text-base leading-relaxed mb-10">
+            Get notified when new properties hit the auction block.
+          </p>
+          <AuctionAlertForm />
+        </div>
+      </section>
+
+      {/* ── 10. FINAL CTA ────────────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-[#201E3D] text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
@@ -435,7 +471,21 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-    </>
+
+      {/* ── STICKY MOBILE CTA (fixed, mobile only) ───────────────────────── */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#201E3D] border-t border-offwhite/10 px-4 py-3 flex items-center justify-between gap-3 shadow-lg">
+        <p className="text-offwhite text-sm font-medium">
+          Ready to sell your land?
+        </p>
+        <Link
+          href="#evaluation"
+          className="inline-flex items-center gap-1.5 bg-sunset text-white text-xs font-semibold tracking-[0.08em] uppercase px-4 py-2.5 hover:bg-[#e08600] transition-colors whitespace-nowrap"
+        >
+          Get Free Evaluation
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
+      </div>
+    </div>
   )
 }
 

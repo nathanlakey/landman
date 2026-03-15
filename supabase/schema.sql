@@ -169,6 +169,21 @@ CREATE POLICY "Anyone can insert inquiries" ON inquiries
   FOR INSERT WITH CHECK (true);
 
 -- =============================================
+-- AUCTION ALERTS (Phase 2 — email capture)
+-- Subscribers who want to be notified of new listings
+-- =============================================
+CREATE TABLE IF NOT EXISTS auction_alerts (
+  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  email text UNIQUE NOT NULL,
+  created_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE auction_alerts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can insert auction_alerts" ON auction_alerts
+  FOR INSERT WITH CHECK (true);
+
+-- =============================================
 -- STORAGE BUCKET
 -- =============================================
 -- Run this in Supabase Dashboard > Storage:
