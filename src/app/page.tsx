@@ -91,9 +91,31 @@ export default function HomePage() {
             <h1 className="font-serif text-display-xl text-offwhite mb-5 leading-[1.05]">
               Your Land Deserves More Than a Listing.
             </h1>
-            <p className="text-sunset text-xl font-light tracking-wide mb-7">
+            <p className="text-sunset text-xl font-light tracking-wide mb-5">
               Specialists in Land Auctions and High-Value Assets
             </p>
+
+            {/* Category capability list */}
+            <div className="flex flex-wrap items-center gap-y-2 mb-10">
+              {[
+                { label: 'Ranches & Farmland', primary: true },
+                { label: 'Development Land', primary: true },
+                { label: 'Residential Property', primary: false },
+                { label: 'Farm Equipment & Machinery', primary: false },
+                { label: 'Commercial Assets', primary: false },
+                { label: 'Estate & Liquidation Auctions', primary: false },
+              ].map(({ label, primary }, i, arr) => (
+                <span key={label} className="flex items-center">
+                  <span className={primary ? 'text-offwhite text-sm font-semibold tracking-wide' : 'text-sand/55 text-sm'}>
+                    {label}
+                  </span>
+                  {i < arr.length - 1 && (
+                    <span className="mx-3 text-offwhite/20 select-none">&middot;</span>
+                  )}
+                </span>
+              ))}
+            </div>
+
             <p className="text-sand text-lg leading-relaxed mb-10 max-w-xl">
               Craig Meier is a World Champion Auctioneer with 25+ years of experience
               delivering maximum value for his clients. The auction process isn&apos;t just
@@ -149,10 +171,11 @@ export default function HomePage() {
               What We Auction
             </p>
             <h2 className="font-serif text-display-lg text-shadow mb-4">
-              More Than Land.
+              Land Auctions &amp; High-Value Assets.
             </h2>
             <p className="text-shadow/60 text-base max-w-xl mx-auto">
-              Specialists in Land Auctions and High-Value Assets
+              Land is the core of everything we do. Adjacent asset classes are handled
+              with the same competitive auction process that maximizes value for landowners.
             </p>
           </div>
 
