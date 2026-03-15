@@ -36,7 +36,7 @@ export default function Navbar() {
             <img
               src="/images/landman-logo-wide.svg"
               alt="Landman Auctions"
-              style={{ height: '48px', width: 'auto' }}
+              style={{ height: '44px', width: 'auto', maxWidth: '150px' }}
             />
           </Link>
 
@@ -46,7 +46,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[13px] tracking-[0.1em] uppercase font-medium transition-colors duration-200 ${
+                className={`text-[12px] tracking-[0.08em] uppercase font-medium transition-colors duration-200 ${
                   pathname.startsWith(link.href)
                     ? 'text-[#201E3D]'
                     : 'text-[#201E3D]/70 hover:text-[#201E3D]'
@@ -57,7 +57,7 @@ export default function Navbar() {
             ))}
             <Link
               href="/contact"
-              className="ml-2 bg-[#FF9500] text-white text-[13px] tracking-[0.08em] uppercase font-medium px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
+              className="ml-2 bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-4 py-2.5 hover:bg-[#e08600] transition-all duration-200"
             >
               Schedule Consultation
             </Link>
