@@ -252,7 +252,6 @@ export default function ContactClient() {
                     'Craig personally reviews every inquiry',
                     'Response within 1 business day',
                     'No obligation, no pressure',
-                    'Bilingual (English / Spanish) — habla español',
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2 text-shadow/65 text-sm">
                       <span className="w-1 h-1 rounded-full bg-sunset flex-shrink-0" />
