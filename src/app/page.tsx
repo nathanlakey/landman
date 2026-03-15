@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, TrendingUp, Users, Clock, MapPin, Building2, Home, Wrench, Briefcase, Package } from 'lucide-react'
 import { supabaseAdmin } from '@/lib/supabase/server'
+import AuctionAlertForm from '@/components/AuctionAlertForm'
 import type { Listing } from '@/types'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -267,7 +268,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. MORE THAN LAND ────────────────────────────────────────────── */}
+      {/* ── 5. AUCTION ALERTS ───────────────────────────────────────────── */}
+      <section className="py-16 px-6 bg-earth">
+        <div className="max-w-xl mx-auto text-center">
+          <p className="text-sand text-[11px] tracking-[0.3em] uppercase font-semibold mb-4">
+            Auction Alerts
+          </p>
+          <h2 className="font-serif text-display-lg text-offwhite mb-4">
+            Never Miss an Auction.
+          </h2>
+          <p className="text-offwhite/60 text-base leading-relaxed mb-10">
+            Get notified when new ranch, farm, and land auctions are announced
+            across North Texas.
+          </p>
+          <AuctionAlertForm />
+          <p className="text-offwhite/30 text-xs mt-4 tracking-wide">
+            No spam. Only auction announcements.
+          </p>
+        </div>
+      </section>
+
+      {/* ── 6. MORE THAN LAND ────────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -314,7 +335,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 6. SELLER VALUE ──────────────────────────────────────────────── */}
+      {/* ── 7. SELLER VALUE ──────────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-shadow">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -346,7 +367,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. ABOUT CRAIG ───────────────────────────────────────────────── */}
+      {/* ── 8. ABOUT CRAIG ───────────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-offwhite">
         <div className="max-w-5xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -391,7 +412,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 8. FINAL CTA ─────────────────────────────────────────────────── */}
+      {/* ── 9. FINAL CTA ─────────────────────────────────────────────────── */}
       <section className="py-20 px-6 bg-[#201E3D] text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
