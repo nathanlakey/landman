@@ -27,6 +27,7 @@ export interface Listing {
   features: string[]
   status: ListingStatus
   images: string[]
+  auction_date: string | null
   agent_id: string | null
   agent?: Agent
   created_at: string

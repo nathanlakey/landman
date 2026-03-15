@@ -2,7 +2,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight, TrendingUp, Users, Clock, MapPin, Building2, Home, Wrench, Briefcase, Package } from 'lucide-react'
 import { supabaseAdmin } from '@/lib/supabase/server'
-import AuctionAlertForm from '@/components/AuctionAlertForm'
 import type { Listing } from '@/types'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -44,7 +43,7 @@ export default async function HomePage() {
       .from('listings')
       .select('*')
       .eq('status', 'active')
-      .order('created_at', { ascending: false })
+      .order('auction_date', { ascending: true })
       .limit(3)
     featuredListings = (data as Listing[]) ?? []
   } catch {
@@ -183,15 +182,15 @@ export default async function HomePage() {
       </section>
 
       {/* ── 4. FEATURED AUCTIONS ─────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-offwhite">
+      <section className="py-16 px-6 bg-offwhite">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
               <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-3">
                 Available Now
               </p>
               <h2 className="font-serif text-display-lg text-shadow">
-                Active Auctions.
+                Active Land Auctions.
               </h2>
             </div>
             <Link
@@ -226,18 +225,29 @@ export default async function HomePage() {
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="font-serif text-lg text-shadow mb-2 leading-snug group-hover:text-earth transition-colors">
+                    <h3 className="font-serif text-lg text-shadow mb-3 leading-snug group-hover:text-earth transition-colors">
                       {listing.title}
                     </h3>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-shadow/55 text-xs">
-                      {listing.location_county && <span>{listing.location_county} County</span>}
-                      {listing.acreage && <span>{listing.acreage.toLocaleString()} acres</span>}
-                      {listing.price && (
-                        <span className="text-earth font-medium">
-                          {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(listing.price)}
+                    <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-shadow/55 text-xs">
+                      {listing.location_county && (
+                        <span className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />{listing.location_county} County
+                        </span>
+                      )}
+                      {listing.acreage && (
+                        <span>{listing.acreage.toLocaleString()} acres</span>
+                      )}
+                      {listing.auction_date && (
+                        <span className="text-sunset font-medium">
+                          Auction: {new Date(listing.auction_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </span>
                       )}
                     </div>
+                    {listing.price && (
+                      <p className="text-earth text-sm font-semibold mt-3">
+                        {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(listing.price)}
+                      </p>
+                    )}
                   </div>
                 </Link>
               ))}
@@ -258,7 +268,7 @@ export default async function HomePage() {
       </section>
 
       {/* ── 5. MORE THAN LAND ────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-white">
+      <section className="py-16 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
@@ -274,14 +284,14 @@ export default async function HomePage() {
           {/* Core specialty */}
           <p className="text-sunset text-[11px] tracking-[0.2em] uppercase font-semibold mb-4">Our Core Specialty</p>
           <div className="grid sm:grid-cols-2 gap-6 mb-10">
-            <div className="bg-offwhite border-2 border-sunset/30 p-10 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
-              <MapPin className="w-7 h-7 text-sunset mb-5" />
-              <h3 className="font-serif text-2xl text-shadow mb-3">Ranches &amp; Farmland</h3>
+            <div className="bg-offwhite border-2 border-sunset/30 p-8 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
+              <MapPin className="w-6 h-6 text-sunset mb-4" />
+              <h3 className="font-serif text-xl text-shadow mb-2">Ranches &amp; Farmland</h3>
               <p className="text-shadow/65 text-sm leading-relaxed">Working ranches, crop land, and pasture acreage across North Texas. Land auctions are what we do best — and what we&apos;ve built our reputation on.</p>
             </div>
-            <div className="bg-offwhite border-2 border-sunset/30 p-10 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
-              <Building2 className="w-7 h-7 text-sunset mb-5" />
-              <h3 className="font-serif text-2xl text-shadow mb-3">Development Land</h3>
+            <div className="bg-offwhite border-2 border-sunset/30 p-8 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
+              <Building2 className="w-6 h-6 text-sunset mb-4" />
+              <h3 className="font-serif text-xl text-shadow mb-2">Development Land</h3>
               <p className="text-shadow/65 text-sm leading-relaxed">Raw tracts and entitled land primed for residential or commercial growth. Competitive bidding finds the true ceiling for high-potential acreage.</p>
             </div>
           </div>
@@ -305,9 +315,9 @@ export default async function HomePage() {
       </section>
 
       {/* ── 6. SELLER VALUE ──────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-shadow">
+      <section className="py-16 px-6 bg-shadow">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
               Why Auction
             </p>
@@ -315,7 +325,7 @@ export default async function HomePage() {
               Three Reasons Sellers Choose Auction.
             </h2>
           </div>
-          <div className="grid sm:grid-cols-3 gap-8 mb-12">
+          <div className="grid sm:grid-cols-3 gap-6 mb-10">
             {sellerBenefits.map(({ icon: Icon, title, body }) => (
               <div key={title} className="border border-offwhite/10 p-8 hover:border-sunset/30 transition-colors">
                 <Icon className="w-7 h-7 text-sunset mb-5" />
@@ -329,7 +339,7 @@ export default async function HomePage() {
               href="/sell"
               className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
             >
-              See How the Auction Process Works
+              Learn About Selling
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -337,57 +347,57 @@ export default async function HomePage() {
       </section>
 
       {/* ── 7. ABOUT CRAIG ───────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-offwhite">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
-            About Craig
-          </p>
-          <h2 className="font-serif text-display-lg text-shadow mb-6">
-            World Champion Auctioneer.
-          </h2>
-          <p className="text-shadow/70 text-base leading-relaxed mb-4">
-            Craig Meier is a born and bred Texan from Ennis — Texas State Auctioneer Champion
-            (2003) and World Champion Auctioneer (2007). With 25+ years and 450+ auctions
-            conducted annually, he brings unmatched expertise to every land transaction in
-            North Texas.
-          </p>
-          <p className="text-shadow/55 text-sm leading-relaxed max-w-xl mx-auto mb-10">
-            As Co-Owner of America&apos;s Auction Academy, Craig doesn&apos;t just practice
-            excellence — he teaches it.
-          </p>
-          <Link
-            href="/about"
-            className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors"
-          >
-            Read Craig&apos;s Full Story
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+      <section className="py-16 px-6 bg-offwhite">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative aspect-[4/5] overflow-hidden bg-sand/20">
+              <Image
+                src="https://placehold.co/800x1000/4B3A2A/F6F3EC?text=Craig+Meier"
+                alt="Craig Meier — World Champion Auctioneer"
+                fill
+                className="object-cover"
+                unoptimized
+              />
+            </div>
+            <div>
+              <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+                About Craig
+              </p>
+              <h2 className="font-serif text-display-lg text-shadow mb-6">
+                World Champion Auctioneer.
+              </h2>
+              <div className="grid grid-cols-2 gap-px bg-sand/30 mb-8">
+                {credentials.map(({ value, label }) => (
+                  <div key={label} className="bg-offwhite px-5 py-5 text-center">
+                    <p className="font-serif text-3xl text-earth mb-1">{value}</p>
+                    <p className="text-shadow/55 text-[10px] tracking-[0.1em] uppercase leading-snug">{label}</p>
+                  </div>
+                ))}
+              </div>
+              <p className="text-shadow/70 text-sm leading-relaxed mb-6">
+                Born and bred Texan from Ennis — Texas State Champion (2003), World Champion
+                Auctioneer (2007). With 25+ years and 450+ auctions annually, Craig brings
+                unmatched expertise to every land transaction in North Texas.
+              </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors"
+              >
+                Read Craig&apos;s Full Story
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── 8. AUCTION ALERT SIGNUP ──────────────────────────────────────── */}
-      <section className="py-20 px-6 bg-earth text-center">
-        <div className="max-w-2xl mx-auto">
-          <p className="text-sand text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
-            Stay in the Loop
-          </p>
-          <h2 className="font-serif text-display-lg text-offwhite mb-4">
-            Never Miss an Auction.
-          </h2>
-          <p className="text-offwhite/60 text-base leading-relaxed mb-10">
-            Get notified when new properties hit the auction block.
-          </p>
-          <AuctionAlertForm />
-        </div>
-      </section>
-
-      {/* ── 9. FINAL CTA ─────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-[#201E3D] text-center">
+      {/* ── 8. FINAL CTA ─────────────────────────────────────────────────── */}
+      <section className="py-20 px-6 bg-[#201E3D] text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
             Get Started
           </p>
-          <h2 className="font-serif text-display-lg text-offwhite mb-6">
+          <h2 className="font-serif text-display-lg text-offwhite mb-5">
             Ready to Sell Your Land?
           </h2>
           <p className="text-offwhite/60 text-base leading-relaxed mb-10">
@@ -395,17 +405,17 @@ export default async function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/sell"
+              href="/contact"
               className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
             >
-              Sell Your Property
+              Schedule Consultation
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/find-a-property"
+              href="/sell"
               className="inline-flex items-center justify-center gap-2 border border-offwhite/40 text-offwhite text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-offwhite/10 transition-colors duration-200"
             >
-              Browse Auctions
+              Sell Your Property
             </Link>
           </div>
         </div>
