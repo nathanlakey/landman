@@ -7,6 +7,7 @@ import { Menu, X } from 'lucide-react'
 
 const navLinks = [
   { href: '/why-auction', label: 'Why Auction' },
+  { href: '/quiz', label: 'Is Auction Right for Me?' },
   { href: '/our-process', label: 'Our Process' },
   { href: '/find-a-property', label: 'Find a Property' },
   { href: '/about', label: 'About' },

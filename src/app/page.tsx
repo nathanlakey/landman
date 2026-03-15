@@ -142,6 +142,13 @@ export default function HomePage() {
                 Find Auctions
               </Link>
             </div>
+            <Link
+              href="/quiz"
+              className="inline-flex items-center gap-1.5 text-sand/70 text-sm hover:text-sand transition-colors mt-2"
+            >
+              Not sure? Take the quiz
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </section>
