@@ -20,7 +20,7 @@ const auctionAdvantages = [
   {
     icon: Users,
     title: 'Broader Buyer Pool',
-    body: 'Craig\'s bilingual reach and established network attracts qualified buyers from across Texas and beyond — buyers a local broker never reaches.',
+    body: 'Craig\'s statewide network and targeted marketing attracts qualified buyers from across Texas and beyond — buyers a local broker never reaches.',
   },
   {
     icon: Shield,
@@ -66,38 +66,7 @@ const credentials = [
   { value: '450+', label: 'Auctions Conducted Annually' },
 ]
 
-const categories = [
-  {
-    icon: MapPin,
-    title: 'Ranches & Farmland',
-    desc: 'Working ranches, crop land, and pasture acreage across North Texas.',
-  },
-  {
-    icon: Building2,
-    title: 'Development Land',
-    desc: 'Raw tracts and entitled land primed for residential or commercial growth.',
-  },
-  {
-    icon: Home,
-    title: 'Residential Property',
-    desc: 'Single-family homes, rural homesteads, and hobby farms.',
-  },
-  {
-    icon: Wrench,
-    title: 'Farm Equipment & Machinery',
-    desc: 'Tractors, implements, irrigation systems, and operational assets.',
-  },
-  {
-    icon: Briefcase,
-    title: 'Commercial Assets',
-    desc: 'Business liquidations, commercial real estate, and industrial properties.',
-  },
-  {
-    icon: Package,
-    title: 'Estate & Liquidation Auctions',
-    desc: 'Complete estate settlements handled with care, speed, and maximum return.',
-  },
-]
+
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -119,9 +88,12 @@ export default function HomePage() {
             <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-6">
               Land Auction Specialist
             </p>
-            <h1 className="font-serif text-display-xl text-offwhite mb-7 leading-[1.05]">
+            <h1 className="font-serif text-display-xl text-offwhite mb-5 leading-[1.05]">
               Your Land Deserves More Than a Listing.
             </h1>
+            <p className="text-sunset text-xl font-light tracking-wide mb-7">
+              Specialists in Land Auctions and High-Value Assets
+            </p>
             <p className="text-sand text-lg leading-relaxed mb-10 max-w-xl">
               Craig Meier is a World Champion Auctioneer with 25+ years of experience
               delivering maximum value for his clients. The auction process isn&apos;t just
@@ -183,12 +155,39 @@ export default function HomePage() {
               Specialists in Land Auctions and High-Value Assets
             </p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-white border border-sand/40 p-8 hover:border-sunset/40 hover:shadow-sm transition-all duration-200">
-                <Icon className="w-6 h-6 text-sunset mb-4" />
-                <h3 className="font-serif text-lg text-shadow mb-2">{title}</h3>
-                <p className="text-shadow/60 text-sm leading-relaxed">{desc}</p>
+
+          {/* Core specialty — land first, visually dominant */}
+          <div className="mb-3">
+            <p className="text-sunset text-[11px] tracking-[0.2em] uppercase font-semibold mb-4">Our Core Specialty</p>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-6 mb-4">
+            <div className="bg-white border-2 border-sunset/30 p-10 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
+              <MapPin className="w-7 h-7 text-sunset mb-5" />
+              <h3 className="font-serif text-2xl text-shadow mb-3">Ranches &amp; Farmland</h3>
+              <p className="text-shadow/65 text-sm leading-relaxed">Working ranches, crop land, and pasture acreage across North Texas. Land auctions are what we do best — and what we&apos;ve built our reputation on.</p>
+            </div>
+            <div className="bg-white border-2 border-sunset/30 p-10 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
+              <Building2 className="w-7 h-7 text-sunset mb-5" />
+              <h3 className="font-serif text-2xl text-shadow mb-3">Development Land</h3>
+              <p className="text-shadow/65 text-sm leading-relaxed">Raw tracts and entitled land primed for residential or commercial growth. Competitive bidding finds the true ceiling for high-potential acreage.</p>
+            </div>
+          </div>
+
+          {/* Adjacent asset classes — smaller, secondary */}
+          <div className="mt-10 mb-3">
+            <p className="text-shadow/40 text-[11px] tracking-[0.2em] uppercase font-semibold mb-4">Adjacent Asset Classes</p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { icon: Home, title: 'Residential Property', desc: 'Single-family homes, rural homesteads, and hobby farms.' },
+              { icon: Wrench, title: 'Farm Equipment & Machinery', desc: 'Tractors, implements, irrigation systems, and operational assets.' },
+              { icon: Briefcase, title: 'Commercial Assets', desc: 'Business liquidations, commercial real estate, and industrial properties.' },
+              { icon: Package, title: 'Estate & Liquidation Auctions', desc: 'Complete estate settlements handled with care, speed, and maximum return.' },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div key={title} className="bg-white border border-sand/40 p-6 hover:border-shadow/20 transition-all duration-200">
+                <Icon className="w-5 h-5 text-shadow/40 mb-3" />
+                <h3 className="font-serif text-base text-shadow mb-2">{title}</h3>
+                <p className="text-shadow/55 text-xs leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -424,10 +423,9 @@ export default function HomePage() {
                 Auctioneer and World Champion Auction Team.
               </p>
               <p className="text-shadow/70 text-base leading-relaxed mb-8">
-                With over 450 auctions annually and bilingual fluency in English and Spanish,
-                Craig&apos;s reach extends far beyond what any traditional broker can offer.
-                As Co-Owner of America&apos;s Auction Academy, he doesn&apos;t just practice
-                excellence — he teaches it.
+                With over 450 land auctions and asset sales annually, Craig&apos;s reach extends
+                far beyond what any traditional broker can offer. As Co-Owner of America&apos;s
+                Auction Academy, he doesn&apos;t just practice excellence — he teaches it.
               </p>
               <Link
                 href="/about"

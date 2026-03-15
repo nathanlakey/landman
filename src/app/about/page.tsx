@@ -5,8 +5,8 @@ import ConsultationCTA from '@/components/ConsultationCTA'
 import { ArrowRight, Award, Globe, BookOpen } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'About Craig Meier',
-  description: 'World Champion Auctioneer Craig Meier brings 25+ years of Texas land auction experience, 450+ auctions annually, and bilingual expertise to every property transaction.',
+  title: 'About Craig Meier | North Texas Land Auctions',
+  description: 'Craig Meier is a World Champion Auctioneer and North Texas land auction specialist with 25+ years of experience. When land needs to sell, Craig delivers results.',
 }
 
 const credentials = [
@@ -52,8 +52,9 @@ export default function AboutPage() {
             When the Land Matters, the Auctioneer Matters.
           </h1>
           <p className="text-sand text-lg leading-relaxed max-w-2xl">
-            Craig Meier is one of Texas&apos;s most accomplished land and auction professionals.
-            His credentials are unmatched. His commitment to his clients is unconditional.
+            Craig Meier is North Texas&apos;s leading land auction specialist — and one of the
+            most decorated auctioneers in the world. His credentials are unmatched.
+            His commitment to his clients is unconditional.
           </p>
         </div>
       </section>
@@ -105,10 +106,11 @@ export default function AboutPage() {
 
               <div className="space-y-5 text-shadow/70 text-base leading-relaxed">
                 <p>
-                  Craig Meier is one of Texas&apos;s most accomplished land and auction
-                  professionals, bringing over 25 years of experience to every transaction.
-                  A born and bred Texan from Ennis, Craig has built a reputation on results,
-                  integrity, and an unmatched command of the auction floor.
+                  Craig Meier is North Texas&apos;s most accomplished land auction specialist,
+                  bringing over 25 years of experience to farm, ranch, and development land
+                  transactions across the region. A born and bred Texan from Ennis, Craig has
+                  built a reputation on results, integrity, and an unmatched command of the
+                  auction floor.
                 </p>
                 <p>
                   In 2003, Craig claimed the Texas State Auctioneer Championship — and in 2007,
@@ -118,11 +120,11 @@ export default function AboutPage() {
                   brings to every sale.
                 </p>
                 <p>
-                  With over 450 auctions conducted annually spanning farm and ranch, real estate,
-                  industrial, and personal property, Craig has facilitated more transactions
-                  across more asset classes than nearly any auctioneer in Texas. His bilingual
-                  fluency in English and Spanish gives his clients a distinct advantage, opening
-                  their properties to a broader pool of qualified buyers across Texas and beyond.
+                  With over 450 land auctions and asset sales conducted annually — spanning
+                  farm and ranch, development tracts, residential, and commercial property —
+                  Craig has facilitated more transactions across more asset classes than nearly
+                  any land auctioneer in Texas. His reach extends far beyond what any
+                  traditional broker can offer.
                 </p>
                 <p>
                   As Co-Owner of America&apos;s Auction Academy — one of the most respected

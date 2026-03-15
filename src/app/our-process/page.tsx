@@ -4,8 +4,8 @@ import ConsultationCTA from '@/components/ConsultationCTA'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Our Auction Process',
-  description: 'Craig Meier\'s 4-step land auction process — from first consultation to closing day. Understand exactly what to expect, how long it takes, and what we do to maximize your outcome.',
+  title: 'Our Land Auction Process | North Texas Land Auctions',
+  description: 'Craig Meier\'s 4-step land auction process — from first consultation to closing day. Understand exactly what to expect when selling your land, farm, or ranch at auction.',
 }
 
 const steps = [
@@ -28,13 +28,12 @@ const steps = [
     title: 'Strategy, Marketing & Preparation',
     duration: 'Weeks 2–6',
     description:
-      'Once you decide to move forward, we build the campaign. This is where Craig\'s reach separates him from anyone else in the market. We develop targeted marketing to reach qualified buyers — in English and Spanish — across digital platforms, direct mail, and Craig\'s established buyer database.',
+      'Once you decide to move forward, we build the campaign. This is where Craig\'s reach separates him from anyone else in the market. We develop targeted marketing to reach qualified land buyers across digital platforms, direct mail, and Craig\'s established statewide buyer database.',
     details: [
       'Professional photography and aerial imagery (drone)',
       'Detailed property description and legal package preparation',
       'Targeted digital and print advertising campaign',
       'Direct buyer outreach via Craig\'s statewide network',
-      'Bilingual Spanish-language marketing where applicable',
       'Property information package distributed to all registered bidders',
       'On-site signage and public notice (as required)',
     ],
@@ -90,8 +89,9 @@ export default function OurProcessPage() {
             Four Steps. Complete Clarity.
           </h1>
           <p className="text-sand text-lg leading-relaxed max-w-2xl mx-auto">
-            Craig&apos;s process is built to keep you informed and in control at every stage —
-            from first conversation through final closing. No surprises. No waiting in the dark.
+            Craig&apos;s land auction process is built to keep you informed and in control
+            at every stage — from first conversation through final closing.
+            No surprises. No waiting in the dark.
           </p>
         </div>
       </section>

@@ -4,8 +4,8 @@ import ConsultationCTA from '@/components/ConsultationCTA'
 import { ArrowRight, CheckCircle, XCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Why Auction Your Land',
-  description: 'Discover why the auction process consistently outperforms traditional brokerage when selling Texas land. Learn how competitive bidding, controlled timelines, and broader exposure put more money in sellers\' hands.',
+  title: 'Why Auction Your Land | North Texas Land Auctions',
+  description: 'Discover why land auction consistently outperforms traditional brokerage in North Texas. Competitive bidding, controlled timelines, and broader exposure put more money in sellers\' hands.',
 }
 
 const comparisonRows = [
@@ -56,7 +56,7 @@ const objections = [
   {
     objection: '"What if no one shows up to bid?"',
     answer:
-      'Craig\'s pre-auction marketing is robust and targeted. We don\'t open the doors and hope. Every auction includes a disciplined buyer outreach campaign — direct mail, digital marketing, Craig\'s buyer database, and bilingual Spanish-language outreach — to ensure qualified bidders are in the room.',
+      'Craig\'s pre-auction marketing is robust and targeted. We don\'t open the doors and hope. Every land auction includes a disciplined buyer outreach campaign — direct mail, digital marketing, and Craig\'s statewide buyer database — to ensure qualified bidders are in the room.',
   },
   {
     objection: '"I\'ve heard auctions are only for distressed properties."',
@@ -83,7 +83,8 @@ export default function WhyAuctionPage() {
             Why Auction Outperforms Traditional Land Sales.
           </h1>
           <p className="text-sand text-lg leading-relaxed max-w-2xl mx-auto">
-            The math, the psychology, and the market all point the same direction.
+            For land — farms, ranches, development tracts, and acreage — the math,
+            the psychology, and the market all point the same direction.
             Competitive bidding was designed to find the ceiling of value —
             not negotiate down from it.
           </p>
