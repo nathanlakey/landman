@@ -159,10 +159,10 @@ export default function SellPage() {
               Common Misconceptions
             </p>
             <h2 className="font-serif text-display-lg text-shadow mb-4">
-              Let&apos;s Address the Elephant in the Room.
+              Understanding the Auction Advantage
             </h2>
             <p className="text-shadow/60 text-base max-w-xl mx-auto">
-              Most sellers have heard the same myths about auctions. Here&apos;s the truth.
+              Many landowners have questions about selling at auction. Here&apos;s how the process actually works.
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-6">
