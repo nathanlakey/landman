@@ -1,6 +1,6 @@
-import { SignIn } from '@clerk/nextjs'
+import { SignUp } from '@clerk/nextjs'
 
-export default function AdminSignInPage() {
+export default function AdminSignUpPage() {
   return (
     <div className="min-h-screen bg-shadow flex flex-col items-center justify-center px-4">
       <div className="mb-8 text-center">
@@ -12,9 +12,9 @@ export default function AdminSignInPage() {
         />
         <p className="text-offwhite/40 text-xs tracking-widest uppercase">Admin Access</p>
       </div>
-      <SignIn
+      <SignUp
         forceRedirectUrl="/admin"
-        signUpUrl="/admin/sign-up"
+        signInUrl="/admin/sign-in"
         appearance={{
           variables: {
             colorBackground: '#2a2848',

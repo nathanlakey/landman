@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 import { ADMIN_EMAILS } from '@/lib/admin'
 
 const isAdminRoute = createRouteMatcher(['/admin(.*)'])
-const isAdminSignIn = createRouteMatcher(['/admin/sign-in'])
+const isAdminSignIn = createRouteMatcher(['/admin/sign-in', '/admin/sign-up'])
 
 export default clerkMiddleware(async (auth, req) => {
   // The sign-in page itself must remain publicly accessible
