@@ -25,7 +25,7 @@ const statusColors: Record<string, string> = {
 
 export default async function AdminListingsPage() {
   const { userId } = await auth()
-  if (!userId) redirect('/sign-in')
+  if (!userId) redirect('/admin/sign-in')
 
   const listings = await getListings()
 

@@ -13,7 +13,7 @@ async function getInquiries() {
 
 export default async function AdminInquiriesPage() {
   const { userId } = await auth()
-  if (!userId) redirect('/sign-in')
+  if (!userId) redirect('/admin/sign-in')
 
   const inquiries = await getInquiries()
 

@@ -5,7 +5,7 @@ import ListingForm from '../ListingForm'
 
 export default async function NewListingPage() {
   const { userId } = await auth()
-  if (!userId) redirect('/sign-in')
+  if (!userId) redirect('/admin/sign-in')
 
   return (
     <AdminLayout>

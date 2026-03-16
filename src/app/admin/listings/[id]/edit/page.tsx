@@ -11,7 +11,7 @@ async function getListing(id: string) {
 
 export default async function EditListingPage({ params }: { params: { id: string } }) {
   const { userId } = await auth()
-  if (!userId) redirect('/sign-in')
+  if (!userId) redirect('/admin/sign-in')
 
   const listing = await getListing(params.id)
   if (!listing) notFound()

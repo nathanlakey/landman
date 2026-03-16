@@ -40,7 +40,7 @@ async function getRecentInquiries() {
 
 export default async function AdminDashboard() {
   const { userId } = await auth()
-  if (!userId) redirect('/sign-in')
+  if (!userId) redirect('/admin/sign-in')
 
   const [stats, recentInquiries] = await Promise.all([getDashboardStats(), getRecentInquiries()])
 
