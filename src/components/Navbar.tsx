@@ -37,8 +37,8 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Desktop nav — xl and above only */}
-          <div className="hidden xl:flex items-center gap-5">
+          {/* Desktop nav — lg and above */}
+          <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -54,15 +54,15 @@ export default function Navbar() {
             ))}
             <Link
               href="/contact"
-              className="ml-2 bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-4 py-2.5 hover:bg-[#e08600] transition-all duration-200"
+              className="bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
             >
               Schedule Consultation
             </Link>
           </div>
 
-          {/* Hamburger — visible on mobile and tablet */}
+          {/* Hamburger — visible below lg */}
           <button
-            className="xl:hidden text-[#FF9500] transition-colors"
+            className="lg:hidden text-[#FF9500] transition-colors"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle menu"
           >
@@ -73,7 +73,7 @@ export default function Navbar() {
 
       {/* Mobile + tablet menu */}
       {isMobileOpen && (
-        <div className="xl:hidden bg-[#F6F3EC] border-t border-[#201E3D]/10">
+        <div className="lg:hidden bg-[#F6F3EC] border-t border-[#201E3D]/10">
           <div className="px-6 py-6 flex flex-col gap-5">
             {navLinks.map((link) => (
               <Link
