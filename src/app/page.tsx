@@ -274,7 +274,51 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. FINAL CTA ─────────────────────────────────────────────────── */}
+      {/* ── 5. HOW THE AUCTION PROCESS WORKS ────────────────────────────── */}
+      <section className="py-16 px-6 bg-offwhite">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              The Process
+            </p>
+            <h2 className="font-serif text-display-lg text-shadow">
+              How the Auction Process Works.
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                step: '01',
+                title: 'Property Evaluation',
+                body: 'We review the property and determine the right auction strategy to maximize your outcome.',
+              },
+              {
+                step: '02',
+                title: 'Marketing Campaign',
+                body: 'Targeted marketing to qualified buyers — statewide reach, proven results.',
+              },
+              {
+                step: '03',
+                title: 'Auction Day',
+                body: 'Competitive bidding determines the true market value in a transparent, live setting.',
+              },
+              {
+                step: '04',
+                title: 'Closing',
+                body: 'We manage contracts and guide every step of the sale through to a clean close.',
+              },
+            ].map(({ step, title, body }) => (
+              <div key={step} className="bg-white border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-sm transition-all duration-200">
+                <p className="font-serif text-5xl text-sunset/25 mb-5 leading-none">{step}</p>
+                <h3 className="font-serif text-lg text-shadow mb-3">{title}</h3>
+                <p className="text-shadow/60 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 6. FINAL CTA ─────────────────────────────────────────────────── */}
       <section className="py-20 px-6 bg-[#201E3D] text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
