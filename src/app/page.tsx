@@ -118,7 +118,24 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 2. WHY SELLERS TRUST AUCTIONS ────────────────────────────────── */}
+      {/* ── 2. CREDIBILITY STRIP ─────────────────────────────────────────── */}
+      <section className="py-5 px-6 bg-offwhite border-b border-sand/40">
+        <div className="max-w-5xl mx-auto text-center">
+          <p className="text-shadow/50 text-[11px] tracking-[0.18em] uppercase mb-3">
+            Trusted by landowners, developers, and investors across North Texas
+          </p>
+          <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
+            {['Farm Auctions', 'Commercial Liquidations', 'Estate Auctions', 'Development Land Sales'].map((item, i, arr) => (
+              <span key={item} className="flex items-center gap-8">
+                <span className="text-shadow/70 text-[12px] tracking-[0.1em] uppercase font-medium">{item}</span>
+                {i < arr.length - 1 && <span className="hidden sm:inline text-sand/60 select-none">&middot;</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. WHY SELLERS TRUST AUCTIONS ────────────────────────────────── */}
       <section className="py-16 px-6 bg-[#201E3D]">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -141,7 +158,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 3. ACTIVE LAND AUCTIONS ──────────────────────────────────────── */}
+      {/* ── 4. ACTIVE LAND AUCTIONS ──────────────────────────────────────── */}
       <section className="py-16 px-6 bg-offwhite">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
@@ -227,7 +244,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 4. MORE THAN LAND ────────────────────────────────────────────── */}
+      {/* ── 5. MORE THAN LAND ──────────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -274,7 +291,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. HOW THE AUCTION PROCESS WORKS ────────────────────────────── */}
+      {/* ── 6. HOW THE AUCTION PROCESS WORKS ────────────────────────────── */}
       <section className="py-16 px-6 bg-offwhite">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -318,7 +335,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 6. SELLER EDUCATION ──────────────────────────────────────────── */}
+      {/* ── 7. SELLER EDUCATION ──────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-shadow">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
@@ -355,7 +372,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. FINAL CTA ─────────────────────────────────────────────────── */}
+      {/* ── 8. FINAL CTA ─────────────────────────────────────────────────── */}
       <section className="py-20 px-6 bg-[#201E3D] text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
