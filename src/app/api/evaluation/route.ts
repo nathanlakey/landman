@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     }
 
     await resend.emails.send({
-      from: 'Landman Website <noreply@landman.com>',
+      from: 'Landman Auctions <onboarding@resend.dev>',
       to: adminEmail,
       subject: `New Property Evaluation Request from ${name}${propertyType ? ` — ${propertyType}` : ''}`,
       html: `

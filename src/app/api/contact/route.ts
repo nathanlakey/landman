@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
     // Email the admin
     await resend.emails.send({
-      from: 'Landman Website <noreply@landman.com>',
+      from: 'Landman Auctions <onboarding@resend.dev>',
       to: process.env.ADMIN_EMAIL!,
       subject: `New Consultation Request from ${name}${propertyType ? ` — ${propertyType}` : ''}`,
       html: `

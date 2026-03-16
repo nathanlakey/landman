@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
     // Send email via Resend
     await resend.emails.send({
-      from: 'Landman <noreply@landman.com>',
+      from: 'Landman Auctions <onboarding@resend.dev>',
       to: toEmail,
       subject: `New Inquiry: ${listingTitle}`,
       html: `
