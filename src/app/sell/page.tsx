@@ -199,14 +199,12 @@ export default function SellPage() {
               Why Smart Sellers Choose Auction.
             </h2>
           </div>
-          <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {benefits.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-sm transition-all duration-200">
-                <div className="flex-shrink-0 w-10 h-10 border border-sunset/30 flex items-center justify-center mb-5">
-                  <Icon className="w-5 h-5 text-sunset" />
-                </div>
-                <h3 className="font-serif text-lg text-shadow mb-2">{title}</h3>
-                <p className="text-shadow/60 text-sm leading-relaxed">{desc}</p>
+              <div key={title} className="border border-offwhite/15 p-10 hover:border-sunset/40 hover:-translate-y-0.5 hover:shadow-lg transition-all duration-200">
+                <Icon className="w-7 h-7 text-sunset mb-6" />
+                <h3 className="font-serif text-lg text-offwhite mb-3">{title}</h3>
+                <p className="text-offwhite/60 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
