@@ -318,7 +318,44 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 6. FINAL CTA ─────────────────────────────────────────────────── */}
+      {/* ── 6. SELLER EDUCATION ──────────────────────────────────────────── */}
+      <section className="py-16 px-6 bg-shadow">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              Seller Education
+            </p>
+            <h2 className="font-serif text-display-lg text-offwhite mb-5">
+              Why Auction Works.
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-3 gap-6 mb-10">
+            <div className="border border-offwhite/10 p-7 hover:border-sunset/30 transition-colors duration-200">
+              <p className="font-serif text-lg text-offwhite mb-2">Sellers set the terms.</p>
+              <p className="text-offwhite/55 text-sm leading-relaxed">You choose the date. Buyers compete on your timeline — not theirs.</p>
+            </div>
+            <div className="border border-offwhite/10 p-7 hover:border-sunset/30 transition-colors duration-200">
+              <p className="font-serif text-lg text-offwhite mb-2">Open bidding, real prices.</p>
+              <p className="text-offwhite/55 text-sm leading-relaxed">No guessing. No lowballs. The market decides — transparently, in real time.</p>
+            </div>
+            <div className="border border-offwhite/10 p-7 hover:border-sunset/30 transition-colors duration-200">
+              <p className="font-serif text-lg text-offwhite mb-2">A defined path to closing.</p>
+              <p className="text-offwhite/55 text-sm leading-relaxed">From evaluation to closing day, the process is clear and managed end to end.</p>
+            </div>
+          </div>
+          <div className="text-center">
+            <Link
+              href="/sell"
+              className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
+            >
+              Learn About Selling
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. FINAL CTA ─────────────────────────────────────────────────── */}
       <section className="py-20 px-6 bg-[#201E3D] text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
