@@ -6,20 +6,22 @@ import { MessageSquare, ListTree, TrendingUp } from 'lucide-react'
 
 async function getDashboardStats() {
   try {
-    const [inquiriesRes, inquiriesThisMonth] = await Promise.all([
+    const [inquiriesRes, inquiriesThisMonth, listingsRes] = await Promise.all([
       supabaseAdmin.from('inquiries').select('id', { count: 'exact' }),
       supabaseAdmin
         .from('inquiries')
         .select('id', { count: 'exact' })
         .gte('created_at', new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
+      supabaseAdmin.from('listings').select('id', { count: 'exact' }).eq('status', 'active'),
     ])
 
     return {
       totalInquiries: inquiriesRes.count || 0,
       inquiriesThisMonth: inquiriesThisMonth.count || 0,
+      activeListings: listingsRes.count || 0,
     }
   } catch {
-    return { totalInquiries: 0, inquiriesThisMonth: 0 }
+    return { totalInquiries: 0, inquiriesThisMonth: 0, activeListings: 0 }
   }
 }
 
@@ -53,9 +55,9 @@ export default async function AdminDashboard() {
         {/* Stat cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
           {[
-            { label: 'Total Inquiries', value: stats.totalInquiries, icon: MessageSquare, accent: 'text-sunset' },
+                      { label: 'Total Inquiries', value: stats.totalInquiries, icon: MessageSquare, accent: 'text-sunset' },
             { label: 'This Month', value: stats.inquiriesThisMonth, icon: TrendingUp, accent: 'text-sage' },
-            { label: 'Listings (Phase 2)', value: '—', icon: ListTree, accent: 'text-sand' },
+            { label: 'Active Listings', value: stats.activeListings, icon: ListTree, accent: 'text-sand' },
           ].map(({ label, value, icon: Icon, accent }) => (
             <div key={label} className="p-6 bg-shadow/60 border border-offwhite/10">
               <Icon className={`w-5 h-5 ${accent} mb-3`} />
@@ -63,12 +65,6 @@ export default async function AdminDashboard() {
               <p className="text-offwhite/40 text-xs uppercase tracking-wider">{label}</p>
             </div>
           ))}
-        </div>
-
-        {/* Phase 2 Notice */}
-        <div className="bg-sunset/10 border border-sunset/20 p-4 mb-8 text-sm text-offwhite/70">
-          <strong className="text-sunset">Listings (Phase 2)</strong> — The listings table is provisioned in Supabase
-          but not yet activated publicly. The /admin/listings page is available below for setup.
         </div>
 
         {/* Recent inquiries */}

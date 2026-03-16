@@ -28,6 +28,7 @@ export interface Listing {
   status: ListingStatus
   images: string[]
   auction_date: string | null
+  published: boolean
   agent_id: string | null
   agent?: Agent
   created_at: string

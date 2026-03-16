@@ -13,7 +13,7 @@ import {
 const adminLinks: { href: string; label: string; icon: React.ElementType; exact?: boolean }[] = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/inquiries', label: 'Inquiries', icon: MessageSquare },
-  { href: '/admin/listings', label: 'Listings (Phase 2)', icon: ListTree },
+  { href: '/admin/listings', label: 'Listings', icon: ListTree },
   { href: '/admin/listings/new', label: 'New Listing', icon: PlusCircle },
 ]
 
