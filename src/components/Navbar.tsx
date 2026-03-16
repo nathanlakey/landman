@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
+import { useUser } from '@clerk/nextjs'
+import { ADMIN_EMAILS } from '@/lib/admin'
 
 const navLinks = [
   { href: '/find-a-property', label: 'Find Auctions' },
@@ -15,6 +17,10 @@ const navLinks = [
 export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false)
   const pathname = usePathname()
+  const { user } = useUser()
+
+  const userEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase() ?? ''
+  const isAdmin = !!userEmail && ADMIN_EMAILS.map((e) => e.toLowerCase()).includes(userEmail)
 
   useEffect(() => {
     setIsMobileOpen(false)
@@ -52,6 +58,18 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={`text-[12px] tracking-[0.08em] uppercase font-medium transition-colors duration-200 ${
+                  pathname.startsWith('/admin')
+                    ? 'text-[#FF9500]'
+                    : 'text-[#201E3D]/50 hover:text-[#FF9500]'
+                }`}
+              >
+                Admin
+              </Link>
+            )}
             <Link
               href="/contact"
               className="bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
@@ -86,6 +104,16 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={`text-sm tracking-[0.1em] uppercase font-medium transition-colors ${
+                  pathname.startsWith('/admin') ? 'text-[#FF9500]' : 'text-[#201E3D]/50 hover:text-[#FF9500]'
+                }`}
+              >
+                Admin
+              </Link>
+            )}
             <Link
               href="/contact"
               className="bg-[#FF9500] text-white text-sm tracking-widest uppercase font-medium px-5 py-3 text-center hover:bg-[#e08600] transition-all duration-200"
