@@ -148,10 +148,10 @@ export default async function HomePage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {proofPoints.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="border border-offwhite/10 p-8 hover:border-sunset/30 transition-colors duration-200">
+              <div key={title} className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-sm transition-all duration-200">
                 <Icon className="w-6 h-6 text-sunset mb-4" />
-                <h3 className="font-serif text-lg text-offwhite mb-3 leading-snug">{title}</h3>
-                <p className="text-offwhite/55 text-sm leading-relaxed">{body}</p>
+                <h3 className="font-serif text-lg text-shadow mb-3 leading-snug">{title}</h3>
+                <p className="text-shadow/60 text-sm leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
