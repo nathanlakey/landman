@@ -31,10 +31,10 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 bg-[#F6F3EC] shadow-md"
     >
       <nav className="max-w-5xl mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center h-20">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
+          {/* Logo — pinned left */}
+          <Link href="/" className="flex items-center shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/landman-logo-wide.svg"
@@ -43,8 +43,8 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Desktop nav — lg and above */}
-          <div className="hidden lg:flex items-center gap-8 ml-12">
+          {/* Nav links — centered in remaining space */}
+          <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -70,17 +70,19 @@ export default function Navbar() {
                 Admin
               </Link>
             )}
-            <Link
-              href="/contact"
-              className="bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
-            >
-              Schedule Consultation
-            </Link>
           </div>
+
+          {/* CTA — pinned right */}
+          <Link
+            href="/contact"
+            className="hidden lg:block shrink-0 bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
+          >
+            Schedule Consultation
+          </Link>
 
           {/* Hamburger — visible below lg */}
           <button
-            className="lg:hidden text-[#FF9500] transition-colors"
+            className="lg:hidden ml-auto text-[#FF9500] transition-colors"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle menu"
           >
