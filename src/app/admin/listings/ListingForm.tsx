@@ -186,25 +186,15 @@ export default function ListingForm({ listing }: ListingFormProps) {
         await fetch(`/api/admin/documents/${docId}`, { method: 'DELETE' })
       }
 
-      // Upload and save new documents
+      // Upload and save new documents (single combined call)
       for (let i = 0; i < pendingDocs.length; i++) {
         const doc = pendingDocs[i]
         const fd = new FormData()
         fd.append('file', doc.file)
-        const upRes = await fetch('/api/admin/documents/upload', { method: 'POST', body: fd })
-        if (!upRes.ok) continue
-        const { url: fileUrl, size } = await upRes.json()
-        await fetch('/api/admin/documents', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            listing_id: listingId,
-            label: doc.label || doc.file.name.replace(/\.pdf$/i, ''),
-            file_url: fileUrl,
-            file_size: size,
-            sort_order: i,
-          }),
-        })
+        fd.append('listing_id', listingId)
+        fd.append('label', doc.label || doc.file.name.replace(/\.pdf$/i, ''))
+        fd.append('sort_order', String(i))
+        await fetch('/api/admin/documents/upload', { method: 'POST', body: fd })
       }
 
       router.push('/admin/listings')
