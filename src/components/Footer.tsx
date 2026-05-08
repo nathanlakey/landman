@@ -130,7 +130,7 @@ export default function Footer() {
             className="text-[11px] text-offwhite/30 hover:text-offwhite/60 transition-opacity no-underline"
             style={{ textDecoration: 'none' }}
           >
-            ·
+            Admin
           </Link>
         </div>
       </div>
