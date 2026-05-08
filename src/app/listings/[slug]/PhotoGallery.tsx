@@ -1,16 +1,45 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
-import { ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react'
+import { ZoomIn } from 'lucide-react'
 
 interface Props {
   images: string[]
   title: string
 }
 
+const BTN_BASE: React.CSSProperties = {
+  position: 'fixed',
+  zIndex: 10001,
+  width: '44px',
+  height: '44px',
+  borderRadius: '50%',
+  background: 'rgba(0,0,0,0.7)',
+  color: 'white',
+  fontSize: '22px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  cursor: 'pointer',
+  border: '2px solid rgba(255,255,255,0.3)',
+  userSelect: 'none' as const,
+}
+
+const NAV_BTN: React.CSSProperties = {
+  ...BTN_BASE,
+  width: '48px',
+  height: '48px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+}
+
 export default function PhotoGallery({ images, title }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   const close = useCallback(() => setLightboxIndex(null), [])
 
@@ -41,6 +70,146 @@ export default function PhotoGallery({ images, title }: Props) {
 
   if (images.length === 0) return null
 
+  const lightboxPortal =
+    mounted && lightboxIndex !== null
+      ? createPortal(
+          <div
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 9999,
+              backgroundColor: 'rgba(0,0,0,0.92)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onClick={close}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Photo lightbox"
+          >
+            {/* ── CLOSE ── */}
+            <button
+              onClick={(e) => { e.stopPropagation(); close() }}
+              aria-label="Close lightbox"
+              style={{ ...BTN_BASE, top: '16px', right: '16px' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#D4A843' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.7)' }}
+            >
+              ✕
+            </button>
+
+            {/* ── PREV ── */}
+            {images.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); prev() }}
+                aria-label="Previous photo"
+                style={{ ...NAV_BTN, left: '16px' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#D4A843' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.7)' }}
+              >
+                ‹
+              </button>
+            )}
+
+            {/* ── NEXT ── */}
+            {images.length > 1 && (
+              <button
+                onClick={(e) => { e.stopPropagation(); next() }}
+                aria-label="Next photo"
+                style={{ ...NAV_BTN, right: '16px' }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = '#D4A843' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.7)' }}
+              >
+                ›
+              </button>
+            )}
+
+            {/* ── MAIN IMAGE ── */}
+            <div
+              style={{ position: 'relative', flexShrink: 0, width: '90vw', height: '78vh' }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={images[lightboxIndex]}
+                alt={`${title} photo ${lightboxIndex + 1}`}
+                fill
+                className="object-contain"
+                sizes="90vw"
+                priority
+                style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06), 0 8px 40px rgba(0,0,0,0.7)' }}
+              />
+            </div>
+
+            {/* ── COUNTER ── */}
+            <div
+              style={{
+                marginTop: '16px',
+                color: 'rgba(255,255,255,0.5)',
+                fontSize: '12px',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                userSelect: 'none',
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {lightboxIndex + 1} / {images.length}
+            </div>
+
+            {/* ── THUMBNAIL STRIP ── */}
+            {images.length > 1 && (
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '8px',
+                  marginTop: '12px',
+                  overflowX: 'auto',
+                  maxWidth: '90vw',
+                  paddingBottom: '16px',
+                  paddingLeft: '4px',
+                  paddingRight: '4px',
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {images.map((src, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setLightboxIndex(i)}
+                    aria-label={`Go to photo ${i + 1}`}
+                    style={{
+                      position: 'relative',
+                      flexShrink: 0,
+                      width: '56px',
+                      height: '40px',
+                      overflow: 'hidden',
+                      outline: i === lightboxIndex ? '2px solid #D4A843' : 'none',
+                      opacity: i === lightboxIndex ? 1 : 0.35,
+                      transition: 'opacity 0.2s',
+                      cursor: 'pointer',
+                      border: 'none',
+                      padding: 0,
+                      background: 'none',
+                    }}
+                    onMouseEnter={(e) => { if (i !== lightboxIndex) e.currentTarget.style.opacity = '0.7' }}
+                    onMouseLeave={(e) => { if (i !== lightboxIndex) e.currentTarget.style.opacity = '0.35' }}
+                  >
+                    <Image
+                      src={src}
+                      alt={`Thumbnail ${i + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="56px"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>,
+          document.body
+        )
+      : null
+
   return (
     <>
       {/* ── THUMBNAIL GRID ── */}
@@ -66,103 +235,7 @@ export default function PhotoGallery({ images, title }: Props) {
         ))}
       </div>
 
-      {/* ── LIGHTBOX ── */}
-      {lightboxIndex !== null && (
-        <div
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
-          style={{ backgroundColor: 'rgba(0,0,0,0.92)' }}
-          onClick={close}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Photo lightbox"
-        >
-          {/* Close — fixed top-right */}
-          <button
-            onClick={(e) => { e.stopPropagation(); close() }}
-            aria-label="Close lightbox"
-            style={{ fontSize: '20px' }}
-            className="fixed top-4 right-4 z-[10000] w-11 h-11 rounded-full bg-black/60 flex items-center justify-center text-white hover:bg-[#D4A843] transition-colors"
-          >
-            ✕
-          </button>
-
-          {/* Prev arrow */}
-          {images.length > 1 && (
-            <button
-              onClick={(e) => { e.stopPropagation(); prev() }}
-              aria-label="Previous photo"
-              className="fixed left-4 top-1/2 -translate-y-1/2 z-[10000] w-12 h-12 rounded-full bg-black/60 flex items-center justify-center text-white hover:text-[#D4A843] transition-colors"
-            >
-              <ChevronLeft className="w-7 h-7" />
-            </button>
-          )}
-
-          {/* Next arrow */}
-          {images.length > 1 && (
-            <button
-              onClick={(e) => { e.stopPropagation(); next() }}
-              aria-label="Next photo"
-              className="fixed right-4 top-1/2 -translate-y-1/2 z-[10000] w-12 h-12 rounded-full bg-black/60 flex items-center justify-center text-white hover:text-[#D4A843] transition-colors"
-            >
-              <ChevronRight className="w-7 h-7" />
-            </button>
-          )}
-
-          {/* Main image */}
-          <div
-            className="relative flex-shrink-0"
-            style={{ width: '90vw', height: '78vh' }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <Image
-              src={images[lightboxIndex]}
-              alt={`${title} photo ${lightboxIndex + 1}`}
-              fill
-              className="object-contain"
-              sizes="90vw"
-              priority
-              style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.06), 0 8px 40px rgba(0,0,0,0.7)' }}
-            />
-          </div>
-
-          {/* Counter */}
-          <div
-            className="mt-4 text-white/50 text-xs tracking-widest uppercase select-none"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {lightboxIndex + 1} / {images.length}
-          </div>
-
-          {/* Thumbnail strip */}
-          {images.length > 1 && (
-            <div
-              className="flex gap-2 mt-3 overflow-x-auto max-w-[90vw] pb-4 px-1"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {images.map((src, i) => (
-                <button
-                  key={i}
-                  onClick={() => setLightboxIndex(i)}
-                  aria-label={`Go to photo ${i + 1}`}
-                  className={`relative shrink-0 w-14 h-10 overflow-hidden transition-all duration-200 focus:outline-none ${
-                    i === lightboxIndex
-                      ? 'ring-2 ring-[#D4A843] opacity-100'
-                      : 'opacity-35 hover:opacity-70'
-                  }`}
-                >
-                  <Image
-                    src={src}
-                    alt={`Thumbnail ${i + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="56px"
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+      {lightboxPortal}
     </>
   )
 }
