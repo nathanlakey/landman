@@ -292,6 +292,7 @@ export default function FindPropertyClient({
       let query = supabase
         .from('listings')
         .select('*', { count: 'exact' })
+        .eq('published', true)
 
       if (f.priceMin) query = query.gte('price', Number(f.priceMin))
       if (f.priceMax) query = query.lte('price', Number(f.priceMax))

@@ -8,6 +8,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
   try {
     const body = await req.json()
+    if (body.images) console.log(`[listings PATCH] images array (${body.images?.length ?? 0}):`, body.images)
     const { data, error } = await supabaseAdmin
       .from('listings')
       .update(body)

@@ -67,7 +67,12 @@ export default function ListingForm({ listing }: ListingFormProps) {
     meta_description: listing?.meta_description || listing?.short_description || '',
   })
 
-  const [imageFiles, setImageFiles] = useState<File[]>([])
+  // Existing images (already saved) — user can remove them
+  const [existingImages, setExistingImages] = useState<string[]>(listing?.images || [])
+  // New images selected but not yet uploaded
+  type PendingImage = { file: File; preview: string; tempId: string }
+  const [pendingImages, setPendingImages] = useState<PendingImage[]>([])
+
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -77,6 +82,7 @@ export default function ListingForm({ listing }: ListingFormProps) {
   const [pendingDocs, setPendingDocs] = useState<PendingDoc[]>([])
   const [existingDocs, setExistingDocs] = useState<ExistingDoc[]>([])
   const [docsToDelete, setDocsToDelete] = useState<string[]>([])
+  const [existingDocEdits, setExistingDocEdits] = useState<Record<string, string>>({})
   const [docsLoading, setDocsLoading] = useState(false)
 
   useEffect(() => {
@@ -96,6 +102,11 @@ export default function ListingForm({ listing }: ListingFormProps) {
     const defaultLabel = file.name.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')
     setPendingDocs((prev) => [...prev, { file, label: defaultLabel, tempId }])
     e.target.value = ''
+  }
+
+  const updateExistingDocLabel = (id: string, label: string) => {
+    setExistingDocEdits((prev) => ({ ...prev, [id]: label }))
+    setExistingDocs((prev) => prev.map((d) => d.id === id ? { ...d, label } : d))
   }
 
   const updatePendingDocLabel = (tempId: string, label: string) =>
@@ -135,14 +146,47 @@ export default function ListingForm({ listing }: ListingFormProps) {
     })
   }
 
+  const handleImageFilesSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    if (!files.length) return
+    const newPending: PendingImage[] = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+      tempId: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+    }))
+    setPendingImages((prev) => [...prev, ...newPending])
+    e.target.value = ''
+  }
+
+  const removePendingImage = (tempId: string) => {
+    setPendingImages((prev) => {
+      const removed = prev.find((p) => p.tempId === tempId)
+      if (removed) URL.revokeObjectURL(removed.preview)
+      return prev.filter((p) => p.tempId !== tempId)
+    })
+  }
+
+  const removeExistingImage = (url: string) => {
+    setExistingImages((prev) => prev.filter((u) => u !== url))
+  }
+
   const uploadImages = async (): Promise<string[]> => {
-    if (imageFiles.length === 0) return listing?.images || []
-    const formData = new FormData()
-    imageFiles.forEach((f) => formData.append('files', f))
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
-    if (!res.ok) throw new Error('Image upload failed')
-    const { urls } = await res.json()
-    return [...(listing?.images || []), ...urls]
+    if (pendingImages.length === 0) return existingImages
+    const uploadedUrls: string[] = []
+    for (const pending of pendingImages) {
+      const formData = new FormData()
+      formData.append('files', pending.file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(`Image upload failed for "${pending.file.name}": ${err?.error ?? res.status}`)
+      }
+      const { urls } = await res.json()
+      if (Array.isArray(urls) && urls.length > 0) {
+        uploadedUrls.push(urls[0])
+      }
+    }
+    return [...existingImages, ...uploadedUrls]
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -184,6 +228,17 @@ export default function ListingForm({ listing }: ListingFormProps) {
       // Delete removed documents
       for (const docId of docsToDelete) {
         await fetch(`/api/admin/documents/${docId}`, { method: 'DELETE' })
+      }
+
+      // Patch renamed existing documents
+      for (const [docId, newLabel] of Object.entries(existingDocEdits)) {
+        if (!docsToDelete.includes(docId)) {
+          await fetch(`/api/admin/documents/${docId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ label: newLabel }),
+          })
+        }
       }
 
       // Upload and save new documents (single combined call)
@@ -510,24 +565,58 @@ export default function ListingForm({ listing }: ListingFormProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
           <div className="sm:col-span-2">
-            <label className={labelCls}>Upload Images</label>
-            <label className="flex items-center gap-3 border border-dashed border-offwhite/20 p-6 cursor-pointer hover:border-offwhite/40 transition-colors">
+            <label className={labelCls}>Images</label>
+
+            {/* Existing saved images */}
+            {existingImages.length > 0 && (
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-3">
+                {existingImages.map((url) => (
+                  <div key={url} className="relative group aspect-[4/3] overflow-hidden bg-offwhite/10">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removeExistingImage(url)}
+                      className="absolute top-1 right-1 w-5 h-5 bg-black/70 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
+                      aria-label="Remove image"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Pending new images */}
+            {pendingImages.length > 0 && (
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mb-3">
+                {pendingImages.map((p) => (
+                  <div key={p.tempId} className="relative group aspect-[4/3] overflow-hidden bg-offwhite/10 border border-sunset/30">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={p.preview} alt="" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => removePendingImage(p.tempId)}
+                      className="absolute top-1 right-1 w-5 h-5 bg-black/70 text-white text-xs flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500"
+                      aria-label="Remove image"
+                    >
+                      ✕
+                    </button>
+                    <div className="absolute bottom-0 left-0 right-0 bg-sunset/80 text-[9px] text-white text-center py-0.5 tracking-wide uppercase">New</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Upload trigger */}
+            <label className="flex items-center gap-3 border border-dashed border-offwhite/20 p-5 cursor-pointer hover:border-offwhite/40 transition-colors">
               <Upload className="w-5 h-5 text-offwhite/40 shrink-0" />
-              <span className="text-offwhite/45 text-sm">
-                {imageFiles.length > 0
-                  ? `${imageFiles.length} file(s) selected`
-                  : 'Click to select images'}
-              </span>
+              <span className="text-offwhite/45 text-sm">Click to add images (select multiple at once or click again to add more)</span>
               <input
                 type="file" accept="image/*" multiple className="hidden"
-                onChange={(e) => setImageFiles(Array.from(e.target.files || []))}
+                onChange={handleImageFilesSelected}
               />
             </label>
-            {listing?.images && listing.images.length > 0 && (
-              <p className="text-offwhite/35 text-xs mt-2">
-                {listing.images.length} existing image(s) — new uploads will be appended.
-              </p>
-            )}
           </div>
 
           <div className="sm:col-span-2">
@@ -578,7 +667,13 @@ export default function ListingForm({ listing }: ListingFormProps) {
                 className="flex items-center gap-3 border border-offwhite/15 px-4 py-3 bg-offwhite/[0.03]"
               >
                 <FileText className="w-4 h-4 text-sunset/60 shrink-0" />
-                <span className="text-offwhite/70 text-sm flex-1 truncate">{doc.label}</span>
+                <input
+                  type="text"
+                  value={doc.label}
+                  onChange={(e) => updateExistingDocLabel(doc.id, e.target.value)}
+                  placeholder="Document label"
+                  className={`${inputCls} flex-1 py-1.5`}
+                />
                 {doc.file_size && (
                   <span className="text-offwhite/30 text-xs shrink-0">{doc.file_size}</span>
                 )}

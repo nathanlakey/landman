@@ -8,6 +8,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
+    console.log(`[listings POST] images array (${body.images?.length ?? 0}):`, body.images)
 
     const { data, error } = await supabaseAdmin
       .from('listings')

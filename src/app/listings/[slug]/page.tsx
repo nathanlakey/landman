@@ -94,7 +94,7 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
   }
 
   const heroImage = listing.images?.[0]
-  const galleryImages = listing.images?.slice(1) ?? []
+  const galleryImages = listing.images ?? []
 
   // Build location string
   const locationParts = [
@@ -437,27 +437,24 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
 
             {/* Supporting Documents */}
             {docs.length > 0 && (
-              <div className="border border-offwhite/10 overflow-hidden">
-                <div className="bg-offwhite/[0.06] border-b border-offwhite/10 px-5 py-3 flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-sunset/70 shrink-0" />
-                  <h3 className="font-serif text-lg text-offwhite">Supporting Documents</h3>
+              <div className="overflow-hidden border border-offwhite/15">
+                <div className="bg-offwhite/[0.08] px-5 py-4">
+                  <h3 className="font-serif text-xl text-offwhite">Supporting Documents</h3>
                 </div>
-                <div className="divide-y divide-offwhite/[0.07]">
+                <div className="h-[3px] bg-gradient-to-r from-sunset via-sunset/50 to-transparent" />
+                <div className="divide-y divide-offwhite/10">
                   {docs.map((doc) => (
                     <a
                       key={doc.id}
                       href={doc.file_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 px-5 py-3.5 bg-offwhite/[0.02] hover:bg-offwhite/[0.06] transition-colors group"
+                      className="flex items-center justify-between px-5 py-4 bg-offwhite/[0.02] hover:bg-offwhite/[0.07] transition-colors group"
                     >
-                      <span className="flex-1 text-offwhite/75 text-sm group-hover:text-offwhite transition-colors leading-snug">
+                      <span className="text-offwhite/80 text-sm group-hover:text-offwhite transition-colors leading-snug">
                         {doc.label}
                       </span>
-                      {doc.file_size && (
-                        <span className="text-offwhite/30 text-xs shrink-0">{doc.file_size}</span>
-                      )}
-                      <Download className="w-4 h-4 text-sunset/50 group-hover:text-sunset shrink-0 transition-colors" />
+                      <Download className="w-4 h-4 text-sunset/55 group-hover:text-sunset shrink-0 transition-colors ml-4" />
                     </a>
                   ))}
                 </div>

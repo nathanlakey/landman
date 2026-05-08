@@ -16,10 +16,12 @@ async function getInitialData(): Promise<{ listings: Listing[]; counties: string
       supabaseAdmin
         .from('listings')
         .select('*')
+        .eq('published', true)
         .order('created_at', { ascending: false }),
       supabaseAdmin
         .from('listings')
         .select('location_county')
+        .eq('published', true)
         .not('location_county', 'is', null),
     ])
 
