@@ -1,13 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useClerk } from '@clerk/nextjs'
 import {
   LayoutDashboard,
   ListTree,
   MessageSquare,
   PlusCircle,
   ChevronRight,
+  LogOut,
 } from 'lucide-react'
 
 const adminLinks: { href: string; label: string; icon: React.ElementType; exact?: boolean }[] = [
@@ -19,6 +21,8 @@ const adminLinks: { href: string; label: string; icon: React.ElementType; exact?
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { signOut } = useClerk()
 
   return (
     <div className="min-h-screen flex pt-20 bg-shadow">
@@ -51,13 +55,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             )
           })}
         </nav>
-        <div className="p-4 border-t border-offwhite/10">
+        <div className="p-4 border-t border-offwhite/10 space-y-2">
           <Link
             href="/"
             className="text-offwhite/30 text-xs hover:text-offwhite/70 transition-colors"
           >
             ← Back to Website
           </Link>
+          <button
+            onClick={() => signOut(() => router.push('/'))}
+            className="flex items-center gap-2 w-full px-3 py-2 text-sm text-offwhite/50 hover:text-sunset hover:bg-sunset/10 border border-offwhite/10 hover:border-sunset/30 transition-colors mt-2"
+          >
+            <LogOut className="w-4 h-4 flex-shrink-0" />
+            Sign Out
+          </button>
         </div>
       </aside>
 
