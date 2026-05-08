@@ -188,3 +188,53 @@ CREATE POLICY "Anyone can insert auction_alerts" ON auction_alerts
 -- =============================================
 -- Run this in Supabase Dashboard > Storage:
 -- Create a bucket named "listing-images" with public access
+
+-- =============================================
+-- LISTING DOCUMENTS
+-- Supporting PDFs attached to a listing
+-- =============================================
+/*
+  ╔═══════════════════════════════════════════════════════════╗
+  ║  RUN THE FOLLOWING IN THE SUPABASE SQL EDITOR             ║
+  ╠═══════════════════════════════════════════════════════════╣
+  ║  Also create a Storage bucket:                            ║
+  ║  Dashboard → Storage → New Bucket                        ║
+  ║  Name: listing-documents   │   Public: ✓                 ║
+  ╚═══════════════════════════════════════════════════════════╝
+
+  CREATE TABLE IF NOT EXISTS listing_documents (
+    id           uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+    listing_id   uuid        NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+    label        text        NOT NULL,
+    file_url     text        NOT NULL,
+    file_size    text,
+    sort_order   integer     DEFAULT 0,
+    created_at   timestamptz DEFAULT now()
+  );
+
+  CREATE INDEX IF NOT EXISTS listing_documents_listing_id_idx
+    ON listing_documents(listing_id, sort_order);
+
+  ALTER TABLE listing_documents ENABLE ROW LEVEL SECURITY;
+
+  CREATE POLICY "Anyone can view listing documents"
+    ON listing_documents FOR SELECT USING (true);
+*/
+
+CREATE TABLE IF NOT EXISTS listing_documents (
+  id           uuid        PRIMARY KEY DEFAULT gen_random_uuid(),
+  listing_id   uuid        NOT NULL REFERENCES listings(id) ON DELETE CASCADE,
+  label        text        NOT NULL,
+  file_url     text        NOT NULL,
+  file_size    text,
+  sort_order   integer     DEFAULT 0,
+  created_at   timestamptz DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS listing_documents_listing_id_idx
+  ON listing_documents(listing_id, sort_order);
+
+ALTER TABLE listing_documents ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Anyone can view listing documents"
+  ON listing_documents FOR SELECT USING (true);

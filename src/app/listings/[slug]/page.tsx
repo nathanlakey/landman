@@ -14,6 +14,7 @@ import {
   Bath,
   BedDouble,
   SquareStack,
+  Download,
 } from 'lucide-react'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import type { Listing } from '@/types'
@@ -49,6 +50,16 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
   if (!data) notFound()
 
   const listing = data as Listing
+
+  // Fetch supporting documents
+  const { data: documents } = await supabaseAdmin
+    .from('listing_documents')
+    .select('id, label, file_url, file_size')
+    .eq('listing_id', listing.id)
+    .order('sort_order')
+    .order('created_at')
+
+  const docs = (documents ?? []) as { id: string; label: string; file_url: string; file_size?: string }[]
 
   const formattedPrice = listing.price
     ? new Intl.NumberFormat('en-US', {
@@ -421,6 +432,35 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
                     Virtual 360° Tour
                   </a>
                 )}
+              </div>
+            )}
+
+            {/* Supporting Documents */}
+            {docs.length > 0 && (
+              <div className="border border-offwhite/10 overflow-hidden">
+                <div className="bg-offwhite/[0.06] border-b border-offwhite/10 px-5 py-3 flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-sunset/70 shrink-0" />
+                  <h3 className="font-serif text-lg text-offwhite">Supporting Documents</h3>
+                </div>
+                <div className="divide-y divide-offwhite/[0.07]">
+                  {docs.map((doc) => (
+                    <a
+                      key={doc.id}
+                      href={doc.file_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 px-5 py-3.5 bg-offwhite/[0.02] hover:bg-offwhite/[0.06] transition-colors group"
+                    >
+                      <span className="flex-1 text-offwhite/75 text-sm group-hover:text-offwhite transition-colors leading-snug">
+                        {doc.label}
+                      </span>
+                      {doc.file_size && (
+                        <span className="text-offwhite/30 text-xs shrink-0">{doc.file_size}</span>
+                      )}
+                      <Download className="w-4 h-4 text-sunset/50 group-hover:text-sunset shrink-0 transition-colors" />
+                    </a>
+                  ))}
+                </div>
               </div>
             )}
 

@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Upload } from 'lucide-react'
+import { Upload, FileText } from 'lucide-react'
 import type { Listing } from '@/types'
 
 interface ListingFormProps {
@@ -70,6 +70,44 @@ export default function ListingForm({ listing }: ListingFormProps) {
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'loading' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+
+  // Supporting documents state
+  type PendingDoc = { file: File; label: string; tempId: string }
+  type ExistingDoc = { id: string; label: string; file_url: string; file_size?: string }
+  const [pendingDocs, setPendingDocs] = useState<PendingDoc[]>([])
+  const [existingDocs, setExistingDocs] = useState<ExistingDoc[]>([])
+  const [docsToDelete, setDocsToDelete] = useState<string[]>([])
+  const [docsLoading, setDocsLoading] = useState(false)
+
+  useEffect(() => {
+    if (!isEdit || !listing?.id) return
+    setDocsLoading(true)
+    fetch(`/api/admin/documents?listing_id=${listing.id}`)
+      .then((r) => r.json())
+      .then((docs) => { if (Array.isArray(docs)) setExistingDocs(docs) })
+      .catch(console.error)
+      .finally(() => setDocsLoading(false))
+  }, [isEdit, listing?.id])
+
+  const handleDocFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const tempId = `${Date.now()}-${Math.random()}`
+    const defaultLabel = file.name.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')
+    setPendingDocs((prev) => [...prev, { file, label: defaultLabel, tempId }])
+    e.target.value = ''
+  }
+
+  const updatePendingDocLabel = (tempId: string, label: string) =>
+    setPendingDocs((prev) => prev.map((d) => (d.tempId === tempId ? { ...d, label } : d)))
+
+  const removePendingDoc = (tempId: string) =>
+    setPendingDocs((prev) => prev.filter((d) => d.tempId !== tempId))
+
+  const removeExistingDoc = (id: string) => {
+    setExistingDocs((prev) => prev.filter((d) => d.id !== id))
+    setDocsToDelete((prev) => [...prev, id])
+  }
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -139,6 +177,34 @@ export default function ListingForm({ listing }: ListingFormProps) {
       if (!res.ok) {
         const data = await res.json()
         throw new Error(data.error || 'Failed to save listing')
+      }
+      const savedListing = await res.json()
+      const listingId: string = savedListing.id || listing?.id || ''
+
+      // Delete removed documents
+      for (const docId of docsToDelete) {
+        await fetch(`/api/admin/documents/${docId}`, { method: 'DELETE' })
+      }
+
+      // Upload and save new documents
+      for (let i = 0; i < pendingDocs.length; i++) {
+        const doc = pendingDocs[i]
+        const fd = new FormData()
+        fd.append('file', doc.file)
+        const upRes = await fetch('/api/admin/documents/upload', { method: 'POST', body: fd })
+        if (!upRes.ok) continue
+        const { url: fileUrl, size } = await upRes.json()
+        await fetch('/api/admin/documents', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            listing_id: listingId,
+            label: doc.label || doc.file.name.replace(/\.pdf$/i, ''),
+            file_url: fileUrl,
+            file_size: size,
+            sort_order: i,
+          }),
+        })
       }
 
       router.push('/admin/listings')
@@ -502,6 +568,86 @@ export default function ListingForm({ listing }: ListingFormProps) {
           </div>
 
         </div>
+      </section>
+
+      {/* ── SUPPORTING DOCUMENTS ── */}
+      <section className={sectionCls}>
+        <p className={sectionHeadingCls}>Supporting Documents</p>
+        <p className={hintCls}>Upload PDF files visitors can download from the listing page (e.g. property brochure, terms &amp; conditions).</p>
+
+        {docsLoading && (
+          <p className="text-offwhite/35 text-xs mb-4">Loading documents…</p>
+        )}
+
+        {/* Existing saved documents */}
+        {existingDocs.length > 0 && (
+          <div className="space-y-2 mb-5">
+            {existingDocs.map((doc) => (
+              <div
+                key={doc.id}
+                className="flex items-center gap-3 border border-offwhite/15 px-4 py-3 bg-offwhite/[0.03]"
+              >
+                <FileText className="w-4 h-4 text-sunset/60 shrink-0" />
+                <span className="text-offwhite/70 text-sm flex-1 truncate">{doc.label}</span>
+                {doc.file_size && (
+                  <span className="text-offwhite/30 text-xs shrink-0">{doc.file_size}</span>
+                )}
+                <button
+                  type="button"
+                  onClick={() => removeExistingDoc(doc.id)}
+                  aria-label="Remove document"
+                  className="text-offwhite/30 hover:text-red-400 transition-colors text-base leading-none ml-1"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Pending new documents */}
+        {pendingDocs.length > 0 && (
+          <div className="space-y-2 mb-5">
+            {pendingDocs.map((doc) => (
+              <div
+                key={doc.tempId}
+                className="flex items-center gap-3 border border-sunset/25 px-4 py-3 bg-sunset/[0.04]"
+              >
+                <FileText className="w-4 h-4 text-sunset/60 shrink-0" />
+                <input
+                  type="text"
+                  value={doc.label}
+                  onChange={(e) => updatePendingDocLabel(doc.tempId, e.target.value)}
+                  placeholder="Document label (e.g. Property Brochure)"
+                  className={`${inputCls} flex-1 py-1.5`}
+                />
+                <span className="text-offwhite/30 text-xs shrink-0 max-w-[120px] truncate">
+                  {doc.file.name}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removePendingDoc(doc.tempId)}
+                  aria-label="Remove document"
+                  className="text-offwhite/30 hover:text-red-400 transition-colors text-base leading-none ml-1"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Upload trigger */}
+        <label className="flex items-center gap-3 border border-dashed border-offwhite/20 p-5 cursor-pointer hover:border-offwhite/40 transition-colors">
+          <Upload className="w-5 h-5 text-offwhite/40 shrink-0" />
+          <span className="text-offwhite/45 text-sm">Click to add a PDF document</span>
+          <input
+            type="file"
+            accept=".pdf,application/pdf"
+            className="hidden"
+            onChange={handleDocFileSelect}
+          />
+        </label>
       </section>
 
       {/* ── SEO ── */}
