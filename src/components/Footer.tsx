@@ -125,6 +125,13 @@ export default function Footer() {
               TDLR Info
             </a>
           </p>
+          <Link
+            href="/admin"
+            className="text-[11px] text-offwhite/30 hover:text-offwhite/60 transition-opacity no-underline"
+            style={{ textDecoration: 'none' }}
+          >
+            ·
+          </Link>
         </div>
       </div>
     </footer>
