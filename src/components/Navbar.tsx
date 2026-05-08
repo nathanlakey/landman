@@ -1,0 +1,132 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Menu, X } from 'lucide-react'
+import { useUser } from '@clerk/nextjs'
+import { ADMIN_EMAILS } from '@/lib/admin'
+
+const navLinks = [
+  { href: '/find-a-property', label: 'Find Auctions' },
+  { href: '/sell', label: 'Sell Your Property' },
+  { href: '/why-auction', label: 'Why Auction' },
+  { href: '/about', label: 'About' },
+]
+
+export default function Navbar() {
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const pathname = usePathname()
+  const { user } = useUser()
+
+  const userEmail = user?.primaryEmailAddress?.emailAddress?.toLowerCase() ?? ''
+  const isAdmin = !!userEmail && ADMIN_EMAILS.map((e) => e.toLowerCase()).includes(userEmail)
+
+  useEffect(() => {
+    setIsMobileOpen(false)
+  }, [pathname])
+
+  return (
+    <header
+      className="fixed top-0 left-0 right-0 z-50 bg-[#F6F3EC] shadow-md"
+    >
+      <nav className="max-w-5xl mx-auto px-6 lg:px-10">
+        <div className="flex items-center h-20">
+
+          {/* Logo — pinned left */}
+          <Link href="/" className="flex items-center shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/landman-logo-wide.svg"
+              alt="Landman Auctions"
+              style={{ height: '44px', width: 'auto', maxWidth: '150px' }}
+            />
+          </Link>
+
+          {/* Nav links — centered in remaining space */}
+          <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-[12px] tracking-[0.08em] uppercase font-medium transition-colors duration-200 ${
+                  pathname.startsWith(link.href)
+                    ? 'text-[#201E3D]'
+                    : 'text-[#201E3D]/70 hover:text-[#201E3D]'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={`text-[12px] tracking-[0.08em] uppercase font-medium transition-colors duration-200 ${
+                  pathname.startsWith('/admin')
+                    ? 'text-[#FF9500]'
+                    : 'text-[#201E3D]/50 hover:text-[#FF9500]'
+                }`}
+              >
+                Admin
+              </Link>
+            )}
+          </div>
+
+          {/* CTA — pinned right */}
+          <Link
+            href="/contact"
+            className="hidden lg:block shrink-0 bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
+          >
+            Schedule Consultation
+          </Link>
+
+          {/* Hamburger — visible below lg */}
+          <button
+            className="lg:hidden ml-auto text-[#FF9500] transition-colors"
+            onClick={() => setIsMobileOpen(!isMobileOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile + tablet menu */}
+      {isMobileOpen && (
+        <div className="lg:hidden bg-[#F6F3EC] border-t border-[#201E3D]/10">
+          <div className="px-6 py-6 flex flex-col gap-5">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm tracking-[0.1em] uppercase font-medium transition-colors ${
+                  pathname.startsWith(link.href) ? 'text-[#201E3D]' : 'text-[#201E3D]/70 hover:text-[#201E3D]'
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={`text-sm tracking-[0.1em] uppercase font-medium transition-colors ${
+                  pathname.startsWith('/admin') ? 'text-[#FF9500]' : 'text-[#201E3D]/50 hover:text-[#FF9500]'
+                }`}
+              >
+                Admin
+              </Link>
+            )}
+            <Link
+              href="/contact"
+              className="bg-[#FF9500] text-white text-sm tracking-widest uppercase font-medium px-5 py-3 text-center hover:bg-[#e08600] transition-all duration-200"
+            >
+              Schedule Consultation
+            </Link>
+          </div>
+        </div>
+      )}
+    </header>
+  )
+}
+
+
