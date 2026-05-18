@@ -4,6 +4,8 @@ import { ArrowRight, TrendingUp, BarChart2, Ban, Clock, MapPin, Building2, Home,
 import { supabaseAdmin } from '@/lib/supabase/server'
 import type { Listing } from '@/types'
 
+export const revalidate = 0
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const proofPoints = [
@@ -214,7 +216,7 @@ export default async function HomePage() {
                       {listing.acreage && (
                         <span>{listing.acreage.toLocaleString()} acres</span>
                       )}
-                      {listing.auction_date && (
+                      {listing.auction_date && !isNaN(new Date(listing.auction_date).getTime()) && (
                         <span className="text-sunset font-medium">
                           Auction: {new Date(listing.auction_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                         </span>
