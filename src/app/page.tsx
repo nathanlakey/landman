@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, TrendingUp, BarChart2, Ban, Clock, MapPin, Building2, Home, Wrench, Briefcase, Package } from 'lucide-react'
+import { ArrowRight, TrendingUp, BarChart2, Ban, Clock, MapPin } from 'lucide-react'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import type { Listing } from '@/types'
 
@@ -11,23 +11,23 @@ export const revalidate = 0
 const proofPoints = [
   {
     icon: TrendingUp,
-    title: 'Competitive Bidding Drives Higher Prices',
-    body: 'Multiple buyers compete openly — prices go up, not down. Auction captures the true ceiling of your land\'s value.',
+    title: 'Competitive Bidding Establishes True Market Value',
+    body: 'Multiple qualified buyers competing in the open is the most transparent way to reveal what a property is truly worth.',
   },
   {
     icon: Clock,
     title: 'Definitive Sale Date',
-    body: 'Set the auction date and close on that day. No months of uncertainty, showings, or renegotiation.',
+    body: 'You set the auction date up front, so there\'s no open-ended waiting, uncertainty, and negotiations. Properties sold through auction average 21 days on market, versus 90+ days for a traditional listing.',
   },
   {
     icon: BarChart2,
-    title: 'Transparent Market Value',
-    body: 'Open competitive bidding establishes real market value in real time — no guesswork, no under-pricing.',
+    title: 'Proactive Marketing Strategies',
+    body: 'The right marketing strategy doesn\'t just list your property, it actively seeks out every qualified buyer and brings them together to compete.',
   },
   {
     icon: Ban,
-    title: 'No Long MLS Limbo',
-    body: 'Skip the listing cycle entirely. Auction is a defined, active process — not passive waiting.',
+    title: 'Transparent Market Value',
+    body: 'The auction method lets open demand determine value, so the final price reflects exactly what the market says the property is worth.',
   },
 ]
 
@@ -69,23 +69,21 @@ export default async function HomePage() {
               Land Auction Specialist
             </p>
             <h1 className="font-serif text-display-xl text-offwhite mb-5 leading-[1.05]">
-              Your Land Deserves More Than a Listing.
+              Your Property Deserves More Than a Listing.
             </h1>
             <p className="text-sunset text-xl font-light tracking-wide mb-5">
-              Specialists in Land Auctions and High-Value Assets
+              Specialists in Real Estate Auctions
             </p>
             {/* Category capability list */}
             <div className="flex flex-wrap items-center gap-y-2 mb-10">
               {[
-                { label: 'Ranches & Farmland', primary: true },
-                { label: 'Development Land', primary: true },
-                { label: 'Residential Property', primary: false },
-                { label: 'Farm Equipment & Machinery', primary: false },
-                { label: 'Commercial Assets', primary: false },
-                { label: 'Estate & Liquidation Auctions', primary: false },
-              ].map(({ label, primary }, i, arr) => (
+                'Luxury Real Estate',
+                'Residential Property',
+                'Commercial and Development Land',
+                'Ranches & Farmland',
+              ].map((label, i, arr) => (
                 <span key={label} className="flex items-center">
-                  <span className={primary ? 'text-offwhite text-sm font-semibold tracking-wide' : 'text-sand/55 text-sm'}>
+                  <span className="text-offwhite text-sm tracking-wide">
                     {label}
                   </span>
                   {i < arr.length - 1 && (
@@ -123,53 +121,19 @@ export default async function HomePage() {
       {/* ── 2. CREDIBILITY STRIP ─────────────────────────────────────────── */}
       <section className="py-5 px-6 bg-offwhite border-b border-sand/40">
         <div className="max-w-5xl mx-auto text-center">
-          <p className="text-shadow/50 text-[11px] tracking-[0.18em] uppercase mb-3">
-            Trusted by landowners, developers, and investors across North Texas
+          <p className="text-shadow/60 text-[12px] tracking-[0.15em] uppercase font-medium">
+            Members of NAA and TAA
           </p>
-          <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-2">
-            {['Farm Auctions', 'Commercial Liquidations', 'Estate Auctions', 'Development Land Sales'].map((item, i, arr) => (
-              <span key={item} className="flex items-center gap-8">
-                <span className="text-shadow/70 text-[12px] tracking-[0.1em] uppercase font-medium">{item}</span>
-                {i < arr.length - 1 && <span className="hidden sm:inline text-sand/60 select-none">&middot;</span>}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 
-      {/* ── 3. WHY SELLERS TRUST AUCTIONS ────────────────────────────────── */}
-      <section className="py-16 px-6 bg-[#201E3D]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
-              The Auction Advantage
-            </p>
-            <h2 className="font-serif text-display-lg text-offwhite">
-              Why Sellers Trust Auctions.
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {proofPoints.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-sm transition-all duration-200">
-                <Icon className="w-6 h-6 text-sunset mb-4" />
-                <h3 className="font-serif text-lg text-shadow mb-3 leading-snug">{title}</h3>
-                <p className="text-shadow/60 text-sm leading-relaxed">{body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── 4. ACTIVE LAND AUCTIONS ──────────────────────────────────────── */}
+      {/* ── 3. ACTIVE AUCTIONS ──────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-offwhite">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
             <div>
-              <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-3">
-                Available Now
-              </p>
               <h2 className="font-serif text-display-lg text-shadow">
-                Active Land Auctions.
+                Active Auctions.
               </h2>
             </div>
             <Link
@@ -246,7 +210,30 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 5. MORE THAN LAND ──────────────────────────────────────────────── */}
+      {/* ── 4. WHY THE AUCTION METHOD ─────────────────────────────────────── */}
+      <section className="py-16 px-6 bg-[#201E3D]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
+              The Auction Advantage
+            </p>
+            <h2 className="font-serif text-display-lg text-offwhite">
+              Why the Auction Method.
+            </h2>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {proofPoints.map(({ icon: Icon, title, body }) => (
+              <div key={title} className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-sm transition-all duration-200">
+                <Icon className="w-6 h-6 text-sunset mb-4" />
+                <h3 className="font-serif text-lg text-shadow mb-3 leading-snug">{title}</h3>
+                <p className="text-shadow/60 text-sm leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5. OUR SPECIALTIES ───────────────────────────────────────────────── */}
       <section className="py-16 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -254,41 +241,35 @@ export default async function HomePage() {
               What We Auction
             </p>
             <h2 className="font-serif text-display-lg text-shadow mb-4">
-              More Than Land.
+              Our Specialties.
             </h2>
-            <p className="text-shadow/60 text-base max-w-xl mx-auto">
-              Specialists in Land Auctions and High-Value Assets
-            </p>
           </div>
-          {/* Core specialty */}
-          <p className="text-sunset text-[11px] tracking-[0.2em] uppercase font-semibold mb-4">Our Core Specialty</p>
           <div className="grid sm:grid-cols-2 gap-6 mb-10">
-            <div className="bg-offwhite border-2 border-sunset/30 p-8 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
-              <MapPin className="w-6 h-6 text-sunset mb-4" />
-              <h3 className="font-serif text-xl text-shadow mb-2">Ranches &amp; Farmland</h3>
-              <p className="text-shadow/65 text-sm leading-relaxed">Working ranches, crop land, and pasture acreage across North Texas. Land auctions are what we do best — and what we&apos;ve built our reputation on.</p>
+            <div className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-md transition-all duration-200">
+              <h3 className="font-serif text-xl text-shadow mb-3">Luxury Real Estate</h3>
+              <p className="text-shadow/65 text-sm leading-relaxed">It takes a special buyer to purchase a one-of-a-kind property. Our specialized marketing strategy and Broker Participation Program reach far beyond the local market to connect your property with the qualified buyers who recognize its true worth.</p>
             </div>
-            <div className="bg-offwhite border-2 border-sunset/30 p-8 hover:border-sunset/60 hover:shadow-md transition-all duration-200">
-              <Building2 className="w-6 h-6 text-sunset mb-4" />
-              <h3 className="font-serif text-xl text-shadow mb-2">Development Land</h3>
-              <p className="text-shadow/65 text-sm leading-relaxed">Raw tracts and entitled land primed for residential or commercial growth. Competitive bidding finds the true ceiling for high-potential acreage.</p>
+            <div className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-md transition-all duration-200">
+              <h3 className="font-serif text-xl text-shadow mb-3">Residential Property</h3>
+              <p className="text-shadow/65 text-sm leading-relaxed">Single-family homes and rural homesteads find their real value in an open, competitive market. Our auction method and Broker Participation Program bring motivated buyers together so the property sells for exactly what the market says it&apos;s worth.</p>
+            </div>
+            <div className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-md transition-all duration-200">
+              <h3 className="font-serif text-xl text-shadow mb-3">Ranches and Farmland</h3>
+              <p className="text-shadow/65 text-sm leading-relaxed">Working ranches and farmland are in high demand. We sell as a whole when that&apos;s the right call, but our multi-par auctions let us offer your property in smaller tracts, giving more buyers a real opportunity and letting the market establish honest value.</p>
+            </div>
+            <div className="bg-offwhite border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-md transition-all duration-200">
+              <h3 className="font-serif text-xl text-shadow mb-3">Commercial and Development Land</h3>
+              <p className="text-shadow/65 text-sm leading-relaxed">Investors and developers know opportunity when they see it. Our specialized marketing strategy puts your property in front of the right players, and multi-par auctions create a transparent process where the asset settles at its genuine market value.</p>
             </div>
           </div>
-          {/* Adjacent asset classes */}
-          <p className="text-shadow/40 text-[11px] tracking-[0.2em] uppercase font-semibold mb-4">Adjacent Asset Classes</p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { icon: Home, title: 'Residential Property', desc: 'Single-family homes, rural homesteads, and hobby farms.' },
-              { icon: Wrench, title: 'Farm Equipment & Machinery', desc: 'Tractors, implements, irrigation systems, and operational assets.' },
-              { icon: Briefcase, title: 'Commercial Assets', desc: 'Business liquidations, commercial real estate, and industrial properties.' },
-              { icon: Package, title: 'Estate & Liquidation Auctions', desc: 'Complete estate settlements handled with care, speed, and maximum return.' },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="bg-offwhite border border-sand/40 p-6 hover:border-shadow/20 transition-all duration-200">
-                <Icon className="w-5 h-5 text-shadow/40 mb-3" />
-                <h3 className="font-serif text-base text-shadow mb-2">{title}</h3>
-                <p className="text-shadow/55 text-xs leading-relaxed">{desc}</p>
-              </div>
-            ))}
+          <div className="text-center">
+            <Link
+              href="/brokers"
+              className="inline-flex items-center justify-center gap-2 border border-[#201E3D] text-[#201E3D] font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#201E3D] hover:text-white transition-colors duration-200"
+            >
+              Ask About Broker Participation
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -314,17 +295,17 @@ export default async function HomePage() {
               {
                 step: '02',
                 title: 'Marketing Campaign',
-                body: 'Targeted marketing to qualified buyers — statewide reach, proven results.',
+                body: 'We create a marketing strategy targeting qualified buyers to compete for your asset.',
               },
               {
                 step: '03',
                 title: 'Auction Day',
-                body: 'Competitive bidding determines the true market value in a transparent, live setting.',
+                body: 'We bring buyers together to set true market value through open, competitive bidding, in person, online, or hybrid.',
               },
               {
                 step: '04',
                 title: 'Closing',
-                body: 'We manage contracts and guide every step of the sale through to a clean close.',
+                body: 'We manage contracts and guide you through every step of the closing process.',
               },
             ].map(({ step, title, body }) => (
               <div key={step} className="bg-white border border-sand/40 p-8 hover:border-sunset/30 hover:shadow-sm transition-all duration-200">
@@ -337,51 +318,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── 7. SELLER EDUCATION ──────────────────────────────────────────── */}
-      <section className="py-16 px-6 bg-shadow">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
-              Seller Education
-            </p>
-            <h2 className="font-serif text-display-lg text-offwhite mb-5">
-              Why Auction Works.
-            </h2>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-6 mb-10">
-            <div className="border border-offwhite/10 p-7 hover:border-sunset/30 transition-colors duration-200">
-              <p className="font-serif text-lg text-offwhite mb-2">Sellers set the terms.</p>
-              <p className="text-offwhite/55 text-sm leading-relaxed">You choose the date. Buyers compete on your timeline — not theirs.</p>
-            </div>
-            <div className="border border-offwhite/10 p-7 hover:border-sunset/30 transition-colors duration-200">
-              <p className="font-serif text-lg text-offwhite mb-2">Open bidding, real prices.</p>
-              <p className="text-offwhite/55 text-sm leading-relaxed">No guessing. No lowballs. The market decides — transparently, in real time.</p>
-            </div>
-            <div className="border border-offwhite/10 p-7 hover:border-sunset/30 transition-colors duration-200">
-              <p className="font-serif text-lg text-offwhite mb-2">A defined path to closing.</p>
-              <p className="text-offwhite/55 text-sm leading-relaxed">From evaluation to closing day, the process is clear and managed end to end.</p>
-            </div>
-          </div>
-          <div className="text-center">
-            <Link
-              href="/sell"
-              className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
-            >
-              Learn About Selling
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 8. FINAL CTA ─────────────────────────────────────────────────── */}
+      {/* ── 7. FINAL CTA ─────────────────────────────────────────────────── */}
       <section className="py-20 px-6 bg-[#201E3D] text-center">
         <div className="max-w-2xl mx-auto">
           <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
             Get Started
           </p>
           <h2 className="font-serif text-display-lg text-offwhite mb-5">
-            Ready to Sell Your Land?
+            Ready to Sell Your Property?
           </h2>
           <p className="text-offwhite/60 text-base leading-relaxed mb-10">
             A conversation with Craig costs nothing. What it could earn you on auction day is a different story.
