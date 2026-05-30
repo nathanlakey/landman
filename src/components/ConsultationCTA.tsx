@@ -20,9 +20,11 @@ export default function ConsultationCTA({
         <h2 className="font-serif text-display-md text-offwhite mb-5 leading-tight">
           {headline}
         </h2>
-        <p className="text-sand text-base leading-relaxed mb-10 max-w-xl mx-auto">
-          {subtext}
-        </p>
+        {subtext && (
+          <p className="text-sand text-base leading-relaxed mb-10 max-w-xl mx-auto">
+            {subtext}
+          </p>
+        )}
         <Link
           href="/contact"
           className="inline-block bg-sunset text-shadow font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-offwhite transition-colors duration-200"
