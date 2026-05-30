@@ -9,9 +9,11 @@ import { ADMIN_EMAILS } from '@/lib/admin'
 
 const navLinks = [
   { href: '/find-a-property', label: 'Find Auctions' },
+  { href: '/buying', label: 'Buying at Auction' },
   { href: '/sell', label: 'Sell Your Property' },
+  { href: '/brokers', label: 'For Brokers' },
   { href: '/why-auction', label: 'Why Auction' },
-  { href: '/about', label: 'About' },
+  { href: '/about', label: 'About Us' },
 ]
 
 export default function Navbar() {
@@ -28,7 +30,7 @@ export default function Navbar() {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 bg-[#F6F3EC] shadow-md"
+      className="sticky top-0 z-50 bg-[#F6F3EC] shadow-md"
     >
       <nav className="max-w-5xl mx-auto px-6 lg:px-10">
         <div className="flex items-center h-20">
@@ -43,7 +45,7 @@ export default function Navbar() {
             />
           </Link>
 
-          {/* Nav links — centered in remaining space */}
+          {/* Nav links — centered in remaining space (desktop only) */}
           <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
             {navLinks.map((link) => (
               <Link
@@ -72,17 +74,17 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* CTA — pinned right */}
+          {/* CTA — always visible, pinned right */}
           <Link
             href="/contact"
-            className="hidden lg:block shrink-0 bg-[#FF9500] text-white text-[12px] tracking-[0.07em] uppercase font-medium px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
+            className="ml-auto lg:ml-0 shrink-0 bg-[#FF9500] text-white text-[11px] lg:text-[12px] tracking-[0.07em] uppercase font-medium px-4 lg:px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
           >
             Schedule Consultation
           </Link>
 
-          {/* Hamburger — visible below lg */}
+          {/* Hamburger — visible below lg, sits right of CTA */}
           <button
-            className="lg:hidden ml-auto text-[#FF9500] transition-colors"
+            className="lg:hidden ml-3 shrink-0 text-[#FF9500] transition-colors"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle menu"
           >
@@ -116,12 +118,6 @@ export default function Navbar() {
                 Admin
               </Link>
             )}
-            <Link
-              href="/contact"
-              className="bg-[#FF9500] text-white text-sm tracking-widest uppercase font-medium px-5 py-3 text-center hover:bg-[#e08600] transition-all duration-200"
-            >
-              Schedule Consultation
-            </Link>
           </div>
         </div>
       )}
