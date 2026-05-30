@@ -1,18 +1,17 @@
-import Link from 'next/link'
 import { Metadata } from 'next'
 import ConsultationCTA from '@/components/ConsultationCTA'
-import { ArrowRight, CheckCircle, XCircle } from 'lucide-react'
+import { CheckCircle, XCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Why Auction Your Land | North Texas Land Auctions',
-  description: 'Discover why land auction consistently outperforms traditional brokerage in North Texas. Competitive bidding, controlled timelines, and broader exposure put more money in sellers\' hands.',
+  title: 'Why Auction Outperforms Traditional Listings | Landman Auctions',
+  description: 'Discover why the auction method consistently outperforms traditional brokerage. Competitive bidding, controlled timelines, and broader exposure put more money in sellers\' hands.',
 }
 
 const comparisonRows = [
   {
     topic: 'Pricing',
     broker: 'Priced to attract offers — often below ceiling value',
-    auction: 'Competitive bidding drives price to its natural maximum',
+    auction: 'Competitive bidding drives price to its natural value',
     auctionWins: true,
   },
   {
@@ -29,44 +28,21 @@ const comparisonRows = [
   },
   {
     topic: 'Negotiations',
-    broker: 'Ongoing renegotiations drain time and value',
-    auction: 'Sold as-is on your terms — no post-bid concessions',
+    broker: 'Ongoing negotiations typically do not result in the seller’s favor',
+    auction: 'Sold according to your terms — no post bid surprises',
     auctionWins: true,
   },
   {
     topic: 'Buyer Pool',
-    broker: 'Whoever happens to see the MLS listing',
-    auction: 'Actively marketed campaign to Craig\'s statewide buyer network',
+    broker: 'Broker drives interest, posts on MLS, and waits for calls',
+    auction: 'Strategic marketing campaign to target interested and qualified buyers',
     auctionWins: true,
   },
   {
     topic: 'Seller Control',
     broker: 'Broker drives the process; seller waits',
-    auction: 'You set the date, the minimums, and the conditions',
+    auction: 'You set the date, reserve, and conditions of sale',
     auctionWins: true,
-  },
-]
-
-const objections = [
-  {
-    objection: '"Won\'t auction mean I get less for my land?"',
-    answer:
-      'The opposite is typically true. Competitive bidding creates urgency and rivalry between buyers — the same psychological drivers that make estate auctions consistently achieve above-estimate prices. Auction doesn\'t discount your land; it exposes it to its true market.',
-  },
-  {
-    objection: '"What if no one shows up to bid?"',
-    answer:
-      'Craig\'s pre-auction marketing is robust and targeted. We don\'t open the doors and hope. Every land auction includes a disciplined buyer outreach campaign — direct mail, digital marketing, and Craig\'s statewide buyer database — to ensure qualified bidders are in the room.',
-  },
-  {
-    objection: '"I\'ve heard auctions are only for distressed properties."',
-    answer:
-      'That\'s a dated perception. Today, auction is the preferred exit strategy for sophisticated landowners who want certainty, speed, and maximum value. From working farms to large ranch tracts to estate parcels, auction works across every land asset class.',
-  },
-  {
-    objection: '"What does the auction process cost me?"',
-    answer:
-      'Auction fee structures vary by property and circumstance. Craig walks through every cost clearly in your consultation — no surprises. The goal is always that the net result to you exceeds what a traditional listing would realistically achieve.',
   },
 ]
 
@@ -80,14 +56,8 @@ export default function WhyAuctionPage() {
             The Case for Auction
           </p>
           <h1 className="font-serif text-display-xl text-offwhite mb-7">
-            Why Auction Outperforms Traditional Land Sales.
+            Why Auction Outperforms Traditional Listings.
           </h1>
-          <p className="text-sand text-lg leading-relaxed max-w-2xl mx-auto">
-            For land — farms, ranches, development tracts, and acreage — the math,
-            the psychology, and the market all point the same direction.
-            Competitive bidding was designed to find the ceiling of value —
-            not negotiate down from it.
-          </p>
         </div>
       </section>
 
@@ -114,7 +84,7 @@ export default function WhyAuctionPage() {
                     Traditional Broker
                   </th>
                   <th className="text-left py-4 px-5 text-xs tracking-[0.15em] uppercase text-sunset font-medium border-b border-sand/40">
-                    Craig Meier Auction
+                    Landman Auctions
                   </th>
                 </tr>
               </thead>
@@ -147,7 +117,7 @@ export default function WhyAuctionPage() {
         </div>
       </section>
 
-      {/* ── SELLER PSYCHOLOGY ──────────────────────────────────────────── */}
+      {/* ── COMPETITIVE BIDDING ─────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-earth">
         <div className="max-w-4xl mx-auto">
           <div className="mb-12">
@@ -158,76 +128,23 @@ export default function WhyAuctionPage() {
               Why Competitive Bidding Works.
             </h2>
           </div>
-
-          <div className="grid md:grid-cols-2 gap-10">
-            <div>
-              <p className="text-offwhite/70 text-base leading-relaxed mb-5">
-                When a buyer sees a land listing, they negotiate down from the asking price.
-                Their strategy is to find the seller&apos;s floor. Negotiation rewards
-                the patient buyer who can wait you out.
-              </p>
-              <p className="text-offwhite/70 text-base leading-relaxed">
-                In an auction, buyers compete against each other — not against you.
-                The competitive psychology flips entirely: buyers bid up to their
-                maximum before another buyer takes the property away.
-              </p>
-            </div>
-            <div>
-              <p className="text-offwhite/70 text-base leading-relaxed mb-5">
-                This isn&apos;t just theory. Auction is the standard exit mechanism for
-                every high-stakes asset class: fine art, rare estates, commercial real
-                estate, foreclosures. The reason is always the same — competitive
-                bidding finds the ceiling.
-              </p>
-              <p className="text-offwhite/70 text-base leading-relaxed">
-                Craig&apos;s role as a World Champion Auctioneer means he manages that
-                competitive energy expertly — keeping bidding moving, building momentum,
-                and ensuring your auction achieves everything it&apos;s capable of.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── OBJECTIONS ─────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-offwhite">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
-              Common Questions
+          <div className="space-y-6">
+            <p className="text-offwhite/70 text-base leading-relaxed">
+              No one knows exactly what a property is worth. The traditional approach is to build a comparable, but that&apos;s really just an educated opinion, and real estate values can shift dramatically over time. You&apos;re setting a price based on what similar properties did in the past, not what buyers are willing to pay today.
             </p>
-            <h2 className="font-serif text-display-md text-shadow">
-              Seller Objections — Answered Honestly.
-            </h2>
-          </div>
-
-          <div className="space-y-8">
-            {objections.map(({ objection, answer }) => (
-              <div key={objection} className="border-l-2 border-sunset pl-7 py-2">
-                <h3 className="font-serif text-xl text-shadow mb-3">{objection}</h3>
-                <p className="text-shadow/65 text-base leading-relaxed">{answer}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-14 text-center">
-            <p className="text-shadow/60 text-sm mb-5">
-              Still have questions? Bring them to Craig. Every consultation is a straight conversation — no sales pitch.
+            <p className="text-offwhite/70 text-base leading-relaxed">
+              Competitive bidding takes a different path. Instead of guessing at value up front, it lets real demand decide. When qualified buyers compete in the open, the price reflects what the market will actually bear, in real time, not an estimate.
             </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-earth text-offwhite font-medium text-sm tracking-[0.08em] uppercase px-7 py-4 hover:bg-sunset hover:text-shadow transition-colors duration-200"
-            >
-              Schedule a Consultation
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            <p className="text-offwhite/70 text-base leading-relaxed">
+              There&apos;s also a hidden cost to naming a price: an asking price becomes a ceiling. Buyers rarely offer more than what you&apos;ve put in front of them. An auction removes that ceiling and lets your property find its true value, with nothing capping what a motivated buyer is willing to pay.
+            </p>
           </div>
         </div>
       </section>
 
       <ConsultationCTA
-        headline="The right auctioneer changes the outcome."
-        subtext="Craig's track record speaks for itself. Let's talk about what auction could mean for your land specifically."
+        headline="A Professional, Experienced Auction Company Can Make a Big Difference"
+        subtext=""
       />
     </>
   )

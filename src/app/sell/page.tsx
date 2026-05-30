@@ -10,40 +10,40 @@ const myths = [
   {
     myth: 'Auctions are for desperate sellers',
     truth:
-      'Auctions are used by savvy sellers who want competition, not charity. When buyers compete, prices go up.',
+      'This is one of the most common misconceptions about auctions \u2014 and one of the most outdated. Auction is increasingly the preferred method for luxury and unique assets precisely because sellers are confident enough to let the market speak. A well-marketed auction signals exclusivity, not urgency. You are choosing competition, not capitulating to it. Why let the price come down to two people\u2019s opinions when the open market can decide?',
   },
   {
     myth: "You'll sell for less at auction",
     truth:
-      'Competitive bidding often drives prices above what a traditional listing would achieve — especially for land.',
+      'You set a reserve, so the price has a floor it can\u2019t drop below. From there, competition only drives it up. The reserve is a floor, not a ceiling.',
   },
   {
-    myth: "Auctions don't work for my type of property",
+    myth: "Auctions wouldn't work for my type of property",
     truth:
-      'We auction ranches, farms, development land, residential property, commercial assets, and equipment. If it has value, auction can work.',
+      'If it has value, an auction works in your favor. The method finds the true value of any property.',
   },
 ]
 
 const benefits = [
   {
     icon: TrendingUp,
-    title: 'Competitive Bidding',
-    desc: 'Multiple buyers competing in real time drives the final price higher than a take-it-or-leave-it listing.',
+    title: 'Competitive Bidding Establishes True Market Value',
+    desc: 'Multiple qualified buyers competing in the open is the most transparent way to reveal what a property is truly worth.',
   },
   {
     icon: Calendar,
-    title: 'Defined Sale Date',
-    desc: 'No months of uncertainty. Auction gives you a clear timeline so you can plan what comes next.',
+    title: 'Definitive Sale Date',
+    desc: "You set the auction date up front, so there's no open-ended waiting, uncertainty, and negotiations. Properties sold through auction average 21 days on market, versus 90+ days for a traditional listing.",
+  },
+  {
+    icon: Users,
+    title: 'Proactive Marketing Strategies',
+    desc: "The right marketing strategy doesn't just list your property, it actively seeks out every qualified buyer and brings them together to compete.",
   },
   {
     icon: BarChart2,
     title: 'Transparent Market Value',
-    desc: 'You see exactly what the market will pay — no guessing, no lowball offers, no drawn-out negotiations.',
-  },
-  {
-    icon: Users,
-    title: 'Qualified Buyers Only',
-    desc: 'Auction attracts serious, pre-qualified buyers. No tire kickers, no wasted showings.',
+    desc: 'The auction method lets open demand determine value, so the final price reflects exactly what the market says the property is worth.',
   },
 ]
 
@@ -51,22 +51,22 @@ const steps = [
   {
     number: '01',
     title: 'Property Evaluation',
-    body: 'We review your property, discuss your goals, and determine if auction is the right fit.',
+    body: 'We review the property and determine the right auction strategy to maximize your outcome.',
   },
   {
     number: '02',
     title: 'Marketing Campaign',
-    body: 'We build a targeted campaign — signage, digital ads, email blasts, and auction listings — to drive maximum buyer attention.',
+    body: 'We create a marketing strategy targeting qualified buyers to compete for your asset.',
   },
   {
     number: '03',
     title: 'Auction Day',
-    body: 'Qualified buyers compete in real time. You set the terms. We run the event.',
+    body: 'We bring buyers together to set true market value through open, competitive bidding, in person, online, or hybrid.',
   },
   {
     number: '04',
     title: 'Closing',
-    body: 'Once the hammer falls, we manage the paperwork and coordinate a smooth closing.',
+    body: 'We manage contracts and guide you through every step of the closing process.',
   },
 ]
 
@@ -126,7 +126,7 @@ export default function SellPage() {
             Sell Your Property
           </p>
           <h1 className="font-serif text-display-xl text-offwhite mb-6 leading-[1.05]">
-            Your Land Deserves a Competitive Market.
+            Let Demand Determine Your Asset&apos;s Value.
           </h1>
           <p className="text-offwhite/65 text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
             Auction isn&apos;t a last resort — it&apos;s a strategy. One that creates urgency,
@@ -162,7 +162,7 @@ export default function SellPage() {
               Understanding the Auction Advantage
             </h2>
             <p className="text-shadow/60 text-base max-w-xl mx-auto">
-              Many landowners have questions about selling at auction. Here&apos;s how the process actually works.
+              Many property owners have questions about selling at auction.
             </p>
           </div>
           <div className="grid sm:grid-cols-3 gap-6">
@@ -222,7 +222,7 @@ export default function SellPage() {
               From Evaluation to Closing.
             </h2>
             <p className="text-shadow/60 text-base max-w-lg mx-auto">
-              A simple, proven process that puts you in control.
+              We tailor the timeline to your needs and stay in touch at every stage, so you always know what to expect.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -254,7 +254,7 @@ export default function SellPage() {
               See What Your Property Could Bring at Auction.
             </h2>
             <p className="text-shadow/65 text-base">
-              Free, no-obligation evaluation from Craig Meier — World Champion Auctioneer
+              Contact us for a free, no obligation consultation
             </p>
           </div>
 

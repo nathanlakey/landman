@@ -21,6 +21,7 @@ interface Filters {
   acreageMin: string
   acreageMax: string
   county: string
+  state: string
   propertyType: string
   status: string
   sort: string
@@ -32,6 +33,7 @@ const DEFAULT_FILTERS: Filters = {
   acreageMin: '',
   acreageMax: '',
   county: '',
+  state: '',
   propertyType: '',
   status: '',
   sort: 'created_at_desc',
@@ -61,6 +63,59 @@ const SORT_OPTIONS = [
   { value: 'price_desc', label: 'Price: High to Low' },
   { value: 'acreage_asc', label: 'Acreage: Small to Large' },
   { value: 'acreage_desc', label: 'Acreage: Large to Small' },
+]
+
+const US_STATES = [
+  { value: 'AL', label: 'Alabama' },
+  { value: 'AK', label: 'Alaska' },
+  { value: 'AZ', label: 'Arizona' },
+  { value: 'AR', label: 'Arkansas' },
+  { value: 'CA', label: 'California' },
+  { value: 'CO', label: 'Colorado' },
+  { value: 'CT', label: 'Connecticut' },
+  { value: 'DE', label: 'Delaware' },
+  { value: 'FL', label: 'Florida' },
+  { value: 'GA', label: 'Georgia' },
+  { value: 'HI', label: 'Hawaii' },
+  { value: 'ID', label: 'Idaho' },
+  { value: 'IL', label: 'Illinois' },
+  { value: 'IN', label: 'Indiana' },
+  { value: 'IA', label: 'Iowa' },
+  { value: 'KS', label: 'Kansas' },
+  { value: 'KY', label: 'Kentucky' },
+  { value: 'LA', label: 'Louisiana' },
+  { value: 'ME', label: 'Maine' },
+  { value: 'MD', label: 'Maryland' },
+  { value: 'MA', label: 'Massachusetts' },
+  { value: 'MI', label: 'Michigan' },
+  { value: 'MN', label: 'Minnesota' },
+  { value: 'MS', label: 'Mississippi' },
+  { value: 'MO', label: 'Missouri' },
+  { value: 'MT', label: 'Montana' },
+  { value: 'NE', label: 'Nebraska' },
+  { value: 'NV', label: 'Nevada' },
+  { value: 'NH', label: 'New Hampshire' },
+  { value: 'NJ', label: 'New Jersey' },
+  { value: 'NM', label: 'New Mexico' },
+  { value: 'NY', label: 'New York' },
+  { value: 'NC', label: 'North Carolina' },
+  { value: 'ND', label: 'North Dakota' },
+  { value: 'OH', label: 'Ohio' },
+  { value: 'OK', label: 'Oklahoma' },
+  { value: 'OR', label: 'Oregon' },
+  { value: 'PA', label: 'Pennsylvania' },
+  { value: 'RI', label: 'Rhode Island' },
+  { value: 'SC', label: 'South Carolina' },
+  { value: 'SD', label: 'South Dakota' },
+  { value: 'TN', label: 'Tennessee' },
+  { value: 'TX', label: 'Texas' },
+  { value: 'UT', label: 'Utah' },
+  { value: 'VT', label: 'Vermont' },
+  { value: 'VA', label: 'Virginia' },
+  { value: 'WA', label: 'Washington' },
+  { value: 'WV', label: 'West Virginia' },
+  { value: 'WI', label: 'Wisconsin' },
+  { value: 'WY', label: 'Wyoming' },
 ]
 
 const statusBadge: Record<string, string> = {
@@ -182,6 +237,12 @@ function PropertyCard({ listing }: { listing: Listing }) {
           </span>
         </div>
 
+        {listing.auction_date && !isNaN(new Date(listing.auction_date + 'T12:00:00').getTime()) && (
+          <p className="text-[#FF9500] text-xs font-medium mt-2">
+            Auction: {new Date(listing.auction_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+          </p>
+        )}
+
         <Link
           href={`/listings/${listing.slug}`}
           className="mt-4 block text-center bg-[#201E3D] text-[#F6F3EC] text-[12px] tracking-[0.1em] uppercase font-medium py-2.5 px-4 hover:bg-[#FF9500] hover:text-white transition-colors duration-200"
@@ -269,6 +330,72 @@ function AcreageInput({
   )
 }
 
+// ─── Auction Alert Banner ────────────────────────────────────────────────────
+
+function AuctionAlertBanner() {
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'already' | 'error'>('idle')
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    try {
+      const res = await fetch('/api/auction-alerts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (res.ok) {
+        setStatus('success')
+      } else if (res.status === 409) {
+        setStatus('already')
+      } else {
+        setStatus('error')
+      }
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <div className="bg-[#201E3D]/5 border-b border-[#CBBBA0]/40 px-6 py-4">
+      <div className="max-w-7xl mx-auto">
+        {status === 'success' ? (
+          <p className="text-[#201E3D] font-medium text-sm text-center py-1">You&apos;re on the list!</p>
+        ) : status === 'already' ? (
+          <p className="text-[#201E3D] font-medium text-sm text-center py-1">You&apos;re already signed up!</p>
+        ) : (
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+            <p className="text-[#201E3D] font-semibold text-sm tracking-wide flex-1">
+              Get Notified When New Auctions Are Announced
+            </p>
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                className="w-52 border border-[#CBBBA0]/60 bg-white text-[#201E3D] text-sm px-3 py-2 focus:outline-none focus:border-[#FF9500] transition-colors placeholder:text-[#201E3D]/30"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="bg-[#FF9500] text-white text-[11px] tracking-[0.08em] uppercase font-semibold px-4 py-2 hover:bg-[#e08600] transition-colors disabled:opacity-60 whitespace-nowrap"
+              >
+                {status === 'loading' ? '...' : 'Notify Me'}
+              </button>
+            </form>
+            {status === 'error' && (
+              <p className="text-red-500 text-xs">Something went wrong. Please try again.</p>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 interface FindPropertyClientProps {
@@ -299,6 +426,7 @@ export default function FindPropertyClient({
       if (f.acreageMin) query = query.gte('acreage', Number(f.acreageMin))
       if (f.acreageMax) query = query.lte('acreage', Number(f.acreageMax))
       if (f.county) query = query.eq('location_county', f.county)
+      if (f.state) query = query.eq('state', f.state)
       if (f.propertyType) query = query.eq('property_type', f.propertyType)
       if (f.status) query = query.eq('status', f.status)
 
@@ -354,6 +482,7 @@ export default function FindPropertyClient({
     filters.acreageMin ||
     filters.acreageMax ||
     filters.county ||
+    filters.state ||
     filters.propertyType ||
     filters.status
 
@@ -381,7 +510,7 @@ export default function FindPropertyClient({
           </div>
 
           {/* Filter grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-2.5">
             {/* Price Min */}
             <PriceInput
               value={filters.priceMin}
@@ -413,6 +542,13 @@ export default function FindPropertyClient({
               options={countyOptions}
               placeholder="All Counties"
             />
+            {/* State */}
+            <FilterSelect
+              value={filters.state}
+              onChange={(v) => setFilter('state', v)}
+              options={US_STATES}
+              placeholder="All States"
+            />
             {/* Property Type */}
             <FilterSelect
               value={filters.propertyType}
@@ -438,6 +574,9 @@ export default function FindPropertyClient({
           </div>
         </div>
       </div>
+
+      {/* ── Auction Alert Banner ── */}
+      <AuctionAlertBanner />
 
       {/* ── Results ── */}
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
