@@ -142,42 +142,6 @@ export default function WhyAuctionPage() {
         </div>
       </section>
 
-      {/* ── OBJECTIONS ─────────────────────────────────────────────────── */}
-      <section className="py-24 px-6 bg-offwhite">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-14">
-            <p className="text-clay text-[11px] tracking-[0.3em] uppercase font-medium mb-4">
-              Common Questions
-            </p>
-            <h2 className="font-serif text-display-md text-shadow">
-              Seller Objections — Answered Honestly.
-            </h2>
-          </div>
-
-          <div className="space-y-8">
-            {objections.map(({ objection, answer }) => (
-              <div key={objection} className="border-l-2 border-sunset pl-7 py-2">
-                <h3 className="font-serif text-xl text-shadow mb-3">{objection}</h3>
-                <p className="text-shadow/65 text-base leading-relaxed">{answer}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-14 text-center">
-            <p className="text-shadow/60 text-sm mb-5">
-              Still have questions? Bring them to Craig. Every consultation is a straight conversation — no sales pitch.
-            </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 bg-earth text-offwhite font-medium text-sm tracking-[0.08em] uppercase px-7 py-4 hover:bg-sunset hover:text-shadow transition-colors duration-200"
-            >
-              Schedule a Consultation
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <ConsultationCTA
         headline="A Professional, Experienced Auction Company Can Make a Big Difference"
         subtext=""
