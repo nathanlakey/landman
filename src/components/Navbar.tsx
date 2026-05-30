@@ -46,7 +46,7 @@ export default function Navbar() {
           </Link>
 
           {/* Nav links — centered in remaining space (desktop only) */}
-          <div className="hidden lg:flex flex-1 items-center justify-center gap-8">
+          <div className="hidden lg:flex flex-1 items-center justify-center gap-10 pl-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
