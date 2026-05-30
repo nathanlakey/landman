@@ -77,7 +77,7 @@ export default function Navbar() {
           {/* CTA — always visible, pinned right */}
           <Link
             href="/contact"
-            className="ml-auto lg:ml-0 shrink-0 bg-[#FF9500] text-white text-[11px] lg:text-[12px] tracking-[0.07em] uppercase font-medium px-4 lg:px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
+            className="ml-auto lg:ml-8 shrink-0 bg-[#FF9500] text-white text-[11px] lg:text-[12px] tracking-[0.07em] uppercase font-medium px-4 lg:px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
           >
             Schedule Consultation
           </Link>
