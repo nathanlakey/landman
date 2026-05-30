@@ -46,12 +46,12 @@ export default function Navbar() {
           </Link>
 
           {/* Nav links — centered in remaining space (desktop only) */}
-          <div className="hidden lg:flex flex-1 items-center justify-center gap-10 pl-8">
+          <div className="hidden lg:flex flex-1 items-center justify-center gap-7 pl-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[12px] tracking-[0.08em] uppercase font-medium transition-colors duration-200 ${
+                className={`text-[11px] tracking-[0.06em] uppercase font-medium whitespace-nowrap transition-colors duration-200 ${
                   pathname.startsWith(link.href)
                     ? 'text-[#201E3D]'
                     : 'text-[#201E3D]/70 hover:text-[#201E3D]'
@@ -63,7 +63,7 @@ export default function Navbar() {
             {isAdmin && (
               <Link
                 href="/admin"
-                className={`text-[12px] tracking-[0.08em] uppercase font-medium transition-colors duration-200 ${
+                className={`text-[11px] tracking-[0.06em] uppercase font-medium whitespace-nowrap transition-colors duration-200 ${
                   pathname.startsWith('/admin')
                     ? 'text-[#FF9500]'
                     : 'text-[#201E3D]/50 hover:text-[#FF9500]'
