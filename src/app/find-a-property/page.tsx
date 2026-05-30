@@ -63,8 +63,7 @@ export default async function FindAPropertyPage() {
             Find a Property
           </h1>
           <p className="text-[#CBBBA0] text-base max-w-xl">
-            Search North Texas farm, ranch &amp; land listings. Use the filters below to narrow
-            by price, acreage, county, and property type.
+            Use the filters below to narrow by price, acreage, county, and property type.
           </p>
         </div>
       </section>
