@@ -45,6 +45,10 @@ export default function ContactClient() {
         const data = await res.json()
         throw new Error(data.error || 'Something went wrong.')
       }
+      // Meta Pixel: track form submission as a Lead event.
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'Lead')
+      }
       setStatus('success')
       setForm({ name: '', email: '', phone: '', propertyType: '', acreage: '', message: '' })
     } catch (err: unknown) {

@@ -41,7 +41,15 @@ export default function EvaluationForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
-      setStatus(res.ok ? 'success' : 'error')
+      if (res.ok) {
+        // Meta Pixel: track form submission as a Lead event.
+        if (typeof window !== 'undefined' && window.fbq) {
+          window.fbq('track', 'Lead')
+        }
+        setStatus('success')
+      } else {
+        setStatus('error')
+      }
     } catch {
       setStatus('error')
     }

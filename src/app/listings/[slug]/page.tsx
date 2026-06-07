@@ -20,6 +20,7 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 import type { Listing } from '@/types'
 import AuctionCountdown from './AuctionCountdown'
 import PhotoGallery from './PhotoGallery'
+import MetaPixelEvent from '@/components/MetaPixelEvent'
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const { data } = await supabaseAdmin
@@ -116,6 +117,17 @@ export default async function ListingDetailPage({ params }: { params: { slug: st
 
   return (
     <div className="bg-shadow min-h-screen">
+
+      {/* Meta Pixel: track listing detail page views */}
+      <MetaPixelEvent
+        event="ViewContent"
+        params={{
+          content_name: listing.title,
+          content_category: listing.property_type ?? 'land',
+          content_ids: [listing.slug],
+          content_type: 'product',
+        }}
+      />
 
       {/* ── HERO IMAGE ── */}
       <div className="relative h-[55vh] min-h-[380px] w-full bg-shadow/80">
