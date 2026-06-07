@@ -45,6 +45,10 @@ export default function ContactClient() {
         const data = await res.json()
         throw new Error(data.error || 'Something went wrong.')
       }
+      // Meta Pixel: track form submission as a Lead event.
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'Lead')
+      }
       setStatus('success')
       setForm({ name: '', email: '', phone: '', propertyType: '', acreage: '', message: '' })
     } catch (err: unknown) {
@@ -217,8 +221,8 @@ export default function ContactClient() {
                     <Phone className="w-4 h-4 text-clay mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-shadow/80 text-sm font-medium">Phone</p>
-                      <a href="tel:+19035550100" className="text-shadow/55 text-sm hover:text-earth transition-colors">
-                        (903) 555-0100
+                      <a href="tel:+19729963110" className="text-shadow/55 text-sm hover:text-earth transition-colors">
+                        (972) 996-3110
                       </a>
                     </div>
                   </li>
@@ -226,8 +230,8 @@ export default function ContactClient() {
                     <Mail className="w-4 h-4 text-clay mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-shadow/80 text-sm font-medium">Email</p>
-                      <a href="mailto:craig@landman.com" className="text-shadow/55 text-sm hover:text-earth transition-colors">
-                        craig@landman.com
+                      <a href="mailto:info@landmanauctions.com" className="text-shadow/55 text-sm hover:text-earth transition-colors">
+                        info@landmanauctions.com
                       </a>
                     </div>
                   </li>

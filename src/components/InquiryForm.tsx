@@ -34,6 +34,11 @@ export default function InquiryForm({ listingId, listingTitle }: InquiryFormProp
         throw new Error(data.error || 'Something went wrong.')
       }
 
+      // Meta Pixel: track form submission as a Lead event.
+      if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('track', 'Lead')
+      }
+
       setStatus('success')
       setForm({ name: '', email: '', phone: '', message: '' })
     } catch (err: unknown) {
@@ -113,7 +118,7 @@ export default function InquiryForm({ listingId, listingTitle }: InquiryFormProp
           name="phone"
           value={form.phone}
           onChange={handleChange}
-          placeholder="(512) 555-0100"
+          placeholder="(972) 996-3110"
           className={inputClass}
         />
       </div>
