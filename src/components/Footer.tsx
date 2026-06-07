@@ -90,19 +90,19 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-clay flex-shrink-0" />
                 <a
-                  href="tel:+19035550100"
+                  href="tel:+19729963110"
                   className="text-offwhite/60 text-sm hover:text-offwhite transition-colors"
                 >
-                  (903) 555-0100
+                  (972) 996-3110
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-clay flex-shrink-0" />
                 <a
-                  href="mailto:craig@landman.com"
+                  href="mailto:info@landmanauctions.com"
                   className="text-offwhite/60 text-sm hover:text-offwhite transition-colors"
                 >
-                  craig@landman.com
+                  info@landmanauctions.com
                 </a>
               </li>
             </ul>

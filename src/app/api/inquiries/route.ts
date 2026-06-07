@@ -1,6 +1,10 @@
+// NOTE: Set ADMIN_EMAIL=info@landmanauctions.com in Vercel environment variables.
+// If the env var is unset, this route falls back to info@landmanauctions.com.
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { resend } from '@/lib/resend'
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@landmanauctions.com'
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,21 +26,20 @@ export async function POST(req: NextRequest) {
 
     if (dbError) throw dbError
 
-    // Fetch listing + agent email if listing_id
-    let toEmail = process.env.ADMIN_EMAIL!
+    // Look up the listing title (if any) for the email subject, but always
+    // route the notification to the central admin inbox.
+    const toEmail = ADMIN_EMAIL
     let listingTitle = 'a Landman property'
 
     if (listing_id) {
       const { data: listing } = await supabaseAdmin
         .from('listings')
-        .select('title, agent:agents(email)')
+        .select('title')
         .eq('id', listing_id)
         .single()
 
       if (listing) {
         listingTitle = listing.title
-        const agentEmail = (listing.agent as { email?: string })?.email
-        if (agentEmail) toEmail = agentEmail
       }
     }
 
@@ -56,7 +59,7 @@ export async function POST(req: NextRequest) {
           <p><strong>Message:</strong></p>
           <p style="background: #f5f0e8; padding: 12px; border-left: 3px solid #c9a86c;">${message}</p>
           <hr />
-          <p style="color: #888; font-size: 12px;">This inquiry was submitted via landman.com</p>
+          <p style="color: #888; font-size: 12px;">This inquiry was submitted via landmanauctions.com</p>
         </div>
       `,
     })

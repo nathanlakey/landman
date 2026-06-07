@@ -118,7 +118,7 @@ export default function InquiryForm({ listingId, listingTitle }: InquiryFormProp
           name="phone"
           value={form.phone}
           onChange={handleChange}
-          placeholder="(512) 555-0100"
+          placeholder="(972) 996-3110"
           className={inputClass}
         />
       </div>

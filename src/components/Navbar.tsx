@@ -7,8 +7,14 @@ import { Menu, X } from 'lucide-react'
 import { useUser } from '@clerk/nextjs'
 import { ADMIN_EMAILS } from '@/lib/admin'
 
-const navLinks = [
-  { href: '/find-a-property', label: 'Find Auctions' },
+type NavLink = { href: string; label: string; external?: boolean }
+
+const navLinks: NavLink[] = [
+  {
+    href: 'https://landmanauctions.auctioneersoftware.com/auctions',
+    label: 'Find Auctions',
+    external: true,
+  },
   { href: '/buying', label: 'Buying at Auction' },
   { href: '/sell', label: 'Sell Your Property' },
   { href: '/brokers', label: 'For Brokers' },
@@ -47,19 +53,28 @@ export default function Navbar() {
 
           {/* Nav links — centered in remaining space (desktop only) */}
           <div className="hidden lg:flex flex-1 items-center justify-center gap-7 pl-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-[11px] tracking-[0.06em] uppercase font-medium whitespace-nowrap transition-colors duration-200 ${
-                  pathname.startsWith(link.href)
-                    ? 'text-[#201E3D]'
-                    : 'text-[#201E3D]/70 hover:text-[#201E3D]'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const baseClass = `text-[11px] tracking-[0.06em] uppercase font-medium whitespace-nowrap transition-colors duration-200 ${
+                !link.external && pathname.startsWith(link.href)
+                  ? 'text-[#201E3D]'
+                  : 'text-[#201E3D]/70 hover:text-[#201E3D]'
+              }`
+              return link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={baseClass}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} href={link.href} className={baseClass}>
+                  {link.label}
+                </Link>
+              )
+            })}
             {isAdmin && (
               <Link
                 href="/admin"
@@ -97,17 +112,28 @@ export default function Navbar() {
       {isMobileOpen && (
         <div className="lg:hidden bg-[#F6F3EC] border-t border-[#201E3D]/10">
           <div className="px-6 py-6 flex flex-col gap-5">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm tracking-[0.1em] uppercase font-medium transition-colors ${
-                  pathname.startsWith(link.href) ? 'text-[#201E3D]' : 'text-[#201E3D]/70 hover:text-[#201E3D]'
-                }`}
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const mobileClass = `text-sm tracking-[0.1em] uppercase font-medium transition-colors ${
+                !link.external && pathname.startsWith(link.href)
+                  ? 'text-[#201E3D]'
+                  : 'text-[#201E3D]/70 hover:text-[#201E3D]'
+              }`
+              return link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={mobileClass}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link key={link.href} href={link.href} className={mobileClass}>
+                  {link.label}
+                </Link>
+              )
+            })}
             {isAdmin && (
               <Link
                 href="/admin"

@@ -1,6 +1,11 @@
+// NOTE: Set ADMIN_EMAIL=info@landmanauctions.com in Vercel environment variables.
+// If the env var is unset, this route falls back to info@landmanauctions.com.
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase/server'
 import { resend } from '@/lib/resend'
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@landmanauctions.com'
+const AUCTIONS_URL = 'https://landmanauctions.auctioneersoftware.com/auctions'
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,7 +38,7 @@ export async function POST(req: NextRequest) {
 
     // Send confirmation email to subscriber
     await resend.emails.send({
-      from: 'Landman Auctions <noreply@landman.com>',
+      from: 'Landman Auctions <onboarding@resend.dev>',
       to: email,
       subject: "You're signed up for Landman Auction Alerts",
       html: `
@@ -47,8 +52,8 @@ export async function POST(req: NextRequest) {
           </p>
           <p style="color: #555; line-height: 1.6;">
             In the meantime, browse our current listings at
-            <a href="https://landmanauctions.com/find-a-property" style="color: #A86A3D;">
-              landmanauctions.com/find-a-property
+            <a href="${AUCTIONS_URL}" style="color: #A86A3D;">
+              landmanauctions.auctioneersoftware.com/auctions
             </a>.
           </p>
           <hr style="border-color: #CBBBA0; margin: 24px 0;" />
@@ -56,6 +61,22 @@ export async function POST(req: NextRequest) {
             You're receiving this because you signed up at landmanauctions.com.
             To unsubscribe, reply to this email with "unsubscribe."
           </p>
+        </div>
+      `,
+    })
+
+    // Notify the admin inbox that someone signed up
+    await resend.emails.send({
+      from: 'Landman Auctions <onboarding@resend.dev>',
+      to: ADMIN_EMAIL,
+      subject: `New auction alert signup: ${email}`,
+      html: `
+        <div style="font-family: sans-serif; color: #333; max-width: 600px;">
+          <h2 style="color: #4B3A2A; font-family: Georgia, serif; margin-top: 0;">
+            New Auction Alert Signup
+          </h2>
+          <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+          <p style="color: #888; font-size: 12px;">Submitted via the Landman auction alerts form.</p>
         </div>
       `,
     })

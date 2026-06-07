@@ -1,5 +1,9 @@
+// NOTE: Set ADMIN_EMAIL=info@landmanauctions.com in Vercel environment variables.
+// If the env var is unset, this route falls back to info@landmanauctions.com.
 import { NextRequest, NextResponse } from 'next/server'
 import { resend } from '@/lib/resend'
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@landmanauctions.com'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,15 +17,9 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const adminEmail = process.env.ADMIN_EMAIL
-    if (!adminEmail) {
-      console.error('ADMIN_EMAIL is not set')
-      return NextResponse.json({ error: 'Server configuration error.' }, { status: 500 })
-    }
-
     await resend.emails.send({
       from: 'Landman Auctions <onboarding@resend.dev>',
-      to: adminEmail,
+      to: ADMIN_EMAIL,
       subject: `New Property Evaluation Request from ${name}${propertyType ? ` — ${propertyType}` : ''}`,
       html: `
         <div style="font-family: sans-serif; color: #333; max-width: 600px; border: 1px solid #e0d8cc; padding: 32px;">

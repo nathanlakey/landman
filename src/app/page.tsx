@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowRight, TrendingUp, BarChart2, Ban, Clock, MapPin } from 'lucide-react'
-import { supabaseAdmin } from '@/lib/supabase/server'
-import type { Listing } from '@/types'
+import Script from 'next/script'
+import { ArrowRight, TrendingUp, BarChart2, Ban, Clock } from 'lucide-react'
 
 export const revalidate = 0
+
+const AUCTIONS_URL = 'https://landmanauctions.auctioneersoftware.com/auctions'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -35,21 +36,7 @@ const proofPoints = [
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default async function HomePage() {
-  // Featured listings — top 3 active
-  let featuredListings: Listing[] = []
-  try {
-    const { data } = await supabaseAdmin
-      .from('listings')
-      .select('*')
-      .eq('status', 'active')
-      .order('auction_date', { ascending: true })
-      .limit(3)
-    featuredListings = (data as Listing[]) ?? []
-  } catch {
-    featuredListings = []
-  }
-
+export default function HomePage() {
   return (
     <div className="pb-20 md:pb-0">
 
@@ -100,12 +87,14 @@ export default async function HomePage() {
                 Sell Your Property
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link
-                href="/find-a-property"
+              <a
+                href={AUCTIONS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 border border-offwhite/40 text-offwhite text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-offwhite/10 transition-colors duration-200"
               >
                 Find Auctions
-              </Link>
+              </a>
             </div>
             <Link
               href="/quiz"
@@ -136,77 +125,28 @@ export default async function HomePage() {
                 Active Auctions.
               </h2>
             </div>
-            <Link
-              href="/find-a-property"
+            <a
+              href={AUCTIONS_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-earth font-medium text-sm tracking-wide hover:text-sunset transition-colors shrink-0"
             >
               View All Auctions
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </a>
           </div>
-          {featuredListings.length > 0 ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredListings.map((listing) => (
-                <Link
-                  key={listing.id}
-                  href={`/listings/${listing.slug}`}
-                  className="group bg-white border border-sand/40 overflow-hidden hover:border-sunset/40 hover:shadow-md transition-all duration-200"
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-sand/20">
-                    {listing.images?.[0] ? (
-                      <Image
-                        src={listing.images[0]}
-                        alt={listing.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <MapPin className="w-8 h-8 text-sand/50" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <h3 className="font-serif text-lg text-shadow mb-3 leading-snug group-hover:text-earth transition-colors">
-                      {listing.title}
-                    </h3>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-shadow/55 text-xs">
-                      {listing.location_county && (
-                        <span className="flex items-center gap-1">
-                          <MapPin className="w-3 h-3" />{listing.location_county} County
-                        </span>
-                      )}
-                      {listing.acreage && (
-                        <span>{listing.acreage.toLocaleString()} acres</span>
-                      )}
-                      {listing.auction_date && !isNaN(new Date(listing.auction_date).getTime()) && (
-                        <span className="text-sunset font-medium">
-                          Auction: {new Date(listing.auction_date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                        </span>
-                      )}
-                    </div>
-                    {listing.price && (
-                      <p className="text-earth text-sm font-semibold mt-3">
-                        {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(listing.price)}
-                      </p>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-16 border border-sand/30">
-              <p className="text-shadow/50 text-base mb-6">New properties coming soon.</p>
-              <Link
-                href="/find-a-property"
-                className="inline-flex items-center justify-center gap-2 bg-sunset text-white font-semibold text-sm tracking-[0.08em] uppercase px-8 py-4 hover:bg-[#e08600] transition-colors duration-200"
-              >
-                View All Auctions
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
-          )}
+
+          {/* Auctioneer Software embed — renders auction tiles client-side */}
+          <Script
+            src="https://landmanauctions.auctioneersoftware.com/asset/embed.js"
+            strategy="afterInteractive"
+          />
+          <div
+            id="auctioneer-software-auctions"
+            data-display="tile"
+            data-count="4"
+            data-status="past"
+          />
         </div>
       </section>
 
