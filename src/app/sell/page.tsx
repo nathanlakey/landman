@@ -117,7 +117,7 @@ export default function SellPage() {
   }
 
   return (
-    <div className="pb-20 md:pb-0">
+    <div className="pb-24 md:pb-0">
 
       {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
       <section className="bg-shadow pt-36 pb-24 px-6">
@@ -412,14 +412,12 @@ export default function SellPage() {
       </section>
 
       {/* ── STICKY MOBILE CTA ────────────────────────────────────────────── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#201E3D] border-t border-offwhite/10 px-4 py-3 flex items-center justify-between gap-3 shadow-lg">
-        <p className="text-offwhite text-sm font-medium">Ready to sell your land?</p>
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 shadow-lg">
         <a
           href="#evaluation"
-          className="inline-flex items-center gap-1.5 bg-sunset text-white text-xs font-semibold tracking-[0.08em] uppercase px-4 py-2.5 hover:bg-[#e08600] transition-colors whitespace-nowrap"
+          className="flex items-center justify-center w-full bg-[#FF9500] text-[#201E3D] text-sm font-semibold tracking-[0.08em] uppercase px-6 py-4 hover:bg-[#e08600] transition-colors"
         >
-          Get Free Evaluation
-          <ArrowRight className="w-3.5 h-3.5" />
+          Get a Free Consultation
         </a>
       </div>
 
