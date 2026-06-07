@@ -38,7 +38,7 @@ const proofPoints = [
 
 export default function HomePage() {
   return (
-    <div className="pb-20 md:pb-0">
+    <div className="pb-24 md:pb-0">
 
       {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
       <section className="relative h-screen flex items-center overflow-hidden">
@@ -52,7 +52,7 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[#201E3D]/65" />
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20">
           <div className="max-w-3xl">
-            <p className="text-sunset text-[11px] tracking-[0.3em] uppercase font-medium mb-6">
+            <p className="text-sunset text-[10px] md:text-[11px] tracking-[0.3em] uppercase font-medium mb-6">
               Land Auction Specialist
             </p>
             <h1 className="font-serif text-display-xl text-offwhite mb-5 leading-[1.05]">
@@ -289,16 +289,12 @@ export default function HomePage() {
       </section>
 
       {/* ── STICKY MOBILE CTA (fixed, mobile only) ───────────────────────── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#201E3D] border-t border-offwhite/10 px-4 py-3 flex items-center justify-between gap-3 shadow-lg">
-        <p className="text-offwhite text-sm font-medium">
-          Ready to sell your land?
-        </p>
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 shadow-lg">
         <Link
           href="/sell#evaluation"
-          className="inline-flex items-center gap-1.5 bg-sunset text-white text-xs font-semibold tracking-[0.08em] uppercase px-4 py-2.5 hover:bg-[#e08600] transition-colors whitespace-nowrap"
+          className="flex items-center justify-center w-full bg-[#FF9500] text-[#201E3D] text-sm font-semibold tracking-[0.08em] uppercase px-6 py-4 hover:bg-[#e08600] transition-colors"
         >
-          See What Your Property Could Bring
-          <ArrowRight className="w-3.5 h-3.5" />
+          Get a Free Consultation
         </Link>
       </div>
     </div>

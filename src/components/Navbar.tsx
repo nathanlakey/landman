@@ -89,17 +89,17 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* CTA — always visible, pinned right */}
+          {/* CTA — hidden on mobile, visible md+ */}
           <Link
             href="/contact"
-            className="ml-auto lg:ml-8 shrink-0 bg-[#FF9500] text-white text-[11px] lg:text-[12px] tracking-[0.07em] uppercase font-medium px-4 lg:px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
+            className="hidden md:inline-flex ml-auto lg:ml-8 shrink-0 bg-[#FF9500] text-white text-[11px] lg:text-[12px] tracking-[0.07em] uppercase font-medium px-4 lg:px-5 py-2.5 hover:bg-[#e08600] transition-all duration-200"
           >
             Schedule Consultation
           </Link>
 
           {/* Hamburger — visible below lg, sits right of CTA */}
           <button
-            className="lg:hidden ml-3 shrink-0 text-[#FF9500] transition-colors"
+            className="lg:hidden ml-auto md:ml-3 shrink-0 text-[#FF9500] transition-colors"
             onClick={() => setIsMobileOpen(!isMobileOpen)}
             aria-label="Toggle menu"
           >
@@ -144,6 +144,12 @@ export default function Navbar() {
                 Admin
               </Link>
             )}
+            <Link
+              href="/contact"
+              className="mt-2 inline-flex items-center justify-center bg-[#FF9500] text-white text-sm tracking-[0.07em] uppercase font-medium px-5 py-3 hover:bg-[#e08600] transition-all duration-200"
+            >
+              Schedule Consultation
+            </Link>
           </div>
         </div>
       )}
