@@ -1,16 +1,17 @@
 import Link from 'next/link'
 import { MapPin, Phone, Mail } from 'lucide-react'
 
-const navLinks = [
-  { href: '/', label: 'Home' },
+const quickLinks = [
+  {
+    href: 'https://landmanauctions.auctioneersoftware.com/auctions',
+    label: 'Find Auctions',
+    external: true,
+  },
+  { href: '/buying', label: 'Buying at Auction' },
+  { href: '/sell', label: 'Sell Your Property' },
+  { href: '/brokers', label: 'For Brokers' },
   { href: '/why-auction', label: 'Why Auction' },
-  { href: '/our-process', label: 'Our Process' },
-  { href: '/about', label: 'About Craig' },
-]
-
-const resourceLinks = [
-  { href: '/resources', label: 'Blog & Resources' },
-  { href: '/resources#faq', label: 'FAQ' },
+  { href: '/about', label: 'About Us' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -30,8 +31,8 @@ export default function Footer() {
               className="mb-5"
             />
             <p className="text-offwhite/60 text-sm leading-relaxed mb-6 max-w-xs">
-              World Champion Auctioneer. 25+ years of experience delivering maximum
-              value. When you&apos;re ready to talk, Craig is ready to listen.
+              Landman Auctions specializes in real estate auctions across the country.
+              When you&apos;re ready to talk, we&apos;re ready to listen.
             </p>
             <Link
               href="/contact"
@@ -47,29 +48,25 @@ export default function Footer() {
               Quick Links
             </h3>
             <ul className="space-y-3">
-              {navLinks.map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-offwhite/60 text-sm hover:text-offwhite transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <h3 className="text-sand text-xs tracking-[0.2em] uppercase font-medium mt-8 mb-5">
-              Resources
-            </h3>
-            <ul className="space-y-3">
-              {resourceLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-offwhite/60 text-sm hover:text-offwhite transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-offwhite/60 text-sm hover:text-offwhite transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-offwhite/60 text-sm hover:text-offwhite transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -84,7 +81,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-clay mt-0.5 flex-shrink-0" />
                 <span className="text-offwhite/60 text-sm leading-relaxed">
-                  Ennis, TX — Ellis County
+                  Ennis, TX
                 </span>
               </li>
               <li className="flex items-center gap-3">
