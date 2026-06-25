@@ -145,7 +145,7 @@ export default function HomePage() {
             id="auctioneer-software-auctions"
             data-display="tile"
             data-count="4"
-            data-status="past"
+            data-status="active"
           />
         </div>
       </section>
