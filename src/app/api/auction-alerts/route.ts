@@ -5,7 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase/server'
 import { resend } from '@/lib/resend'
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'info@landmanauctions.com'
-const AUCTIONS_URL = 'https://landmanauctions.auctioneersoftware.com/auctions'
+const AUCTIONS_URL = 'https://bid.landmanauctions.com/auctions'
 
 export async function POST(req: NextRequest) {
   try {
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
           <p style="color: #555; line-height: 1.6;">
             In the meantime, browse our current listings at
             <a href="${AUCTIONS_URL}" style="color: #A86A3D;">
-              landmanauctions.auctioneersoftware.com/auctions
+              bid.landmanauctions.com/auctions
             </a>.
           </p>
           <hr style="border-color: #CBBBA0; margin: 24px 0;" />

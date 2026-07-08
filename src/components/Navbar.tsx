@@ -11,7 +11,7 @@ type NavLink = { href: string; label: string; external?: boolean }
 
 const navLinks: NavLink[] = [
   {
-    href: 'https://landmanauctions.auctioneersoftware.com/auctions',
+    href: 'https://bid.landmanauctions.com/auctions',
     label: 'Find Auctions',
     external: true,
   },

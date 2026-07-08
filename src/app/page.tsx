@@ -5,7 +5,7 @@ import { ArrowRight, TrendingUp, BarChart2, Ban, Clock } from 'lucide-react'
 
 export const revalidate = 0
 
-const AUCTIONS_URL = 'https://landmanauctions.auctioneersoftware.com/auctions'
+const AUCTIONS_URL = 'https://bid.landmanauctions.com/auctions'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -138,7 +138,7 @@ export default function HomePage() {
 
           {/* Auctioneer Software embed — renders auction tiles client-side */}
           <Script
-            src="https://landmanauctions.auctioneersoftware.com/asset/embed.js"
+            src="https://bid.landmanauctions.com/asset/embed.js"
             strategy="afterInteractive"
           />
           <div
