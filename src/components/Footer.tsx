@@ -3,7 +3,7 @@ import { MapPin, Phone, Mail } from 'lucide-react'
 
 const quickLinks = [
   {
-    href: 'https://landmanauctions.auctioneersoftware.com/auctions',
+    href: 'https://bid.landmanauctions.com/auctions',
     label: 'Find Auctions',
     external: true,
   },
